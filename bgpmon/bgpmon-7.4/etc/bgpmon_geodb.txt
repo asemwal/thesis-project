@@ -1,0 +1,330 @@
+# License
+# The author has placed this file in the Public Domain, thereby relinquishing all copyrights.
+# Everyone is free to use, modify, republish, sell or give away this work without prior consent from anybody.
+# This file is provided on an as is basis, without warranty of any kind. Use at your own risk!
+# Under no circumstances shall the author(s) or contributor(s) be liable for damages resulting directly 
+# or indirectly from the use or non-use of this file.
+#
+# Geolocation information sources:
+# -MaxMind (GeoLite City)
+# -Ipligence (http://www.ipligence.com/)
+# -IP2Location (http://www.ip2location.com/)
+# -DB-IP (https://db-ip.com/db/)
+# -John Kemp RV-files.
+# -traceroute tool
+#
+# When there are cases of conflicts between databases, we investigate them
+# manually via the following criteria:
+# -Does MaxMind has a city-level geolocation accuracy for the questioned IP.
+# -Do most of the DBs agree on a location.
+# -Does traceroute IP give an indication for a more probable location (i.e.
+#  does the list of routers returned (specially toward the end target) have
+#  location hints like a city or country abbreviation. 
+#
+# Structure
+# IP/Location Database maintained by the Network Security Group
+# of Colorado State University for use in BGPmon
+# Lines starting with # are comments
+# If the local BGPmon administrator wants to add entries to be
+# geolocated, he should do so near the end of the file in the 
+# section marked USER SUPPLIED DATA
+167.142.3.6			US,IA,Des_Moines,41.5839,-93.6289
+187.16.218.15			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+195.66.224.85			GB,H9,London,51.5142,-0.0931
+195.66.225.151			GB,H9,London,51.5142,-0.0931
+195.66.225.152			GB,H9,London,51.5142,-0.0931
+195.66.236.85			GB,H9,London,51.5142,-0.0931
+196.223.14.22			ZA,Gauteng,Johannesburg,-29,24
+196.223.14.25			ZA,Gauteng,Johannesburg,-29,24
+196.223.14.29			ZA,Gauteng,Johannesburg,-29,24
+196.223.14.60			ZA,Gauteng,Johannesburg,-29,24
+196.223.21.65			KE,Nairobi_Area,Nairobi,1,38
+196.223.21.68			KE,Nairobi_Area,Nairobi,1,38
+196.223.21.70			KE,Nairobi_Area,Nairobi,1,38
+196.223.21.71			KE,Nairobi_Area,Nairobi,1,38
+196.223.21.72			KE,Nairobi_Area,Nairobi,1,38
+198.32.132.160			US,Georgia,Atlanta,35.1907,-80.6455
+198.32.132.91			US,Georgia,Atlanta,35.1907,-80.6455
+198.32.176.154			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.3			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.8			US,CA,Redwood_City,37.5331,-122.2471
+198.32.195.31			US,OR,Portland,45.5073,-122.6932
+202.167.228.178			SG,Singapore,Singapore,1.29,103.86
+202.79.197.13			SG,Singapore,Singapore,1.29,103.86
+202.79.197.161			SG,Singapore,Singapore,1.29,103.86
+206.126.236.156			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.52			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.58			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.7			US,CA,Redwood_City,37.5331,-122.2471
+111.91.233.1			VN,Dak_Lak,Hanoi,21.0333,105.85
+119.63.216.246			AU,New_South_Wales,Sydney,-33.88,151.22
+12.0.1.63			US,New_Jersey,Middletown,40.3908,-74.1116
+129.250.0.11			US,CO,Englewood,39.6237,-104.8738
+129.250.1.248			US,CO,Englewood,39.6237,-104.8738
+133.205.1.142			JP,Tokyo-to,Tokyo,35.69,139.69
+134.222.87.1			NL,Zuid-holland,Haag,52.0833,4.3
+134.222.87.4			NL,Zuid-holland,Haag,52.0833,4.3
+137.164.16.84			US,CA,Cypress,33.8188,-118.0377
+137.164.26.26			US,CA,Cypress,33.8188,-118.0377
+144.228.241.130			US,Virginia,Reston,35.1907,-80.6455
+147.28.7.1			US,WA,Bainbridge_Island,47.6476,-122.5364
+147.28.7.2			US,WA,Bainbridge_Island,47.6476,-122.5364
+149.165.255.64			US,IN,Bloomington,39.2499,-86.4555
+154.11.98.225			CA,Alberta,Calgary,51.02,-114.02
+157.130.10.233			US,Virginia,Ashburn,39.0089,-77.4699
+164.128.32.11			CH,Bern,Bern,46.92,7.47
+168.209.255.23			ZA,Gauteng,Johannesburg,-26.2052,28.0498
+178.251.162.63			LU,Luxembourg,Luxembourg,49.61,6.13
+182.16.142.2			SG,Singapore,Singapore,1.3667,103.8
+185.5.200.255			IT,Marche,Mantova,45.15,10.8
+187.16.216.20			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.219			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.232			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.24			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.253			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.254			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.4			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.56			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.68			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.69			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.216.90			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.217.104			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.217.129			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.217.14			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.217.154			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.217.197			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.217.27			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.217.98			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.218.121			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.218.21			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.218.52			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+187.16.218.53			BR,Sao_Paulo,Sao_Paulo,-15.78,-47.92
+192.203.116.253			US,IN,Bloomington,39.2499,-86.4555
+192.92.236.0			US,DE,Wilmington,39.7976,-75.5392
+194.153.0.253			GB,England,Berks,51.52473,-1.17888
+194.71.0.1			SE,Stockholms_Lan,Stockholm,61.270233,18.632813
+194.85.40.15			RU,Saint_Petersburg_City_,Saint_Petersburg_,59.9564,30.3101
+195.215.109.254			DK,Hovedstaden,Copenhagen,55.6777,12.5709
+195.22.216.188			IT,Roma,Rome,41.9,12.483
+195.66.225.111			GB,H9,London,51.5142,-0.0931
+195.66.225.76			GB,H9,London,51.5142,-0.0931
+195.66.225.86			GB,H9,London,51.5142,-0.0931
+195.66.226.59			GB,H9,London,51.5142,-0.0931
+195.66.236.175			GB,H9,London,51.5142,-0.0931
+195.66.236.29			GB,H9,London,51.5142,-0.0931
+195.66.236.32			GB,H9,London,51.5142,-0.0931
+195.66.236.35			GB,H9,London,51.5142,-0.0931
+195.66.236.66			GB,H9,London,51.5142,-0.0931
+196.223.14.10			ZA,Gauteng,Johannesburg,-29,24
+196.223.14.46			ZA,Gauteng,Johannesburg,-29,24
+196.223.14.55			ZA,Gauteng,Johannesburg,-29,24
+196.223.14.72			ZA,Gauteng,Johannesburg,-29,24
+196.223.21.66			KE,Nairobi_Area,Nairobi,1,38
+196.223.21.81			KE,Nairobi_Area,Nairobi,1,38
+196.7.106.245			ZA,Western_Cape,Cape_Town,-33.973,18.4646
+198.129.33.85			US,CA,Berkeley,37.8668,-122.2536
+198.32.132.114			US,Georgia,Atlanta,35.1907,-80.6455
+198.32.132.175			US,Georgia,Atlanta,35.1907,-80.6455
+198.32.132.28			US,Georgia,Atlanta,35.1907,-80.6455
+198.32.132.75			US,Georgia,Atlanta,35.1907,-80.6455
+198.32.132.97			US,Georgia,Atlanta,35.1907,-80.6455
+198.32.176.10			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.13			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.134			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.14			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.164			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.177			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.20			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.206			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.207			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.24			US,CA,Redwood_City,37.5331,-122.2471
+198.32.176.95			US,CA,Redwood_City,37.5331,-122.2471
+198.32.195.23			US,OR,Portland,45.5073,-122.6932
+198.32.195.24			US,OR,Portland,45.5073,-122.6932
+198.32.195.30			US,OR,Portland,45.5073,-122.6932
+198.32.195.35			US,OR,Portland,45.5073,-122.6932
+198.32.195.46			US,OR,Portland,45.5073,-122.6932
+199.66.153.82			US,TX,Smithville,29.9742,-97.212
+199.87.240.1			CA,ON,Niagara-on-the-lake,43.25,-79.0667
+202.147.0.142			JP,Tokyo,Minato,35.69,139.69
+202.147.61.12			JP,Tokyo,Minato,35.69,139.69
+202.167.228.107			SG,Singapore,Singapore,1.29,103.86
+202.167.228.20			SG,Singapore,Singapore,1.29,103.86
+202.167.228.37			SG,Singapore,Singapore,1.29,103.86
+202.167.228.38			SG,Singapore,Singapore,1.29,103.86
+202.167.228.44			SG,Singapore,Singapore,1.29,103.86
+202.167.228.46			SG,Singapore,Singapore,1.29,103.86
+202.167.228.74			SG,Singapore,Singapore,1.29,103.86
+202.232.0.3			JP,Tokyo-to,Tokyo,35.69,139.75
+202.79.197.122			SG,Singapore,Singapore,1.3667,103.8
+202.79.197.123			SG,Singapore,Singapore,1.3667,103.8
+202.79.197.159			SG,Singapore,Singapore,1.3667,103.8
+203.175.175.15			SG,Singapore,Singapore,1.3667,103.8
+203.181.248.168			JP,Tokyo-to,Tokyo,35.69,139.75
+203.62.252.186			AU,Queensland,Brisbane,-27.5,153.02
+205.166.205.202			US,HI,Honolulu,21.3267,-157.8167
+205.171.202.202			US,CO,Denver,39.7442,-105.1049
+205.171.202.207			US,CO,Denver,39.7442,-105.1049
+205.171.3.22			US,CO,Denver,39.7442,-105.1049
+206.126.236.10			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.12			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.120			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.154			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.181			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.19			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.25			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.26			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.37			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.47			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.60			US,CA,Redwood_City,37.5331,-122.2471
+206.126.236.61			US,CA,Redwood_City,37.5331,-122.2471
+206.223.115.24			US,Texas,Irving,32.9201,-96.9834
+206.223.115.60			US,Texas,Irving,33.9201,-96.9834
+206.223.115.61			US,Texas,Irving,34.9201,-96.9834
+206.24.210.102			US,MO,Chesterfield,38.65,-90.5334
+208.51.134.246			US,Colorado,Broomfield,39.8912,-105.1205
+213.144.128.203			CH,Zuerich,Zuerich,47.37,8.55
+213.248.80.244			SE,Stockholm_County,Stockholm_(farsta),59.2445,18.0903
+216.18.31.102			CA,British_Columbia,Vancouver,49.25,-123.13
+216.218.252.164			US,CA,Dublin,37.7186,-121.9164
+218.189.6.129			HK,Hong_Kong_(sar)_,Hong_Kong_,22.25,114.1667
+38.122.147.130			AU,Victoria,Kilsyth_South_,-37.8216,145.315
+4.69.184.193			US,Oklahoma,Muskogee,35.6818,-95.3578
+64.25.208.71			US,VT,Williston,44.4235,-73.0854
+64.57.28.241			US,MI,Ann_Arbor,42.2734,-83.7133
+66.185.128.1			US,Virginia,Dulles,39.3213,-77.5367
+67.17.82.114			US,Colorado,Broomfield,39.8912,-105.1205
+68.67.63.245			CA,QC,Montréal,45.5335,-73.6464
+72.36.126.8			US,IL,Urbana,40.1095,-88.2123
+74.40.7.35			US,New_York,Rochester,43.1271,-77.7339
+80.91.255.62			SE,Stockholm_County,Stockholm_(farsta),59.2445,18.0903
+85.114.0.217			RU,Saint_Petersburg_City_,Petersburg,59.89,30.26
+87.82.50.207			GB,England,Harpenden,51.8,-0.35
+89.149.178.10			DE,Hessen,Frankfurt_Am_Main,51.206883,9.887695
+94.126.183.247			DK,,Aarhus,56.15,10.22
+96.4.0.55			US,TN,Nashville,36.1659,-86.7844
+195.66.224.114			GB,H9,London,51.5142,-0.0931
+195.66.224.118			GB,H9,London,51.5142,-0.0931
+195.66.224.124			GB,H9,London,51.5142,-0.0931
+195.66.224.138			GB,H9,London,51.5142,-0.0931
+195.66.224.153			GB,H9,London,51.5142,-0.0931
+195.66.224.175			GB,H9,London,51.5142,-0.0931
+195.66.224.209			GB,H9,London,51.5142,-0.0931
+195.66.224.21			GB,H9,London,51.5142,-0.0931
+195.66.224.215			GB,H9,London,51.5142,-0.0931
+195.66.224.233			GB,H9,London,51.5142,-0.0931
+195.66.224.29			GB,H9,London,51.5142,-0.0931
+195.66.224.32			GB,H9,London,51.5142,-0.0931
+195.66.224.39			GB,H9,London,51.5142,-0.0931
+195.66.224.42			GB,H9,London,51.5142,-0.0931
+195.66.224.51			GB,H9,London,51.5142,-0.0931
+195.66.224.53			GB,H9,London,51.5142,-0.0931
+195.66.224.64			GB,H9,London,51.5142,-0.0931
+195.66.224.66			GB,H9,London,51.5142,-0.0931
+195.66.224.83			GB,H9,London,51.5142,-0.0931
+195.66.224.99			GB,H9,London,51.5142,-0.0931
+198.51.75.1			CA,Winnipeg,Grain_Exchange_Bldg,167_Lombard_Ave,MB_R3B,49.896224,-97.136926
+2001:de8:4::2:4482:1		SG,Singapore,Singapore,1.3667,103.8
+2001:de8:4::4:5494:1		SG,Singapore,Singapore,1.3667,103.8
+2001:de8:4::5:8682:1		SG,Singapore,Singapore,1.3667,103.8
+2001:12f8::20			BR,None,None,-10,-55
+2001:12f8::217:104		BR,None,None,-10,-55
+2001:12f8::217:14		BR,None,None,-10,-55
+2001:12f8::217:154		BR,None,None,-10,-55
+2001:12f8::217:98		BR,None,None,-10,-55
+2001:12f8::218:121		BR,None,None,-10,-55
+2001:12f8::218:21		BR,None,None,-10,-55
+2001:12f8::218:52		BR,None,None,-10,-55
+2001:12f8::24			BR,None,None,-10,-55
+2001:12f8::253			BR,None,None,-10,-55
+2001:12f8::254			BR,None,None,-10,-55
+2001:12f8::4			BR,None,None,-10,-55
+2001:15a8:a:a::2		IT,Marche,Ascoli Piceno,42.851,13.6143
+2001:1620:1::203		CH,Zuerich,Winterthur,47.5026,8.72972
+2001:2000:3018:4d::1		EU,Stockholm (Farsta),Stockholm,59.2568,18.0974
+2001:200:901::5			JP,Kanagawa Prefecture,Kohoku Ward,35.552,139.647
+2001:218:0:1000::f006		JP,Tokyo,Chiyoda,35.6713,139.757
+2001:240:100:ff::2497:2		JP,Tokyo,Chiyoda,35.6713,139.757
+2001:260:300:1::1:30		JP,Tokyo,Chiyoda,35.6713,139.757
+2001:388:1::13			AU,Western Australia,Kensington,-31.9944,115.886
+2001:388:1::16			AU,Western Australia,Kensington,-31.9944,115.886
+2001:418:0:1000::f000		US,CO,Greenwood Village,39.6049,-104.892
+2001:418:0:1000::f002		US,CO,Greenwood Village,39.6049,-104.892
+2001:428::205:171:203:138	US,CO,Denver,39.7541,-105
+2001:428::205:171:203:140	US,CO,Denver,39.7541,-105
+2001:428::205:171:203:141	US,CO,Denver,39.7541,-105
+2001:468:2::1			US,Michingan,Ann Arbor,42.2661,-83.7146
+2001:468:400::3			US,Indiana,Bloomington,39.1731,-86.5017
+2001:468:400::4			US,Indiana,Bloomington,39.1731,-86.5017
+2001:470:0:1a::1		US,CA,Fermont,37.5148,-121.913
+2001:478:132::114		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:478:132::175		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:478:132::28		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:478:132::40		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:478:132::75		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:478:195::23		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:478:195::24		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:478:195::46		KN,Saint Paul Charlestown Parish,Charlestown,17.3333,-62.75
+2001:4810::1			US,Virginia,Chantilly,38.89,-77.44
+2001:4830::5			US,Massachusetts,Boston,42.3512,-71.054
+2001:4830::e			US,Massachusetts,Boston,42.3512,-71.054
+2001:504:0:2:0:1:1666:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2:0:1:3618:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2:0:1:9151:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2:0:3:3437:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2::2914:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2::3257:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2::4436:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2::4436:2		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2::4589:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2::5769:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:0:2::6939:1		US,CA,Redwood City,37.5272,-122.261
+2001:504:d::10			US,Florida,Tampa,27.9455,-82.5273
+2001:504:d::5580:1		US,Florida,Tampa,27.9455,-82.5273
+2001:504:d::5f			US,Florida,Tampa,27.9455,-82.5273
+2001:668:0:4::2			DE,Hessen,Neu-Isenburg,50.0448,8.69005
+2001:7f8:4:1::1525:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4:1::1a0b:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4:1::20ea:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4:1::32e6:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::1525:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::15cc:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::1a0b:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::1a6a:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::1b1b:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4:1::b62:2		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4:1::cb9:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4:1::d1c:2		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::201a:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::32e6:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::85f0:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::90f1:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::b62:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::cb9:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::d1c:1		GB,Greater London,London,51.5045,-0.0876459
+2001:7f8:4::fb:1		GB,Greater London,London,51.5045,-0.0876459
+2001:de8:6::3:71:1		SG,Singapore,Singapore,1.3667,103.8
+2001:de8:6::3:8809:1		SG,Singapore,Singapore,1.3667,103.8
+2001:de8:6::4739:1		SG,Singapore,Singapore,1.3667,103.8
+2001:de8:6::4826:1		SG,Singapore,Singapore,1.3667,103.8
+2001:de8:6::7575:1		SG,Singapore,Singapore,1.3667,103.8
+2001:df0:2e8:1000::1		VN,Hanoi,Hanoi,21.0333,105.85
+2402:7400:0:3c::1		AU,Sydney,Sydney,-33.8685,151.206
+2404:a100::1			SG,Singapore,Singapore,1.3667,103.8
+2405:4200:100::15		SG,Singapore,Singapore,1.3667,103.8
+2600:803::15			US,Virginia,Ashburn,39.0438,-77.4874
+2604:5980::			US,Delaware,Wilmington,39.7961,-75.5393
+2607:4200:10::2			US,CA,Fermont,37.5042,-121.964
+2607:be00:1:240::bf1		CA,Ontario,Niagara-on-the-lake,43.2115,-79.1887
+2607:f278:0:ffff::2		US,Hawaii,Honolulu,21.2998,-157.818
+2607:f740:0:7::f79		US,CA,LosAngeles,34.0932,-118.378
+2607:fad8::1:3			CA,Quebec,Montréal,45.5275,-73.6184
+2620:f5:8000:100c::1		US,Indiana,Bloomington,39.1731,-86.5017
+2a03:2f00:ffff:ff00::2		LU,Luxembourg,Luxembourg City,49.75,6.1667
+2a03:a480:ffff:ffff::247	DK,Central Denmark,Aarhus,56.1629,10.2039
+2c0f:fc00::3			ZA,Randburg,Gauteng,-25.9986,27.9948
+2001:1890:111d::1		US,NJ,Middletown,40.3925,-74.1181
+2001:7f8:4::20ea:1		GB,Greater London,London,51.5045,-0.0876459
+2a02:cdc5:9715:0:185:5:200:255	IT,Marche,San Benedetto del Tronto,42.9446,13.8834
+#please do not remove the following file as it is needed to merge with newer geodb versions
+#USER SUPPLIED DATA

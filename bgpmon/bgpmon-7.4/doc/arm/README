@@ -1,0 +1,14 @@
+This is the Administrator's Reference Manual for BGPmon.
+
+To build the PDF document:
+make arm.pdf
+
+To build the Quickstart document:
+make quickstart.pdf
+
+Please Note:
+On Ubuntu 
+ - sudo apt-get install texlive-latex-base
+ - sudo apt-get install texlive-latex-extra
+On Fedora 
+ - yum install texlive texlive-latex 

@@ -1,0 +1,146 @@
+\section{Installing BGPmon}
+\label{sec:install}
+
+\subsection{System  Requirements}
+
+The BGPmon server does not require specialized resources and is a designed to run on an off-the-shelf Unix box. 
+The processing requirements are minimal and typical boxes can support large numbers of peer connections.    
+
+BGPmon clients connect to a BGPmon server via TCP and thus can run on the same machine or on remote machines.
+Any program that can establish a TCP connection can become a client.
+
+
+In a recommended configuration, a single box runs the BGPmon server along with a data archiving client to store BGP data for later analysis.
+Any number of additional clients can connect to BGPmon and receive BGP data in real-time.
+Adding additional BGP peers and/or clients increases the resource requirements.
+
+\subsubsection{Memory Requirements}
+
+In its simplest configuration, BGPmon has very little mandatory state and thus can operate with a very small memory footprint
+A small amount of state is kept for each peering session.
+As messages arrive from a peer, they are temporarily stored in internal buffers as the messages move from the peering router to the TCP output to clients.
+Even with hundreds of peers, BGPmon requires only a few megabytes of memory.
+
+BGPmon memory requirements can increase dramatically when routing table (RIB\_IN) storage is enabled.
+As updates are received from a peer, BGPmon can optionally keep track of the peer's current routes in a RIB\_IN table.
+The RIB\_IN tables are the primary memory requirements associated with BGPmon.
+As a general rule of thumb, a peer announcing 250,000 routes will require a 25 MB RIB\_IN table 
+
+Disabling RIB\_IN storage for a peer decreases memory requires, but also prevents BGPmon from labeling updates received from that peer.
+By comparing an update to the current RIB\_IN table, the BGPmon server determines whether the update is a new announcement, path change, duplicate update and so forth as discussed above.
+This labeling is only possible if RIB\_IN storage is enabled for the peer.
+
+The RIB\_IN may be used to periodically report the table to clients if the peer does not support BGP route refresh.
+In most cases, BGPmon periodically re-announces its peers' routing tables to clients by requesting a route refresh from the peer.
+If the peer does not support route refresh,  BGPmon attempts to imitate a route refresh by reporting the RIB\_IN file.
+Periodic routing tables will not be available if the peer router does not support route refresh and BGPmon has been configured not to store RIB\_IN tables for the peer.
+
+\subsubsection{Operating System Requirements}
+
+BGPmon and its clients were developed on Ubuntu and Fedora systems with the objective of being platform independent.   
+Ports to other Unix operating systems are encouraged and some limited help is available from the BGPmon team.     
+The 7.2.2 release of BGPmon has been testing on Ubuntu 10 and Fedora 14.
+
+\subsection{Installation}
+\label{sec:install}
+
+To perform a default installtion of  BGPmon, use:\\
+
+\begin{Verbatim}[frame=single]
+> ./configure
+> make 
+> sudo make install
+\end{Verbatim}
+
+This is the preferred installation procedure for the BGPmon server. 
+A bgpmon account is created and startup scripts are installed under /etc/init.d.
+
+By default, the BGPmon server is installed in \emph{/usr/local/bin/bgpmon}.
+Defaults can be changed by setting the \verb|--prefix| option. 
+Other standard options are available, run \verb|./configure --help| to read more.
+
+\note{ The libxml2 development library is required and configure will fail in its absence.\\
+   Ubuntu:\\
+     apt-get install libxml2-dev\\
+   Fedora:\\
+     yum install libxml2-devel\\
+}
+
+It is also possible to install BGPmon using a non-root user.
+To do this one must first disable the creation of the bgpmon user as well as the installation of the startup scripts in init.d.
+
+\begin{Verbatim}[frame=single]
+> ./configure --prefix=install/dir --disable-bgpmonuser --disable-initscripts
+> make
+> make install
+\end{Verbatim}
+
+\subsection{Launching BGPmon}
+\label{sec:install:launch}
+
+To start BGPmon after a root install, simply launch the server using:   
+
+\begin{Verbatim}[frame=single]
+> sudo service bgpmon start
+\end{Verbatim}
+
+If the installation was not done using the root user the executable should be invoked directly.
+
+\begin{Verbatim}[frame=single]
+> install_dir/bin/bgpmon -s -d
+\end{Verbatim}
+
+\emph{If this is the first time you are using BGPmon}, it is using a default configuration file and the server is waiting for an administrator to login on port 50000.
+The login port can also be set using command line arguments described in section \ref{sec:install:cla}.
+
+Using the steps discussed in Section \ref{sec:cli}, an administrator can login and add BGP peers, set access control rules for both future configuration and client access,  create BGPmon chains, and apply a variety of optional settings.
+At a minimum,  an administrator will need to configure BGPmon to receive data from at least one BGP peer router, BGPmon chain, or Quagga route collector and allow BGPmon to provide data to at least one client.
+
+\subsubsection{Optional BGPmon Command Line Arguments}
+\label{sec:install:cla}
+
+Nearly all configuration is done by logging into BGPmon as discussed in Section \ref{sec:cli}.
+However, BGPmon has several optional command line arguments that can useful for some scenarios.
+Each of these optional values is discussed below.
+
+\begin{itemize}
+
+\item{\emph{-c $<configuration filename>$}: Default is \$prefix/etc/bgpmon\_config.txt.   Provides the name of a configuration file to load.     The configuration file provides essential information such as the peers to monitor, client access control,  and so forth.    If no configuration file is specified, BGPmon attempts to load a default configuration file.   If the configuration file is not found, BGPmon simply waits for an administrator to login and configure BGPmon.
+
+Most users will not need to use the \emph{-c filename} option.    Unless you specified otherwise,  saving a configuration creates the file bgpmon\_config.txt and this file is loaded by default when BGPmon restarts.    If you plan to have only one BGPmon configuration file,  the default configuration file name of bgpmon\_config.txt is \emph{strongly recommended}.    A site with multiple, distinct configurations may wish to use other file names and can specify which of the multiple configuration files to load using the \emph{-c filename} option.
+}
+
+\item{\emph{-r $<recovery port>$}: Default is 50000. Instructs BGPmon to allow administrator login on the specified port.
+If this option is not specified, BGPmon uses the port specified in the configuration file or port 50000 if no configuration
+file is found. Section 3.2.1 describes how to set the login-listener port and save the setting in the
+configuration file.
+
+The \emph{-r $<recovery port>$} option is intended as a temporary bypass in case either 1) this is the first time
+BGPmon is running it needs to allow login on a port other than 50000 or 2) the login port set in the
+configuration file is no longer valid and must be overridden. \textbf{The -r recovery-port option takes
+precedence over any login port found in Configuration File.}
+}
+
+\item{\emph{-d}: Default is disabled. This option enables daemon mode. This is useful in the case that a non-root install is done and the user wishes to run BGPmon in the background.
+}
+
+\item{\emph{-s} : Default is that syslog is disabled.  This option enables syslog mode and sends all messages to the syslog facility.
+Syslog mode is recommended and syslog settings can be used to direct BGPmon output to specific file,  control the level of output, and so forth.  
+
+A site administrator may modify the source code in order to change the default setting to enable syslog,  see \cite{massey08tech} for instructions on modifying the default settings.
+}
+
+\item{ \emph{-l $<loglevel>$} Default is 4.  This option specifies the log level and uses the standard syslog values as follows.
+Emergencies, Alerts, Critical Errors, and Errors are levels 0 to 3 (respectively).
+These messages are always logged regardless of the log level setting.
+Warnings, Notices, Information, and Debug output are levels 4 to 7 (respectively).
+Setting $loglevel = L$ will log all messages at and below the $L$.
+For example, a log level of 4 will display Alerts, Critical Errors, Errors, and Warnings, but will not display Notices, Information, or Debugging output.
+A site administrator may modify the source code in order to change the default logvalue,  see \cite{massey08tech} for instructions on modifying the default settings.
+}
+
+\item{ \emph{-f $<facility>$} Default is USER. option specifies the syslog Facility.
+A site administrator may modify the source code in order to change the default logvalue,  see \cite{massey08tech} for instructions on modifying the default settings.    
+}
+
+\end{itemize}

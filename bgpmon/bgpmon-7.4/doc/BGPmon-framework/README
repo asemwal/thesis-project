@@ -1,0 +1,18 @@
+
+Info:
+
+This document describes BGPmon Test Framework and its concepts.
+
+Compilation:
+
+$ make BGPmon-framework
+Makefile produces BGPmon-framework.pdf
+
+Running:
+
+To open BGPmon-framework.pdf, use any available PDF reader.
+
+Author:
+
+Mikhail Strizhov
+strizhov@netsec.colostate.edu

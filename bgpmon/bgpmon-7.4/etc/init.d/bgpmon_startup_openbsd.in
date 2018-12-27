@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# $OpenBSD: bgpmon.rc,v 1.0 2014/07/25 00:50:22 dsp Exp $
+
+BINDIR=@bindir[@]
+daemon=${BINDIR}/bgpmon
+STATEDIR=@statedir[@]
+SYSCONFDIR=@sysconfdir[@]
+CONFIG_FILE=${SYSCONFDIR}/bgpmon_config.txt
+GEODB_FILE=${SYSCONFDIR}/bgpmon_geodb.txt
+daemon_flags="-d -c $CONFIG_FILE -s -g $GEODB_FILE"
+
+. /etc/rc.d/rc.subr
+
+rc_cmd $1

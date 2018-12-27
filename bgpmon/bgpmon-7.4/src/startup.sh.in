@@ -1,0 +1,92 @@
+#/bin/sh
+
+#startup script vars
+CHKCONFIG="@CHKCONFIG[@]"
+UPDATERC="@UPDATERC[@]"
+STARTSTOPD="@STARTSTOPD[@]"
+INSTALL_PROG="@INSTALL_PROGRAM[@]"
+ENABLE_INITSCRIPTS="@ENABLE_INITSCRIPTS[@]"
+OS_R="@OS_R[@]"
+#create user vars
+USERADD="@USERADD[@]"
+ID="@ID[@]"
+STATEDIR="@statedir[@]/run"
+MKDIR="@MKDIR_P[@]"
+BASEDIR="@prefix[@]"
+ENABLE_BGPMONUSER="@ENABLE_BGPMONUSER[@]"
+SYSCONFDIR="@sysconfdir[@]"
+CHOWN="@CHOWN[@]"
+
+#uncomment for debugging
+#echo chkconfig $CHKCONFIG updaterc $UPDATERC startstopd $STARTSTOPD installprog $INSTALL_PROG\
+# enableinit $ENABLE_INITSCRIPTS osr $OS_R useradd $USERADD id $ID basedir $BASEDIR statedir $STATEDIR mkdir $MKDIR\
+# enablebgpmonuser $ENABLE_BGPMONUSER
+
+#initscript logic
+if [ ${ENABLE_INITSCRIPTS} = "no" ]
+then 
+  echo "not installing initscripts"
+elif [ $OS_R = "Linux" ] && [ $STARTSTOPD != "no" ] &&  [ $UPDATERC != "no" ]
+then
+  USERADD="${USERADD} -r"
+  # if start stop d is there (debian)
+  echo "Debian Linux variant detected. Installing initscript"
+  ${UPDATERC} -f bgpmon remove
+  mkdir -p ${SYSCONFDIR}/init.d
+  ${INSTALL_PROG} etc/init.d/bgpmon_startup_debian ${SYSCONFDIR}/init.d/bgpmon
+  ${UPDATERC} bgpmon start 99 2 3 4 5 . stop 99 0 1 6 .
+
+elif [ $OS_R = "Linux" ] &&  [ ${CHKCONFIG} != "no" ]
+then
+  USERADD="${USERADD} -r"
+  # if chkconfig there (fedora)
+  echo "Redhat Linux variant detected. Installing initscript"
+  mkdir -p ${SYSCONFDIR}/init.d
+  ${INSTALL_PROG} etc/init.d/bgpmon_startup_fedora ${SYSCONFDIR}/init.d/bgpmon
+  ${CHKCONFIG} --add bgpmon
+elif [ $OS_R = "OpenBSD" ]
+then
+  echo "OpenBSD detected. Installing initscript"
+  mkdir -p ${SYSCONFDIR}/rc.d
+  ${INSTALL_PROG} etc/init.d/bgpmon_startup_openbsd ${SYSCONFDIR}/rc.d/bgpmon
+elif [ $OS_R = "FreeBSD" ]
+then
+  echo "FreeBSD detected. Installing initscript"
+  mkdir -p ${SYSCONFDIR}/rc.d
+  ${INSTALL_PROG} etc/init.d/bgpmon_startup_freebsd ${SYSCONFDIR}/rc.d/bgpmon
+else
+  # else give up and give error message
+  echo "Unable to identify rc.d tools,Unable to install startup scripts"
+fi
+
+#useradd logic
+if [ ${ENABLE_BGPMONUSER} = "no" ]
+then
+  echo "not adding bgpmon user"
+elif [ ${ENABLE_BGPMONUSER} = "yes" ]
+then
+#which useradd returns 0 on success and 1 or 2 when it can't resolve.
+  if [ $? = 1 ] || [ $? = 2 ]
+  then
+    echo "Unable to add user: bgpmon. useradd binary not found"
+    exit 1
+  fi
+fi
+${ID} bgpmon > /dev/null 2>&1
+if [ $? = 1 ]
+then
+  # configure has failed to find it due to sbin not being in the path
+  if [ "${USERADD}" = "no" ] || [ "${USERADD}" = "no -r" ]
+  then
+    if [ -f /usr/sbin/useradd ]; then
+      USERADD="/usr/sbin/useradd"
+    fi
+    if [ -f /sbin/useradd ]; then
+      USERADD="/sbin/useradd"
+    fi
+  fi
+  ${MKDIR} ${BASEDIR}
+  echo $USERADD
+  ${USERADD} -c "BGPmon Account" -b ${BASEDIR} bgpmon
+  ${CHOWN} bgpmon:bgpmon ${SYSCONFDIR}/bgpmon_config.txt
+fi

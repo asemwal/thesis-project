@@ -1,0 +1,6 @@
+#!/bin/sh
+TMPGOPATH=$GOPATH
+export GOPATH=$PWD
+go get -d "git.2f30.org/go-mrt.git"
+go build -o bin/gotestit src/gotestit.go
+export GOPATH=$TMPGOPATH

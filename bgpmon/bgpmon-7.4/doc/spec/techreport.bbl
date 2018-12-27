@@ -1,0 +1,40 @@
+\begin{thebibliography}{1}
+
+\bibitem{imc08}
+D.~Matthews, N.~Parrish, H.~Yan, , and D.~Massey.
+\newblock {BGPmon: A real-time, scalable, extensible monitoring system}.
+\newblock {\em Proceedings of the ACM SIGCOMM Internet Measurement Confernce
+  (IMC)}, 2008.
+
+\bibitem{bgparm}
+D.~Matthews, H.~Yan, , and D.~Massey.
+\newblock {BGPmon Administrator's Reference Manual}, 2008.
+
+\bibitem{bgprfc}
+unknown.
+\newblock A border gateway protocol 4 (bgp-4).
+\newblock \url{http://www.ietf.org/rfc/rfc4271.txt}.
+
+\bibitem{mrt}
+unknown.
+\newblock Mrt routing information export format.
+\newblock \url{http://www.ietf.org/internet-drafts/draft-ietf-grow-mrt-11.txt}.
+
+\bibitem{riperis}
+unknown.
+\newblock Ripe (rseaux ip europens) routing information service.
+\newblock http://www.ripe.net/projects/ris/.
+
+\bibitem{routeviews}
+unknown.
+\newblock University of oregon route views project.
+\newblock http://www.routeviews.org/.
+
+\bibitem{seda}
+M.~Welsh, D.~Culler, and E.~Brewer.
+\newblock Seda: an architecture for well-conditioned, scalable internet
+  services.
+\newblock In {\em SOSP '01: Proceedings of the eighteenth ACM symposium on
+  Operating systems principles}, pages 230--243, New York, NY, USA, 2001. ACM.
+
+\end{thebibliography}

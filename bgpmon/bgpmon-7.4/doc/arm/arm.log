@@ -1,0 +1,498 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/MacPorts 2011_5) (format=pdflatex 2012.5.13)  29 JUN 2012 10:24
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**arm
+(./arm.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, cz
+ech, slovak, dutch, ukenglish, usenglishmax, basque, french, german-x-2009-06-1
+9, ngerman-x-2009-06-19, german, ngerman, swissgerman, italian, polish, portugu
+ese, spanish, catalan, galician, loaded.
+(/opt/local/share/texmf-texlive-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/opt/local/share/texmf-texlive-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+(/opt/local/share/texmf-texlive-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2001/02/13 v0.1j Color table columns (DPC)
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen103
+\extrarowheight=\dimen104
+\NC@list=\toks14
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+\everycr=\toks15
+\minrowclearance=\skip45
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+)
+\Gin@req@height=\dimen105
+\Gin@req@width=\dimen106
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+) (/opt/local/share/texmf-texlive-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen107
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/preprint/fullpage.sty
+Package: fullpage 1999/02/23 1.1 (PWD)
+\FP@margin=\skip46
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count88
+\FV@InFile=\read1
+\FV@TabBox=\box26
+\c@FancyVerbLine=\count89
+\FV@StepNumber=\count90
+\FV@OutFile=\write3
+) (./arm.aux
+
+LaTeX Warning: Label `sec:install' multiply defined.
+
+)
+\openout1 = `arm.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+ (/opt/local/share/texmf-texlive-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count91
+\scratchdimen=\dimen108
+\scratchbox=\box27
+\nofMPsegments=\count92
+\nofMParguments=\count93
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count94
+\MPscratchDim=\dimen109
+\MPnumerator=\count95
+\makeMPintoPDFobject=\count96
+\everyMPtoPDFconversion=\toks18
+) (/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
+
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/opt/local/share/texmf-texlive-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
+
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+))
+(/opt/local/share/texmf-texlive-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 17.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 17.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 17.
+
+[1
+
+{/opt/local/var/db/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./arm.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 2.
+)
+\tf@toc=\write4
+\openout4 = `arm.toc'.
+
+
+[2] (./arm.lof)
+\tf@lof=\write5
+\openout5 = `arm.lof'.
+
+ (./arm.lot)
+\tf@lot=\write6
+\openout6 = `arm.lot'.
+
+ [3] (./intro.tex
+<figs/architecture.png, id=17, 430.60875pt x 196.48407pt>
+File: figs/architecture.png Graphic file (type png)
+
+<use figs/architecture.png>
+Package pdftex.def Info: figs/architecture.png used on input line 32.
+(pdftex.def)             Requested size: 422.77664pt x 192.91583pt.
+ [4 <./figs/architecture.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 43--46
+
+ []
+
+[5]) (./install.tex [6]
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 108.
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 108.
+ [7]) (./cli.tex
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 35--36
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 114--118
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--159
+
+ []
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 201--206
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 217--218
+
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 228--229
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 239--240
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--286
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 356--357
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
+
+ []
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 382--383
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 394--395
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 413--414
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 427--428
+
+ []
+
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 433--434
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 439--441
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 446--447
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 458--459
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 479--480
+
+ []
+
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 492--493
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 539--540
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--546
+
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 551--552
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 561--562
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 572--573
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 580--581
+
+ []
+
+[18]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 632.
+
+Underfull \hbox (badness 10000) in paragraph at lines 638--639
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 644--645
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 655--656
+
+ []
+
+) (./cliref.tex [19]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 30.
+
+(/opt/local/share/texmf-texlive-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/bx/n' in size <9> not available
+(Font)              Font shape `OML/cmm/b/it' tried instead on input line 30.
+ [20]
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+[]|\OT1/cmr/bx/n/9 [no] neigh-bor \OML/cmm/b/it/9 <\OT1/cmr/bx/n/9 [\OT1/cmr/bx
+/it/9 peer-group\OT1/cmr/bx/n/9 ] [\OT1/cmr/bx/it/9 ad-dress\OT1/cmr/bx/n/9 ]\O
+ML/cmm/b/it/9 >\OT1/cmr/bx/n/9 [port \OT1/cmr/bx/it/9 neigh-bor[]port\OT1/cmr/b
+x/n/9 ] an-nounce
+ []
+
+
+Underfull \hbox (badness 8113) in paragraph at lines 77--77
+[]|\OT1/cmr/bx/n/9 [no] neigh-bor \OML/cmm/b/it/9 <\OT1/cmr/bx/n/9 [\OT1/cmr/bx
+/it/9 peer-group\OT1/cmr/bx/n/9 ] [\OT1/cmr/bx/it/9 ad-dress\OT1/cmr/bx/n/9 ]\O
+ML/cmm/b/it/9 >\OT1/cmr/bx/n/9 [port \OT1/cmr/bx/it/9 neigh-bor[]port\OT1/cmr/b
+x/n/9 ] an-nounce \OML/cmm/b/it/9 <\OT1/cmr/bx/n/9 [ipv4]
+ []
+
+
+Underfull \hbox (badness 2050) in paragraph at lines 114--114
+[]|\OT1/cmr/bx/n/9 neighbor \OML/cmm/b/it/9 <\OT1/cmr/bx/n/9 [ad-dress] [peer-g
+roup]\OML/cmm/b/it/9 >\OT1/cmr/bx/n/9 [port \OML/cmm/b/it/9 <\OT1/cmr/bx/n/9 ne
+igh-bor port\OML/cmm/b/it/9 >\OT1/cmr/bx/n/9 ] \OML/cmm/b/it/9 <\OT1/cmr/bx/n/9
+ [re-mote] [lo-cal]\OML/cmm/b/it/9 >\OT1/cmr/bx/n/9 as
+ []
+
+
+Underfull \hbox (badness 1917) in paragraph at lines 148--148
+[]|\OT1/cmr/bx/n/9 neighbor \OML/cmm/b/it/9 <\OT1/cmr/bx/n/9 [ad-dress] [peer-g
+roup]\OML/cmm/b/it/9 >\OT1/cmr/bx/n/9 [port \OT1/cmr/bx/it/9 neigh-bor[]port\OT
+1/cmr/bx/n/9 ] dis-able \OT1/cmr/m/n/9 - Dis-ables a peer's
+ []
+
+[21] [22]
+Underfull \hbox (badness 1337) in paragraph at lines 335--335
+[]|\OT1/cmr/bx/n/9 copy running-config startup-config \OT1/cmr/m/n/9 - Copies t
+he run-ning con-fig-u-ra-tion to the startup
+ []
+
+[23] [24] [25]) (./ipref.tex [26]) (./arm.bbl) [27] (./arm.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2371 strings out of 494770
+ 35358 string characters out of 3171573
+ 98050 words of memory out of 3000000
+ 5525 multiletter control sequences out of 15000+200000
+ 10859 words of font info for 38 fonts, out of 3000000 for 9000
+ 136 hyphenation exceptions out of 8191
+ 37i,12n,23p,892b,288s stack positions out of 5000i,500n,10000p,200000b,50000s
+</opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbx10.pf
+b></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbx12.pf
+b></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb
+></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbxti10.p
+fb></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmmi10.p
+fb></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmmi9.pf
+b></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cmextra/cmmi
+b9.pfb></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmr12
+.pfb></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmr17.
+pfb></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmr9.pf
+b></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmti10.pf
+b></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb
+></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
+></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+
+Output written on arm.pdf (27 pages, 423444 bytes).
+PDF statistics:
+ 157 PDF objects out of 1000 (max. 8388607)
+ 109 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+

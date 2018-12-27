@@ -1,0 +1,44 @@
+\section{Configuring BGPmon}
+\label{sec:configure}
+
+BGPmon begins by reading an XML configuration file that controls nearly all settings for the BGPmon instance.    The configuration is divided into five logical components; 1) Command Line Interface configuration, 2) Peering configuration, 3) Client configuration,  4) Chain Configuration, and 5) General Configuration.     The resulting BGPmon configuration file has the following format is shown in Figure \ref{fig:config:overview}.  
+
+To start BGPmon, the initial configuration need only enable a Command Line Interface.    All other configuration can then be done via the Command Line Interface.  \emph{Administrators are strong encouraged to use the command line interface rather than editing the conﬁguration ﬁle directly.}
+
+Typically administrators will need to configure Peering in order to receive data and Clients in order to report data.  Chains and General Configuration settings are optional.  
+
+\begin{figure}[!htb]
+\begin{verbatim}
+<BGPmon>
+    <CommandLineInterface>
+         See Command Line Interface Section
+    </CommandLineInterface>
+     <Peering>
+          See Peering Configuration Section
+     </Peering>
+     <Clients>
+          See Client Configuration Section
+     </Clients>
+     <Chains>
+          See Chaining Parameter Section
+     </Chains>
+     <General>
+          See General Configuration Section
+     </General>
+</BGPmon>
+\end{verbatim}
+\caption{BGPmon Configuration Overview}
+\label{fig:config:overview}
+\end{figure}
+
+\subsection{Command Line Interface Configuration}
+
+Upon startup, BGPmon reads the configuration file. 
+
+\subsection{Peering Configuration}
+
+\subsection{Labeling Configuration}
+
+\subsection{Client Configuration}
+
+\subsection{Chain Configuration} 

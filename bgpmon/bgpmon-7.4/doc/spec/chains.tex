@@ -1,0 +1,82 @@
+\section{Chain Module}
+\label{sec:chains}
+This module is used to allow BGPmon to scale out through chaining multiple BGPmons. BGPmons are chained together via tcp connections. Conﬁguration of BGPmon chains is manual so care must be taken not to create loops in the topology.
+One BGPmon could initialize a chain to another BGPmon or accept a chain from another BGPmon. From the perspective of BGPmon accepting a chain, the BGPmon intializing the chain is same as a typical client.  As a result, the logic of accepting a chain and serving data is already handled by clients control module(see section\ref{sec:clients}). 
+
+On another side, Initializing a chain and processing data are implemented in this chain module. 
+At the beginning of BGPmon, for each configured chain its data structure is populated and its threads is launched if it is enabled. After that, chains can be created, deleted, disabled and enabled via command line interface(CLI). 
+ 
+\subsection{Data Structure}
+The main data structure of a chain has the following fields:
+\begin{itemize}
+\item{\emph{chainID:} It is the unique identifier of a chain.  It is an integer starting from 0 and automatically assigned when a new chain is created.}
+\item{\emph{addr:} It is the address of remote BGPmon.  It is a string which could be a IPv4/IPv6 address or one of two keywords(ipv4loopback and ipv6loopback). After it is intialized from configuration, it could be set via command line interface(CLI) at runtime.}
+\item{\emph{port:} It is the listening port of remote BGPmon.  It is an integer.  It also could be set via command line interface(CLI) at runtime after initialization.}
+\item{\emph{enabled:} It is a boolean value indicating the status of a chain.  If it is FALSE, the chain thread will exit. It could be set via command line interface(CLI) at runtime after initialization }
+\item{\emph{connectRetryInteval:} It is the tcp connection retry interval in seconds. It could be set via command line interface(CLI) at runtime after initialization}
+
+\item{\emph{deleteChain} This flag will be checked after a chain is disabled. If it is TRUE, the chain's data structure will be freed. It is set by via command line interface(CLI).}
+\item{\emph{reconnectFlag:} This flag will be checked every time a message is received or periodic check timer expires. Any changes of "addr" or "port"  will set this flag to TRUE. If it is TURE, the existing tcp connection will be torn down and a new tcp connection(with the latest "addr" and "port") will be initialized.}
+\item{\emph{lastAction:} It is a timestamp to indicate when is the last action of this chain. It is used to infer the liveness of the chain thread by thread management module. The chain thread keeps update this timestamp when it is alive. If this field hasn't been updated for a while, the thread management module can infer the chain thread is dead. }
+\item{\emph{runningFlag:} It is a flag to indicate if the chain thread is running or not. It should be set to FALSE when the chain thread normally exits. }
+
+\item{\emph{socket:} It is the socket of a chain.}
+\item{\emph{serrno:} It is socket error code.}
+\item{\emph{connectRetryCounter:} It is the number of times of retrying a tcp connection.}
+\item{\emph{connectionState:} It is current connection state of a chain. It could be one of these:  chainStateIdle, chainStateConnecting and chainStateConnected.}
+\item{\emph{msgHeaderBuf:} It is used to buffer the header(first 100 bytes) of a XML message. With the length field of header, we can figure out how long the XML messages. Then the complete XML message can be read from the socket and written into the XML queue. Basically every message written into XML queue must be a complete XML message with open tag and close tag, not a partial message. Otherwise the XML messages from different chains will be mangled. }
+
+\item{\emph{establishedTime:} It is a timestamp indicating when a chain got connected to remote BGPmon.}
+\item{\emph{lastDownTime:} It indicates when is the last down time of tcp connection.}
+\item{\emph{resetCounter:} It is the number of tcp connection resets.}
+\item{\emph{messageRcvd:} It is the number of received XML messages via a chain.}
+
+\item{\emph{periodicCheckInt:} It indicates how often the periodic check timer expires.}
+\item{\emph{xmlQueueWriter:} It is used to write xml messages to XML queue.}
+\end{itemize}
+This data structure is attached to each chain thread.
+
+\subsection{Chain Thread}
+Each chain is a separate thread and has the following tasks:
+\begin{itemize}
+\item{ Initialize a tcp connection to a configured remote BGPmon instance(sending side of the chain). }
+\item{ Read the XML stream via the tcp connection, cut the stream into messages and write the messages into XML queue. }
+\item{ Check the 2 flags: "enabled" and "reconnectFlag" every time a XML message is received or periodic check timer expires .}
+	\begin{itemize}
+		\item{ The "enabled" flag is set directly by CLI. When it is TRUE, the client thread will exit by itself and if the "deleteChain" flag is also TRUE its corresponding data structure will be freed. }
+		\item{ The "reconnectFlag" is also set by CLI. Any changes of "addr" and "port" will set this flag TRUE. If it is TURE, the existing tcp connection will be torn down and a new tcp connection will be initialized with the latest  "addr" and "port".}
+	\end{itemize}	
+\end{itemize} 
+
+\subsection{Chain Management}
+Chains management is done via command line interface(CLI). There are 4 possible chain operations. 
+\subsubsection{Create a Chain}
+Creating a chain is a synchronous operation. It will occur immediately after function "createChain" is called by CLI. It consists of 2 steps:
+\begin{itemize}
+\item{ Populate the new chain's data structure. }
+\item{ Launch a thread for the new chain if its initial 'enabled' flag is TRUE. }
+\end{itemize} 
+
+\subsubsection{Enable a New Chain}
+Enabling a chain is a synchronous operation. A new thread will be immediately launched after function "enableChain" is called by CLI. Note the chain's data structure must be existing when the function "enableChain" is called.
+
+\subsubsection{Disable a New Chain}
+Disabling a chain is a asynchronous operation. It will NOT occur immediately by calling function "disableChain" by CLI. The function "disableChain" only sets the flag "enabled" to FALSE.
+The chain thread will actually exit when a new XML message is received or periodic check timer expires. The difference between disabling a chain and deleting a chain is that disabling a chain will not free the chain's data structure. 
+
+\subsubsection{Delete a Chain}
+Deleting a chain is a asynchronous operation. It will NOT occur immediately by calling function "deleteChain" by CLI. Inside the function "deleteChain", both "enabled" flag and "deleteChain" flag are set to TRUE.
+The actual actions of exiting chain thread and freeing chain data structure are deferred to the next time a new XML message is received or periodic check timer expires.
+
+\subsection{Design Philosophy}
+If one downstream BGPmon is chained to multiple upstream BGPmons, the fundamental design issue is about how downstream BGPMon avoids to mingle the XML streams from upstream BGPmons. 
+Remember all the XML streams from upstream BGPmons are mixed together into one stream at the downstream BGPmon by writing them into XML queue.  That means the downstream BGPmon has to first divide the streams from upstream BGPMons into messages and then write all the messages into the XML queue.
+
+We add a length field for each XML message in order to help BGPmon divide stream into messages by giving it a hint about how long the message is. More specifically, downstream BGPmon repeats the following steps to process a stream:
+	\begin{itemize}
+		\item{ Reads the first a few bytes from stream and figures out the length of the current message }
+		\item{ Extracts the message from the stream based on the length from the previous step}
+		    \item{ Move the cursor to the end of the current message.}
+	\end{itemize}
+
+

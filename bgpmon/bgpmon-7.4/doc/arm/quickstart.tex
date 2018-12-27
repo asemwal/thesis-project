@@ -1,0 +1,284 @@
+\documentclass{article}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{fullpage}
+\usepackage{fancyvrb}
+%\doublespacingjj
+\hyphenation{sub-scribe sys-tems}
+\newcommand\note[1]{\textcolor{red}{$=>$ #1}}
+
+%\addtolength{\oddsidemargin}{-.875in}
+%\addtolength{\evensidemargin}{-.875in}
+%\addtolength{\textwidth}{1.75in}
+
+%\addtolength{\topmargin}{-.875in}
+%\addtolength{\textheight}{1.75in}
+\begin{document}
+\title{\large Installing and Configuring BGPmon:\\ 
+Quickstart Guide Version 1.2\date{}}
+\maketitle
+\noindent
+
+The BGP monitoring tool (BGPmon) collects BGP data by 1) peering with BGP routers,  2) indirectly gathering data from other collectors using the MRT format,  and 3) chaining to share data between BGPmon instances.   All resulting data is provided in real-time via simple TCP connections.   The latest version of BGPmon can be downloaded from:\\
+http://bgpmon.netsec.colostate.edu/index.php/download
+\\
+\\
+All BGPmon configuration is done via a command line interface.    The interface is similar to that found on widely used routers.      If you are familiar with the commands for Cisco or Juniper,  generally the same commands should work on BGPmon.  For example,   the commands you use to configure a BGP peering session on a Cisco router should also work for BGPmon. 
+\\
+\\
+This guide will help you install and start BGPmon (Sections \ref{sec:install} and \ref{sec:launch}),  login,  change the default passwords, and save a configuration file (Section\ref{sec:login}),  and configure BGPmon to collect data (Section \ref{sec:input}).   Once BGPmon is configured,  you can check the resulting data and provide access to users (Section \ref{sec:output}).  Finally, you can optionally change the default port settings and configure access control lists (Sections \ref{sec:ports} and \ref{sec:acl}).  This guide was tested on Ubuntu 11.04 and Fedora 14.0.
+\\
+\\
+A more comprehensive guide, the Administrator's Reference Manual,  lists all commands and can be found in the BGPmon download package in 'bgpmon/doc/arm/'. 
+The ARM can also be downloaded from:\\ 
+http://bgpmon.netsec.colostate.edu/index.php/documentation.
+
+\section{Install BGPmon}
+\label{sec:install}
+\begin{Verbatim}[frame=single]
+> ./configure
+> make
+> sudo make install
+\end{Verbatim}
+\note{BGPmon requires the XML dev library:\\
+-- Ubuntu: apt-get install libxml2-dev\\
+-- Fedora: yum install libxml2-devel
+}
+
+\section{Launch BGPmon}
+\label{sec:launch}
+\begin{Verbatim}[frame=single]
+> sudo service bgpmon start 
+\end{Verbatim}
+
+By default BGPmon logs messages using syslog.
+For information on starting the BGPmon server directly and command line arguments, refer to ARM section 2.5.1.
+
+\section{Login and Configure Command Line Access}
+\label{sec:login}
+By default, BGPmon listens for command line login on the loopback address, port 50,000.   You will login and be prompted for a password.  Follow the steps below to login, change the default passwords, and save your configuration file.  
+
+BGPmon supports three modes of operation;   \emph{Unprivileged (or User) Mode}, \emph{Privileged Mode},  and \emph{Configuration Mode}.   Available commands will vary depending on the mode.   To see the list of available BGPmon commands, enter "?" for a summary of available commands. Enter "??" for an expanded list of commands. Command arguments can also be displayed by entering "?" after an available command.    
+
+\subsection{Login and Enter Unprivileged Mode}
+\begin{Verbatim}[frame=single]
+> telnet localhost 50000
+Password:
+\end{Verbatim}
+
+'BGPmon' is the default password to enter \emph{unprivileged mode}.  
+
+\emph{Unprivileged mode} allows you to view statistics, show routing tables, and generally view (but not change) configuration parameters. In order to change the configuration settings, switch to \emph{privileged mode} and then enter \emph{configuration mode}.
+
+\subsection{Enter privileged mode}
+
+\begin{Verbatim}[frame=single]
+host> enable
+enable password: 
+\end{Verbatim}
+
+'BGPmon' is the default password to enter \emph{privileged mode}.
+
+From \emph{privileged mode} you have access to additional data and can change settings by entering \emph{configuration mode}.  
+
+\subsection{Enter configuration mode}
+\begin{Verbatim}[frame=single]
+host# configure
+host(config)#
+\end{Verbatim}
+
+
+\subsection{Change unprivileged mode and privileged mode passwords}
+\begin{Verbatim}[frame=single]
+host(config)# password <new password>
+host(config)# enable password <new password>
+\end{Verbatim}
+Changes unprivileged mode and privileged mode passwords, respectively.
+
+\subsection{Save changes}
+\begin{Verbatim}[frame=single]
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+Any configuration changes are made to the running configuration stored in memory and will be lost after a restart.   To save your changes,  copy the running configuration to the startup configuration.\\
+Your passwords have now been changed.   If you forget your new passwords,  refer to BGPmon login recovery in Section 3.1.2 of the Administrators Reference Manual (ARM).    \\
+
+\section{Configure Data Input}
+\label{sec:input}
+BGPmon collects data by peering with BGP routers (Section \ref{sec:peer4},\ref{sec:peer6}),  chaining to share data between BGPmon instances (Section \ref{sec:chain}), and indirectly gathering data from other collectors using the MRT format (Section \ref{sec:mrt}).    These can be used simultaneously and in any combination.
+
+\subsection{Peer with IPv4 router}
+\label{sec:peer4}
+
+\begin{Verbatim}[frame=single]
+host(config)# router bgp <AS number>
+host(config-router)# neighbor <IPv4 address> remote as <Remote-AS-number>
+host(config-router)# exit
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+\note{Note: you must be \emph{configuration mode} to change your configuration.   See Section \ref{sec:login}.}
+\\
+This configuration enables BGP peering session with an IPv4 router.   You must also configure the router to peer with BGPmon.   See your router documentation and configure BGPmon as you would configure any other peer on the router. 
+\\
+BGPmon supports a full range of BGP capabilities and peering parameters, refer to ARM sections 3.6.3 and 3.6.4.
+BGPmon also supports the creation of peer-groups, refer to ARM section 3.6.2.
+
+\subsection{Peer with IPv6 router}
+\label{sec:peer6}
+
+\note{Note: this is a workaround for a known issue in version 7.2.2. The procedure for peering with an IPv6 router will change dramatically in the future.}
+
+\begin{Verbatim}[frame=single]
+host(config)# router bgp <AS number>
+host(config-router)# neighbor <IPv6 address> remote as <Remote-AS-number>
+host(config-router)# neighbor <IPv6 address> local bgpid <Router-BGPID>
+host(config-router)# exit
+host(config)# exit
+host# copy running-config startup-config
+host# exit
+host> exit
+\end{Verbatim}
+
+Shutdown BGPmon server:
+
+\begin{Verbatim}[frame=single]
+> sudo service bgpmon stop 
+\end{Verbatim}
+
+Open \emph{/usr/local/etc/bgpmon\_config.txt} with your favourite text editor. Under the \emph{$<$PEER$>$} tag that contains your IPv6 router information, add the following line:
+\begin{Verbatim}[frame=single]
+<MONITOR_IP_ADDR>IPv6_ANY</MONITOR_IP_ADDR> 
+\end{Verbatim}
+
+Save configuration and restart BGPmon server:
+\begin{Verbatim}[frame=single]
+> sudo service bgpmon start 
+\end{Verbatim}
+
+
+This configuration enables BGP peering session with an IPv6 router.
+
+
+\subsection{Setup a chain}
+\label{sec:chain}
+
+%\subsubsection{Add or delete a chain}
+\begin{Verbatim}[frame=single]
+host(config)# chain <address> <[rib:port] [update:port]>
+host(config)# no chain <address> <[rib:port] [update:port]>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+\note{Note you must be \emph{configuration mode} to change your configuration.   See Section \ref{sec:login}.}
+\\
+A chain is a connection between BGPmon instances that allows one BGPmon to receive
+the data output of another BGPmon.  The \emph{chain} command instructs BGPmon to retrieve data from the BGPmon instance at the configured address and port.   The \emph{no chain} command deletes a chain.  No configuration is required on the BGPmon providing the data.   You can configuration access control lists (Section \ref{sec:acl}) to restrict who can establish chains to your system.   \\
+For more chaining information, refer to ARM section 3.5.
+
+\subsection{Peer with MRT collector}
+\label{sec:mrt}\begin{Verbatim}[frame=single]
+host(config)# mrt-listener enable 
+or
+host(config)# mrt-listener disable 
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+\note{Note you must be \emph{configuration mode} to change your configuration.   See Section \ref{sec:login}.}
+\\
+By default,  BGPmon has enabled an MRT listener on port 50,003.    A number of existing BGP data  collectors such as RIPE RIS provide data in MRT format.    A collector can simply send MRT data to BGPmon on port 50,003 and the data will incorporated into the BGPmon output.     Access control lists (ACLs) can be used to restrict who can feed MRT data into BGPmon.    Section \ref{sec:acl} discusses how to configure access control lists.
+\\
+\\
+If you don't plan to supply MRT data,  it is recommend you disable the MRT listener.
+
+\section{Configuration Results and Data Output}
+\label{sec:output}
+
+\subsection{Showing Data From the Command Line} 
+\begin{Verbatim}[frame=single]
+host> show bgp neighbor
+host> show chains
+host> show mrt clients
+host> show bgp routes
+\end{Verbatim}
+Once you have configured BGPmon,  you can view the current peers,  chains,  MRT clients, and resulting routes using the \emph{show} commands above.   The show command is available in both \emph{unprivileged} and \emph{privileged} modes.
+
+\subsection{Providing Data to Users} 
+\begin{Verbatim}[frame=single]
+> telnet <bgpmonhost> 50001
+or
+> telnet <bgpmonhost> 50002
+\end{Verbatim}
+
+All BGP updates received from a peer,  chain, or MRT collector are converted into an XML format and made available on port 50001.   Users can access the BGP update data by simply opening a TCP connection to your BGPmon host on port 50001.   You can configuration access control lists (Section \ref{sec:acl}) to restrict who can obtain BGP updates from your system.   \\
+\\
+\\
+BGPmon maintains a RIB table for each directly connected peer and each indirect MRT peer.   The RIB tables are announced periodically on port 50002.   BGPmon does not store routing tables from chains,  but does pass through the RIB tables periodically reported by the downstream chain.   Users can access the routing table data by simply opening a TCP connection to your BGPmon host on port 5000w.   You can configuration access control lists (Section \ref{sec:acl}) to restrict who can obtain routing tables from your system.   \\
+
+\section{Optional: Change Default Ports}
+\label{sec:ports}
+
+\begin{Verbatim}[frame=single]
+host(config)# client-listener update port <new-port>
+host(config)# client-listener rib port <new-port>
+host(config)# login-listener port <new-port>
+host(config)# mrt-listener port <new-port>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+\note{Note you must be \emph{configuration mode} to change your configuration.   See Section \ref{sec:login}.}
+\\
+By default, BGPmon listens for login access on port 50000,  sends BGP update messages on port 50001,  sends BGP RIB tables on port 50002, and listens for MRT connections on port 50003.  The commands listed above allow the administrator to change any of these port settings.
+\\
+\\
+\\
+\\
+\\
+\\
+
+\section{Optional: Configuring Access Control Lists}
+\label{sec:acl}
+
+\begin{Verbatim}[frame=single]
+host(config)# acl [aclname]
+Created ACL, now editing: <aclname>
+host(config-acl)# permit <address> <subnet mask> <index num>
+host(config-acl)# deny <address> <subnet mask> <index num>
+host(config-acl)# show acl
+host(config-acl)# no <index num>
+host(config-acl)# exit
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+\note{Note you must be \emph{configuration mode} to change your configuration.   See Section \ref{sec:login}.}
+\\
+An administrator can limit access to the system via Access Control Lists (ACLs).   The above commands create an ACL called aclname.   The permit and deny commands add to the ACL.   The show command displays the resulting ACL.   Finally, the no command removes rule index num from the ACL.
+
+\subsection{Assigning an ACL to an Interface}
+\begin{Verbatim}[frame=single]
+host# configure
+host(config)# login-listener acl <login-acl>
+host(config)# client-listener update acl <client-up-acl>
+host(config)# client-listener rib acl <client-acl>
+host(config)# mrt-listener acl <mrt-acl>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+ACLs can be applied to the command line interface,  update clients,  RIB clients, and MRT.  The above commands assign admin-acl, client-up-acl, client-rib-acl, and mrt-acl to the command line interface,  BGP update output,  rib table output, and MRT listener, respectively.  
+\\
+\\
+Note that to a BGPmon instance,  a downstream client and downstream chain are indistinguishable.    Thus assigning an ACL to the update and RIB table output also limits who can obtain a chain from this BGPmon instance. 
+
+\section{Shutting Down BGPmon}
+\begin{Verbatim}[frame=single]
+> telnet localhost 50000
+Password:
+host> enable
+Password:
+host# shutdown
+\end{Verbatim}
+BGPmon can be shut down from the command-line interface.   Recall that BGPmon stores the configuration in memory.   If you want your configuration changes to be saved,  be sure to copy the running configuration into the saved configuration as discussed in the earlier sections.  
+\end{document}

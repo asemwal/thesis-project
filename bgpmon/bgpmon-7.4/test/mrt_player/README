@@ -1,0 +1,28 @@
+The MRT Player is designed to validate MRT data files and send the files to BGPmon 
+
+Uses of the player include:
+
+- converting a collection of MRT update files into XML by sending the files to BGPmon
+
+- validating an MRT file and identifying files with corrupt MRT data
+
+The player also comes with an optional helper called mrtReceiver.   mrtReceiver simply
+listens for connections from an mrtPlayer and writes any received messages to a file.   
+This can be helpful for debugging mrtPlayer issues or simply validating MRT files.
+
+Examples:
+
+To send all the January 2011 update files from RouteViews6 to a BGPmon running on localhost 127.0.0.1:
+
+  mrtPlayer -server 127.0.0.1 -p 50000 -collector route-views6 -year 2011 -month 01
+
+To detect any corrupt files in the November 2011 collected by RouteViews at KIXP,
+
+  start an mrtReceiver so to receive the update data
+  mrtReciver  
+
+  send the update data to the mrtReceiver and display verbose output
+  mrtPlayer -v -collector route-views.kixp -year 2011 -month 11
+
+  if mrtPlayer encounters any invalid messages,  it will halt on that message,  explain the error,
+  identify the file, and locate the approximate byte and message in the file where the error occurred.

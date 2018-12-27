@@ -1,0 +1,1163 @@
+\chapter*{Parameters for Graph Size: 100}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&30 \\ \hline
+4&57 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 100 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 200}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&30 \\ \hline
+4&157 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 200 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 250}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&30 \\ \hline
+4&207 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 250 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 300}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&30 \\ \hline
+4&257 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 300 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 350}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&32 \\ \hline
+4&305 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 350 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+8&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 400}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&37 \\ \hline
+4&350 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 400 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+8&0.0 \\ \hline
+9&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 450}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&41 \\ \hline
+4&396 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 450 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+8&0.0 \\ \hline
+9&0.0 \\ \hline
+10&0.0 \\ \hline
+11&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 500}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&46 \\ \hline
+4&441 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 500 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+8&0.0 \\ \hline
+9&0.0 \\ \hline
+10&0.0 \\ \hline
+11&0.0 \\ \hline
+12&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\
+\chapter*{Parameters for Graph Size: 600}
+\vspace{4pt}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{Tier}&\textbf{AS Count} \\ \hline
+1&3 \\ \hline
+2&10 \\ \hline
+3&55 \\ \hline
+4&532 \\ \hline
+\end{tabular}
+\caption{Number of ASes in each tier for the graph with 600 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9933 \\ \hline
+2&0.0067 \\ \hline
+3&0.0 \\ \hline
+4&0.0 \\ \hline
+5&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.8668 \\ \hline
+2&0.1173 \\ \hline
+3&0.0159 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.982 \\ \hline
+1&0.018 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.7311 \\ \hline
+2&0.2689 \\ \hline
+\end{tabular}
+\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.9502 \\ \hline
+2&0.0473 \\ \hline
+3&0.0024 \\ \hline
+4&0.0001 \\ \hline
+5&0.0 \\ \hline
+6&0.0 \\ \hline
+7&0.0 \\ \hline
+8&0.0 \\ \hline
+9&0.0 \\ \hline
+10&0.0 \\ \hline
+11&0.0 \\ \hline
+12&0.0 \\ \hline
+13&0.0 \\ \hline
+14&0.0 \\ \hline
+15&0.0 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+0&0.0117 \\ \hline
+1&0.0317 \\ \hline
+2&0.0861 \\ \hline
+3&0.2341 \\ \hline
+4&0.6364 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\end{table}
+
+\vspace{4pt} 
+ \begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|} 
+\hline 
+ \textbf{N}&\textbf{$P_{N}$} \\ \hline
+1&0.2689 \\ \hline
+2&0.7311 \\ \hline
+\end{tabular}
+\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\end{table}
+
+
+\\

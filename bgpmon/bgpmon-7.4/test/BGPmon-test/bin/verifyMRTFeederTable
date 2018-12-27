@@ -1,0 +1,71 @@
+#!/usr/bin/perl   
+
+use Getopt::Long;
+use BGPmon::MRT::BgpdumpReader;
+use BGPmon::CLI::ShowBGPRoutes;
+use BGPmon::RoutingTable;
+
+my $mrtInputFile;
+my $BGPmonPort = 50000;
+my $BGPmonHost = 'localhost';
+my $verbose;
+my $help = 0;
+
+$result = GetOptions ( "mrtFile=s" => \$mrtInputFile,
+                       "port=i"    => \$BGPmonPort,
+                       "host=s"    => \$BGPmonHost,
+                       "help" => \$help); # flag
+
+sub printHelp{
+  print STDERR "\n\n$0\nis used to compare the expected routing table from a binary mrt input file to the \n";
+  print STDERR "actual routing table saved in BGPmon\n\n";
+  print STDERR "USAGE: $0 --mrtFile file [--port 5000] [--host localhost] [--help]\n\n";
+  print STDERR " --mrtFile    The file that contains the output of bgpdump from the \n";
+  print STDERR "              from the binary mrt input file used for testing\n";
+  print STDERR " --port       [optional default 500000] The port to use to connect to a running instance\n";
+  print STDERR "              of BGPmon\n";
+  print STDERR " --host       [optional default localhost] The hostname of the machine running BGPmon\n";
+  print STDERR " --help       [optional] Prints this help message and exits\n";
+}
+
+if(!$result || $help){
+  printHelp();
+  exit;
+}
+
+if(!defined($mrtInputFile)){
+  print STDERR "ERROR: required parameter mrtFile undefined\n";
+  printHelp();
+  exit;
+}
+
+## create the routing table for the bgpdump data
+my $bgpdump_t = BGPmon::RoutingTable->new;
+## create the bgpdump reader
+my $bgpdump_r = BGPmon::MRT::BgpdumpReader->new;
+$bgpdump_r->inputFile($mrtInputFile);
+$bgpdump_r->handler(\&BGPmon::RoutingTable::addPrefixIfNew);
+$bgpdump_r->handlerParam($bgpdump_t);
+$bgpdump_r->readReverse(1);
+$bgpdump_r->read();
+
+## create the routing table from bgpmon
+my $bgpmon_t = BGPmon::RoutingTable->new;
+## create the BGPmon reader
+my $bgpmon_r = BGPmon::CLI::ShowBGPRoutes->new;
+$bgpmon_r->handler(\&BGPmon::RoutingTable::addPrefixIfNew);
+$bgpmon_r->handlerParam($bgpmon_t);
+$bgpmon_r->read();
+
+## comare the two tables to see if they are equivalent
+if($bgpdump_t->equivalentTo($bgpmon_t)){
+  print "**************SUCCESS*****************\n";
+}else{
+  print "**************FAILURE*****************\n";
+}
+
+
+
+
+
+

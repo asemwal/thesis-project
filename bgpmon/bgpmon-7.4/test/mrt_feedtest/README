@@ -1,0 +1,62 @@
+==========================
+MRTfeedtest v 0.1
+==========================
+
+DESCRIPTION
+
+MRTfeedtest is designed to receive and verify MRT data.
+MRTfeedtest application produce two files: 
+   "File-output-%TIMESTAMP%.bin"  - MRT binary data that was sent to the MRT feedtest application.
+   "File-output-%TIMESTAMP%.txt"> - MRT header summary that outputs the MRT common header values. 
+
+MRTfeedtest application outputs MRT common header in following format:
+
+   ByteNumber|MrtType|MrtSubType|MrtLength|MrtTimestamp|ValidFlag
+      where
+           ByteNumber   - Data stream byte counter.
+	   MrtType      - MRT header type.
+	   MrtSubType   - MRT header subtype.
+	   MrtLength    - Length of MRT message.
+	   MrtTimestamp - MRT header unix timestamp.
+	   ValidFlag    - MRT validity result. 
+
+INSTALLATION
+
+To install MRTfeedtest type following:
+
+   $ ./configure
+   $ make
+   $ sudo make install
+
+RUNNING
+
+   $ mrtfeedtest -p <port number> -f <File-output> 
+       
+       where
+            <port number> - specifies port number to listen
+	    <File-output> - specifies file name of output
+
+HELP:
+   
+   $ mrtfeedtest -h	
+
+SOURCE CODE
+
+The source code of MRTfeedtest application include following directories:
+
+"bin"  - directory that store executable files after successfull compilation
+"data" - directory that may be used to output MRT files
+"obj"  - directory that store compiled objects
+"src"  - directory that contain source code files for MRTfeedtest application
+
+Authors:
+
+   Mikhail Strizhov
+   Dan Massey
+
+Contacts:
+
+   bgpmon@netsec.colostate.edu
+   strizhov@cs.colostate.edu
+   massey@cs.colostate.edu
+

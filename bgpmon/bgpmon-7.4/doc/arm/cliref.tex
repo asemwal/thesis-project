@@ -1,0 +1,505 @@
+\newpage
+\section{Command Line Interface Reference}
+\label{sec:cliref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ACL Configuration Mode
+\begin{tabular}{|p{10pt}p{400pt}|}
+\hline
+
+\multicolumn{2}{|l|}{{\bf Privilege Level:} Access Control List Configuration }\\ 
+
+\hline 
+
+\multicolumn{2}{|l|}{Mode commands:}\\ 
+
+\hline
+
+& {\bf \small exit} - Sets the security level of the current user back to Configure. \\[4pt]
+
+& {\bf \small end} - Sets the security level of the current user back to Privileged. \\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Rule commands:}\\ 
+
+\hline
+
+& {\bf \small show acl [\emph{acl\_name}]} - Show the rules for all [or a single] ACL.\\[4pt]
+
+& {\bf \small no \textless\emph{rule\_number}\textgreater} - Deletes an ACL rule based on the rule number.\\[4pt]
+
+& {\bf \small no permit \textless\emph{rule\_number}\textgreater} - Deletes a permit ACL rule based on the rule number.\\[4pt]
+
+& {\bf \small no deny \textless\emph{rule\_number}\textgreater} - Deletes a deny ACL rule based on the rule number. \\[4pt]
+
+& {\bf \small no label \textless\emph{rule\_number}\textgreater} - Deletes a deny ACL rule based on the rule number. \\[4pt]
+
+& {\bf \small no ribonly \textless\emph{rule\_number}\textgreater} - Deletes a deny ACL rule based on the rule number. \\[4pt]
+
+& {\bf \small permit any [\emph{rule\_index}]} - Creates a rule that permits any address.  If this rule is applied to the MRT module then only updates are allowed from the address. \\[4pt]
+
+& {\bf \small deny any [\emph{rule\_index}]} - Creates a rule that denies any address. \\[4pt]
+
+& {\bf \small label any [\emph{rule\_index}]} - Creates a rule that allows only LABEL messages.  This rule should only be applied to the MRT module. \\[4pt]
+
+& {\bf \small ribonly any [\emph{rule\_index}]} - Creates a rule that allows only RIB messages.  This rule should only be applied to the MRT module. \\[4pt]
+
+& {\bf \small permit \textless\emph{address}\textgreater \textless\emph{mask}\textgreater [\emph{rule\_index}]} - Creates a rule that permits any address which matches the address and mask combination specified in the rule.  If this rule is applied to the MRT module then only updates are allowed from the address.\\[4pt]
+
+& {\bf \small deny \textless\emph{address}\textgreater \textless\emph{mask}\textgreater [\emph{rule\_index}]} - Creates a rule that denies any address which matches the address and mask combination specified in the rule.\\[4pt]
+
+& {\bf \small label \textless\emph{address}\textgreater \textless\emph{mask}\textgreater [\emph{rule\_index}]} - Creates a rule that allows LABEL messages from an address which matches the address and mask combination specified in the rule.\\[4pt]
+
+& {\bf \small ribonly \textless\emph{address}\textgreater \textless\emph{mask}\textgreater [\emph{rule\_index}]} - Creates a rule that allows only RIB messages any address which matches the address and mask combination specified in the rule.\\[4pt]
+
+\hline
+
+\end{tabular}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Router Configuration
+\begin{tabular}{|p{10pt}p{400pt}|}
+\hline
+
+\multicolumn{2}{|l|}{{\bf Privilege Level:} Router Configuration }\\ 
+
+\hline
+
+\multicolumn{2}{|l|}{Announce and Receive commands:}\\ 
+
+\hline
+
+& {\bf \small [no] neighbor \textless[\emph{peer-group}] [\emph{address}]\textgreater [port \emph{neighbor\_port}] announce \textless\emph{code}\textgreater \textless\emph{length}\textgreater \textless\emph{value}\textgreater} - [Removes] Adds a custom announce capability to the neighbor or peer-group specified.\\[4pt]
+%Note: This needs to be able to announce length-0 capabilities
+
+& {\bf \small [no] neighbor \textless[\emph{peer-group}] [\emph{address}]\textgreater [port \emph{neighbor\_port}] announce \textless[ipv4] [ipv6]\textgreater \textless[unicast] [multicast]\textgreater} - [Removes] Adds a predefined announce capability to the neighbor or peer-group specified. \\[4pt]
+
+& {\bf \small [no] neighbor \textless[\emph{peer-group}] [\emph{address}]\textgreater [port \emph{neighbor\_port}] receive \textless[require] [refuse] [allow]\textgreater \textless\emph{code}\textgreater \textless\emph{length}\textgreater \textless\emph{value}\textgreater} - [Removes] Adds a custom receive capability to the neighbor or peer-group specified. \\[4pt]
+
+& {\bf \small [no] neighbor \textless[\emph{peer-group}] [\emph{address}]\textgreater [port \emph{neighbor\_port}] receive \textless[require] [refuse] [allow]\textgreater \textless[ipv4] [ipv6]\textgreater \textless[multicast] [unicast]\textgreater} - [Removes] Adds a predefined receive capability to the neighbor or peer-group specified. \\[4pt]
+
+%%%Note: Need to add the following predefined capabilities for RR and 4-byte ASN support
+%& {\bf \small [no] neighbor \textless[\emph{peer-group}] [\emph{address}]\textgreater [port \emph{neighbor\_port}] announce \textless[route-refresh] [ASN4]\textgreater - [Removes] Adds a predefined announce capability to the neighbor or peer-group specified. \\[4pt]
+
+%& {\bf \small [no] neighbor \textless[\emph{peer-group}] [\emph{address}]\textgreater [port \emph{neighbor\_port}] receive \textless[require] [refuse] [allow]\textgreater \textless[route-refresh] [ASN4]\textgreater - [Removes] Adds a predefined receive capability to the neighbor or peer-group specified. \\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Creating a peer-group:}\\ 
+
+\hline
+
+& {\bf \small neighbor \textless\emph{peer\_group\_name}\textgreater peer-group} - Creates a peer-group. \\[4pt]
+
+& {\bf \small neighbor \textless\emph{address}\textgreater [port \emph{neighbor\_port}] peer-group \emph{peer\_group\_name}} - Assigns a peer to a peer-group. \\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Mode commands:}\\ 
+
+\hline
+
+& {\bf \small exit} - Sets the security level of the current user back to Configure. \\[4pt]
+
+& {\bf \small end} - Sets the security level of the current user back to Privileged. \\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Remote and Local commands:}\\ 
+
+\hline
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \textless neighbor port\textgreater] \textless[remote] [local]\textgreater as \textless as\_number\textgreater } - Sets either the remote or local AS number for a peer or peer-group. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \textless neighbor port\textgreater] \textless[remote] [local]\textgreater bgpid \textless\emph{bgpid}\textgreater} - Sets either the remote or local BGPID for a peer or peer-group. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \textless neighbor port\textgreater] \textless[remote] [local]\textgreater bgp-version \textless\emph{bgp\_version}\textgreater} - Sets either the remote or local BGP version for a peer or peer-group. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \textless neighbor port\textgreater] \textless[remote] [local]\textgreater hold-time \textless\emph{hold\_time}\textgreater} - Sets either the remote or local hold-time for a peer or peer-group. \\[4pt]
+
+%& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \textless neighbor port\textgreater] local address \textless\emph{address}\textgreater} - Sets the local address for a peer or peer-group. \\[4pt]
+
+%& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \textless neighbor port\textgreater] local port \textless\emph{hold\_time}\textgreater} - Sets the local port for a peer or peer-group. \\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Updating a peer or peer-group:}\\ 
+
+\hline
+
+& {\bf \small no neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}]} - Deletes a neighbor or peer-group. \\[4pt]
+
+& {\bf \small clear neighbor \textless\emph{address}\textgreater [port \emph{neighbor\_port}]} - Resets the connection with the neighbor. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}] enable} - Enables a peer's connection. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}] label-action NoAction} - Sets the labelling action for a peer-group or peer to NoAction, stopping all labelling. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}] label-action Label} - Sets the labelling action for a peer-group or peer to Label, starting all labelling. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}] label-action StoreRibOnly} - Sets the labelling action for a peer-group or peer to StoreRibOnly, stopping labelling but storing the RIB-IN table. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}] route-refresh} - Triggers a route-refresh for that peer from the BGPmon RIBIN table. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}] md5 [\emph{md5\_password}]} - Sets the MD5 password used in authenticating with a peer. \\[4pt]
+
+& {\bf \small neighbor \textless[address] [peer-group]\textgreater [port \emph{neighbor\_port}] disable} - Disables a peer's connection. \\[4pt]
+
+\hline
+
+\end{tabular}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Configuration
+\begin{tabular}{|p{10pt}p{400pt}|}
+\hline
+
+\multicolumn{2}{|l|}{{\bf Privilege Level:} Configuration }\\
+
+\hline
+
+\multicolumn{2}{|l|}{ACL commands:}\\ 
+
+\hline
+
+& {\bf \small no acl \textless\emph{acl name}\textgreater} - Deletes an Access Control List.\\[4pt]
+
+& {\bf \small acl \textless\emph{acl\_name}\textgreater} - Creates a new ACL or opens an existing ACL then changes the security level of the user to ACL Configuration.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Chain commands:}\\ 
+
+\hline
+
+& {\bf \small chain \textless\emph{address}\textgreater \textless[update:\emph{port}] [rib:\emph{port}]\textgreater [ [enable] [disable] ]  [retry:\emph{retry\_interval}]} - Creates a chain to the given address.  If \emph{port} or \emph{retry} are not specified, BGPmon will use its default values.  The additional options are not necessary to enable or disable the chain.\\[4pt]
+
+& {\bf \small no chain \textless\emph{address}\textgreater [\emph{port}]} - Deletes a Chain.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Client commands:}\\ 
+
+\hline
+
+& {\bf \small client-listener update address \textless\emph{local-address}\textgreater} - Sets the address that the client update listener will listen on.\\[4pt]
+
+& {\bf \small client-listener update port \textless\emph{port}\textgreater} - Sets the port that the client update module will listen on for new client connections.\\[4pt]
+
+& {\bf \small client-listener update acl \textless\emph{acl\_name}\textgreater} - Sets the ACL which will be applied to the clients update modules.\\[4pt]
+
+& {\bf \small client-listener rib address \textless\emph{local-address}\textgreater} - Sets the address that the client rib-stream listener will listen on.\\[4pt]
+
+& {\bf \small client-listener rib port \textless\emph{port}\textgreater} - Sets the port that the client rib module will listen on for new client connections.\\[4pt]
+
+& {\bf \small client-listener rib acl \textless\emph{acl\_name}\textgreater} - Sets the ACL which will be applied to the clients rib modules.\\[4pt]
+
+& {\bf \small client-listener \textless[enable] [disable]\textgreater} - Enables or disables the listener, both update and rib, for the client module.\\[4pt]
+
+%& {\bf \small client-listener bgpmon-id \textless\emph{bgpmon\_id}\textgreater} - Sets a new BGPmon ID.  Values must be between 0 and $2^32-1$.\\[4pt]
+
+%& {\bf \small client-listener update max-clients \textless\emph{max\_clients}\textgreater} - Sets the maximum number of allowed update clients.  This will overwrite the default value.\\[4pt]
+
+%& {\bf \small client-listener rib max-clients \textless\emph{max\_clients}\textgreater} - Sets the maximum number of allowed rib clients.  This will overwrite the default value.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Login commands:}\\ 
+
+\hline
+
+& {\bf \small login-listener address \textless\emph{local-address}\textgreater} - Sets the address that the login-listener will listen on.\\[4pt]
+
+& {\bf \small login-listener port \textless\emph{port}\textgreater} - Sets the port that the login-listener will listen on.\\[4pt]
+
+& {\bf \small login-listener acl \textless\emph{acl\_name}\textgreater} - Sets the ACL that will be applied to the login-listener.\\[4pt]
+
+%& {\bf \small login-listener max-sessions \textless\emph{max\_sessions}\textgreater} - Resets how many simultaneous connections can be established to the CLI.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Mode commands:}\\ 
+
+\hline
+
+& {\bf \small exit } - Sets the security level of the current user to Privileged.\\[4pt]
+
+& {\bf \small end } - Sets the security level of the current user to Privileged.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Neighbor commands:}\\ 
+
+\hline
+
+& {\bf \small router bgp \textless\emph{monitor\_AS\_number}\textgreater} - Allows the user to enter Router Configuration mode where peers and peer groups can be modified.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Periodic commands:}\\ 
+
+\hline
+
+& {\bf \small periodic route-refresh \textless[disable] [enable]\textgreater} - Turns off/on periodic route refresh. \\[4pt]
+
+& {\bf \small periodic route-refresh \textless\emph{interval}\textgreater} - Sets the interval for periodic route refresh.\\[4pt]
+
+& {\bf \small periodic status-message \textless\emph{status\_message\_interval}\textgreater} - Sets the interval for sending periodic status messages.\\[4pt]
+
+\hline
+
+\end{tabular}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Privileged Mode
+\begin{tabular}{|p{10pt}p{400pt}|}
+
+\hline
+
+\multicolumn{2}{|l|}{{\bf Privilege Level:} Configure}\\
+
+\hline
+
+\multicolumn{2}{|l|}{MRT commands:}\\
+
+\hline
+
+& {\bf \small mrt-listener port \textless\emph{port\_number}\textgreater} - Sets the port number for the MRT listener.\\[4pt]
+
+& {\bf \small mrt-listener address \textless\emph{address}\textgreater} - Sets the address for the MRT listener.  This may be any valid IP address, or one of the keywords in Appendix A.\\[4pt]
+
+& {\bf \small mrt-listener acl \textless\emph{acl\_name}\textgreater} - Sets the ACL for the MRT listener.\\[4pt]
+
+& {\bf \small mrt-listener enable} - Enables the MRT listener.\\[4pt]
+
+& {\bf \small mrt-listener disable} - Shuts off the MRT listener.\\[4pt]
+
+%& {\bf \small mrt-listener max\_sessions \textless\emph{max\_sessions}\textgreater} - Sets the maximum number of allowed connections to the MRT listener.\\[4pt]
+
+%& {\bf \small mrt-listener label-action \textless[NoAction] [StoreRibOnly] [Label]\textgreater} - Sets the labelling action for incoming MRT connections. \\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Queue commands:}\\ 
+
+\hline
+
+& {\bf \small queue pacingOnThresh \textless\emph{pacingOnThresh}\textgreater} - Modifies the pacing-on threshold value for queues.\\[4pt]
+
+& {\bf \small queue pacingOffThresh \textless\emph{pacingOffThresh}\textgreater} - Modifies the pacing-off threshold value for queues.\\[4pt]
+
+& {\bf \small queue alpha \textless\emph{alpha}\textgreater} - Modifies the alpha value for queues.\\[4pt]
+
+& {\bf \small queue minWritesLimit \textless\emph{minimum\_write\_limit}\textgreater} - Modifies the minimum write limit for queues.\\[4pt]
+
+& {\bf \small queue pacingInterval \textless\emph{pacing\_interval}\textgreater} - Modifies the maximum write limit for queues.\\[4pt]
+
+%& {\bf \small queue logInterval \textless\emph{log\_interval}\textgreater} - Modifies how frequently the queues produce log messages.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Password Commands:}\\
+
+\hline
+
+& {\bf \small password \textless\emph{new\_password}\textgreater} - Sets the login password.\\[4pt]
+
+& {\bf \small enable password \textless\emph{new\_password}\textgreater} - Sets the enable-mode password.\\[4pt]
+
+\hline
+
+\hline
+
+\multicolumn{2}{|l|}{{\bf Privilege Level:} Privileged }\\ 
+
+\hline
+
+\multicolumn{2}{|l|}{Client commands:}\\ 
+
+\hline
+
+& {\bf \small kill client \textless\emph{client\_id}\textgreater} - Disconnects the client specified by the client\_id.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Configuration commands:}\\ 
+
+\hline
+
+& {\bf \small copy running-config \textless\emph{filename}\textgreater} - Copies the running configuration to the specified filename.\\[4pt]
+
+& {\bf \small copy running-config startup-config} - Copies the running configuration to the startup configuration.\\[4pt]
+
+& {\bf \small shutdown} - Shuts down the BGPmon server.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Mode commands:}\\ 
+
+\hline
+
+& {\bf \small configure} - Sets the security level of the current user to Configure.\\[4pt]
+
+& {\bf \small disable} - Sets the security level of the current user back to Guest.\\[4pt]
+
+& {\bf \small exit} - Sets the security level of the current user back to Guest.\\[4pt]
+
+\hline
+\end{tabular}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Guest Mode
+\begin{tabular}{|p{10pt}p{400pt}|}
+\hline
+
+\multicolumn{2}{|l|}{{\bf Privilege Level:} Guest }\\ 
+
+\hline
+
+\multicolumn{2}{|l|}{ACL commands:}\\ 
+
+\hline
+
+& {\bf \small show acl [\emph{acl\_name}]} - Shows the details of an Access Control List.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Chain commands:}\\ 
+
+\hline
+
+& {\bf \small show chains} - Shows information about all currently configured chains.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{MRT commands:}\\
+
+& {\bf \small show mrt neighbor} - Shows the connection information for the MRT collectors that peer with BGPmon.\\[4pt]
+
+& {\bf \small show mrt clients} - Shows connection information about the routers that are providing BGP data via an MRT collector.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Client commands:}\\ 
+
+\hline
+
+& {\bf \small show clients} - Shows the list of users actively connected on the Client module.\\[4pt]
+
+& {\bf \small show client-listener status} - Shows if the client listener is enabled or disabled.\\[4pt]
+
+& {\bf \small show client-listener update port} - Shows the current port for the client-listener's update channel.\\[4pt]
+
+& {\bf \small show client-listener update address} - Shows the current address for the client-listener's update channel.\\[4pt]
+
+& {\bf \small show client-listener update acl} - Shows the Access Control List assigned to the client-listener's update channel.\\[4pt]
+
+& {\bf \small show client-listener rib port} - Shows the current port for the client-listener's rib channel.\\[4pt]
+
+& {\bf \small show client-listener rib address} - Shows the current address for the client-listener's rib channel.\\[4pt]
+
+& {\bf \small show client-listener rib acl} - Shows the Access Control List assigned to the client-listener's rib channel.\\[4pt]
+
+& {\bf \small show client-listener summary} - Shows all of the information about the update and rib client listeners.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Configuration commands:}\\ 
+
+\hline
+
+& {\bf \small show running} - Shows running configuration for the instance of BGPmon.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Login commands:}\\ 
+
+\hline
+
+& {\bf \small show login-listener port} - Shows the current port for the login-listener.\\[4pt]
+
+& {\bf \small show login-listener address} - Shows the current address for the login-listener.\\[4pt]
+
+& {\bf \small show login-listener acl} - Shows the Access Control List assigned to the Command Line Interface module.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Mode commands:}\\ 
+
+\hline
+
+& {\bf \small enable} - Sets the security level of the current user to Privileged.\\[4pt]
+
+& {\bf \small exit} - Exits the BGPmon Command Line Interface.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{BGP commands:}\\ 
+
+\hline
+
+& {\bf \small show bgp neighbor [\emph{neighbor\_address}] [port \emph{neighbor\_port}]} - Shows information about all [or one] configured peers.\\[4pt]
+
+& {\bf \small show bgp routes [\emph{neighbor\_address}]} - Shows all routes learned from all [or one] BGP or MRT peers.\\[4pt]
+
+& {\bf \small show bgp prefix [\emph{prefix}]} - Shows information about all [or a single] prefix.\\[4pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Periodic commands:}\\ 
+
+\hline
+
+& {\bf \small show periodic route-refresh} - Shows the route-refresh interval.\\[4pt]
+
+& {\bf \small show periodic route-refresh status} - Shows whether route refresh is currently enabled or disabled.\\[4pt]
+
+& {\bf \small show periodic status-message} - Shows the status message interval.\\[4pt]
+
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{10pt}p{400pt}|}
+
+\hline
+
+\multicolumn{2}{|l|}{{\bf Privilege Level:} Guest }\\ 
+
+\hline
+
+\hline
+
+\multicolumn{2}{|l|}{MRT commands:}\\ 
+
+\hline
+
+& {\bf \small show mrt-listener status} - Shows if the mrt listener is enabled or disabled.\\[4pt]
+
+& {\bf \small show mrt-listener port} - Shows the current port for the mrt-listener.\\[4pt]
+
+& {\bf \small show mrt-listener address} - Shows the current address for the mrt-listener.\\[4pt]
+
+& {\bf \small show mrt-listener acl} - Shows the Access Control List assigned to the mrt-listener.\\[4pt]
+
+& {\bf \small show mrt-listener summary} - Shows all of the other commands' output at once.\\[4 pt]
+
+\hline
+
+\multicolumn{2}{|l|}{Queue commands:}\\ 
+
+\hline
+
+& {\bf \small show queue [\emph{queueName}]} - Shows information about all [or one of] BGPmon's internal queues.\\[4pt]
+
+\hline
+
+\end{tabular}
+
+\newpage

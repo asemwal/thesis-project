@@ -1,0 +1,66 @@
+The MRT Harness includes two applications: 
+1) an MRT feeder program that sends data to BGPmon
+2) an MRT analyzer that reads MRT files and provides summary information
+
+==========================
+MRT feeder 
+==========================
+
+DESCRIPTION
+
+MRT feeder takes an MRT file as input and sends the MRT data to a BGPmon instance.
+
+INSTALLATION
+
+To install this module type the following:
+
+   make
+   make install
+
+RUNNING
+
+Type: "mrtfeeder ?"  to see all available options. 
+   
+
+==========================
+MRT analyzer.
+==========================
+
+DESCRIPTION:
+
+This perl script use mrt file to get the list of routes with attributes.
+This script takes MRT file, parse it with 'bgpdump' tool.
+Using data from 'bgpdump' it produces file with list of peers from MRT file.
+For each peer, script creates routing table based on data from file.
+
+REQUIREMENTS:
+
+User need to have compiled 'bgpdump' tool in the directory.
+'bgpdump' need to be installed in /usr/local/sbin/ directory
+
+RUN:
+
+mrtanalyzer.pl -f [mrtfile] -d [dir]
+
+[mrtfile] - location of MRT file
+[dir]     - data output folder
+
+For example:  mrtanalyzer -f updates.20110916.1715  ~/Development/bgpmon-dev/test/mrt_harness/data
+
+OUTPUT:
+
+peerlist.txt - file that has IP addresses of peers from MRT file.
+'IP'_table.txt - table with routes for peer with 'IP' address. 
+For example, for peer with "12.0.1.63", script will create 12.0.1.63_table.txt file with routing information.
+Script uses 'bgpdump' format output for routing information.
+
+HELP:
+
+To print help messages, run MRT Analyzer:  mrtanalyzer -help
+
+AUTHOR:
+      Initial version created by Mikhail Strizhov (Oct 2011)
+      Updated by Dan Massey (March 2012)
+
+DATE: 
+      March 12, 2012

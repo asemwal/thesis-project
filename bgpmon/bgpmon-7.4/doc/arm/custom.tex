@@ -1,0 +1,143 @@
+\section{Site Specific Installation Options}
+\label{sec:custom}
+
+The default settings are appropriate for most sites;  customizing BGP defaults for a specific site is optional and administrators not interested in changing system defaults should skip this section.  
+
+BGPmon has a small number of default settings that are built into the source code.  A site administrator may wish to modify some of these default values.    Section \ref{sec:custom:log} describes how to set defaults to control \emph{Output and Logging}.   Section \ref{sec:custom:config} describes how to set the \emph{Default Configuration Filename}.  Section \ref{sec:custom:peer} describes how to set defaults for \emph{BGP Peers}.    Finally, Section \ref{sec:custom:general} describes \emph{General Parameters and Settings} that control internal BGPmon operations.
+
+\subsection{Default Output and Logging Settings}
+\label{sec:custom:log}
+
+BGPmon runs in either 1) interactive mode (e.g. write to stdout) or 2) syslog mode (e.g. write all messages to the system's syslog facility).    BGPmon output can be further controlled by setting the \emph{log level} and \emph{log facility}.    Both \emph{log level} and \emph{log facility} use the syslog conventions (and are also discussed below).    All of these values can be specified on the BGPmon command line. If the user does not specify these values on the command line, default settings are used.    This section describes how to change these default settings by modifying the \emph{\#define} values in the source file \emph{Utils/log.h}.
+
+\subsubsection{Default Output Mode (Syslog or Interactive)}
+
+BGPmon either uses the system's \emph{syslog} facility or writes all output to standard out.  If the \emph{-i} option is specified on the command line, BGPmon will run in an interactive mode that sends all messages to stdout using.    If the \emph{-s} option is specified on the command line, BGPmon logs all messages using syslog.    The \emph{-i} and \emph{-s} options are mutually exclusive and the program exits with an error if both are specified.    If neither option is specified,  a default value is built into the code.   
+
+The site administrator can set this default value by editing the source file \emph{Util/log.h} and setting \emph{DEFAULT\_USE\_SYSLOG}.     A value of 1 logs all messages to the systems syslog facility.   A value of 0 sets the default output mode to Interactive (write to stdout).   
+
+Syslog mode is recommended for most sites.  Note that by editing the syslog configuration on your system (typically found in /etc/syslog.conf), one can direct BGPmon output into either a distinct BGPmon log file or an existing system log file.   See the syslog manual pages provided with your operating system release for details on how to manage syslog files.
+
+\subsubsection{Default Log Level}
+
+The \emph{-l loglevel} option specifies the log level and uses the standard syslog values as follows.    Emergencies, Alerts, Critical Errors, and Errors are levels 0 to 3 (respectively).    These messages are always logged regardless of the log level setting.    Warnings, Notices, Information, and Debug output are levels 4 to 7 (respectively).   Setting $loglevel = L$ will log all messages at and below the $L$.   For example, a log level of 4 will display Alerts, Critical Errors, Errors, and Warnings, but will not display Notices, Information, or Debugging output.     If the \emph{-l loglevel} option is not specified,  a default logvalue is built into the code and specified in Util/log.h.   {\bf For full debug output,   compile with DEBUG set to 1.}
+
+The site administrator can set this default value by editing the source file \emph{Util/log.h} and setting \emph{DEFAULT\_LOG\_LEVEL}.     Possible values range from 0 (log only emergencies) to 7 (log all messages and debug output) as discussed above.    
+
+Level 4 (log all warnings, errors, critical errors, alerts, and emergencies) is recommended for most sites.  Increasing the log level may be useful if BGPmon is behaving properly or if one plans to modify the BGPmon source code.
+ 
+\subsubsection{Default Log Facility}
+  
+If messages are logged to syslog, the syslog Facility can be set with the \emph{-f facility} option.    If the \emph{-f facility} option is not specified,  a default syslog facility is built into the code and specified in Util/log.h.     This option has no effect if messages are written to standard output (e.g. if \emph{-i} was specified).    
+
+The site administrator can set this default value by editing the source file \emph{Util/log.h} and setting \emph{DEFAULT\_LOG\_FACILITY}.     Possible values range from 0 to 14 and follow the standard syslog facility settings.    See the syslog manual pages provided with your operating system.   
+
+Facility 12 (LOG\_USER) is recommended for most sites. 
+
+\subsection{Default Configuration File Name}
+\label{sec:custom:config}
+
+All settings other than the logging settings described above are set in the configuration file.   A configuration file name can be provided at run time using the \emph{-c filename}.  If no configuration file is specified, a default configuration file name is built into the code and specified in \emph{Configuration/config\_defaults.h}.   The program terminates with an error if the configuration file is not found.     
+
+The site administrator can set this default configuration filename by editing the source file \emph{Configuration/config\_defaults} and setting \emph{DEFAULT\_CONFIGFILE}.  
+
+\subsection{Default Parameters for BGP Peers}
+\label{sec:custom:peer}
+
+BGPmon establishes peering sessions with remote BGP routers and publishes the data received from these routers (peers).    Every remote peer has its own unique \emph{Peer Specific} parameters and Section \ref{sec:configure} describes how to configure these parameters.   A peer may also be associated with an \emph{Peer Group} and all parameters associated with the Peer Group are also applied to the peer.    In the event of a conflict between the \emph{Peer Specific} and \emph{Peer Group} parameters, the \emph{Peer Specific} parameters take precedence.   Section \ref{sec:configure} describes how to configure Peer Groups.  In the event a mandatory parameter was not configured in either the \emph{Peer Specific} or \emph{Peer Group}, BGPmon attempts to assign a default parameter to the peer.    
+
+For example, BGPmon must know the TCP port used by the remote peer in order to initiate a connection.   One could configure the port number for each BGP peer; however,  BGPmon may have hundreds of peers and most BGP routers listen for connections on port 179.   Even with the use of Peer Groups (see Section \ref{sec:configure}), assigning port 179 to hundreds of peers is tedious at best.      Instead, the configuration can simply omit the port for all peers that uses port 179 and have BGPmon apply a default port to these peers.     This section describes the default parameters available in BGPmon and describes how these defaults values can be set to site specific values.
+
+\subsubsection{Defaults Associated With Peer TCP Connections}
+
+BGPmon establishes peering sessions with remote BGP routers (peers) by opening a TCP connection to the remote router (peer).    BGPmon has several default parameters associated with the creation of these TCP connections.  
+
+In order to initiate a TCP connection,  BGPmon must be configured with the address and port used by the remote peer.  
+
+If the address the remote peer is not specified in the Peer Specific or Peer Group configuration, no default value is applied.   BGP peering sessions must be negotiated with administrator of the remote peer.    Each peering session is unique and there is no common address that can be associated with an arbitrary BGP peer.
+
+If a remote port is not specified in the Peer Specific or Peer Group configuration,  then BGPmon expects the remote peer to be listening for TCP connections on port  \emph{DEFAULT\_REMOTE\_PEER\_PORT}.   
+
+In version 6,  BGPmon always initiates the connection to the peer.   BGPmon version 6 does not listen for connections from remote peers.   However, the BGPmon administrator  may wish to specify which local source address and source port to use for this TCP connection.   If BGPmon runs on a platform with multiple interfaces, these settings can be used to control which interface is used for initiating TCP connections to peer.    
+
+If a local source address is not specified in the Peer Specific or Peer Group configuration,  then BGPmon uses address specified by a combination \emph{DEFAULT\_LOCAL\_PEER\_AFI} and \emph{DEFAULT\_LOCAL\_PEER\_ADDRESS}.    
+
+The \emph{DEFAULT\_LOCAL\_PEER\_AFI} identifies the Address Family Identifier and can be set to either $IPv4$ or $IPv6$.   Additional address families may be added in future releases if demand warrants.   
+
+The \emph{DEFAULT\_LOCAL\_PEER\_ADDRESS} identifies the local source address (and hence interface) to use when establishing a connection.   If the address family \emph{DEFAULT\_LOCAL\_PEER\_AFI}  is set to $IPv4$,  the  \emph{DEFAULT\_LOCAL\_PEER\_ADDRESS} value must either be the an IPv4 address in the A.B.C.D format or the key word $ANY$ for any IPv4 address associated with the box running BGPmon.  If the address family \emph{DEFAULT\_LOCAL\_PEER\_AFI}  is set to $IPv6$,  the  \emph{DEFAULT\_LOCAL\_PEER\_ADDRESS} value must either be the an IPv6 address in A:B:C:D:E:F:G:H format or the key word $ANY$ for any IPv6 address associated with the box running BGPmon.   
+
+If a local source port is not specified in the Peer Specific or Peer Group configuration,  then BGPmon uses port  \emph{DEFAULT\_LOCAL\_PEER\_PORT}.   
+
+All these default settings can be modified by editing the \emph{\#define} values in the source file \emph{Configuration/config\_defaults.h}.    Figure \ref{fig:tcpdefaults} summarizes the default parameters and their possible values.\\
+
+\begin{figure}
+\begin{tabular}{| l | l | l |}
+\hline
+Variable & Description & Possible Values  \\
+\hline
+DEFAULT\_REMOTE\_PEER\_PORT &  Port Used by Remote Peer &  port 0 to 65535 \\
+\hline
+DEFAULT\_LOCAL\_PEER\_AFI & Source Address Family Identifier & IPv4 or IPv6  \\
+\hline
+DEFAULT\_LOCAL\_PEER\_ADDRESS & Source Address on BGPmon & ANY, A.B.C.D, or A:B:C:D:E:F:G:H  \\
+\hline
+DEFAULT\_LOCAL\_PEER\_PORT &  Source Port on BGPmon &  port 0 to 65535 \\
+\hline
+\end{tabular}
+\caption{Defaults Associated with Peer TCP Connections}
+\label{fig:tcpdefaults}
+\end{figure}
+
+\subsubsection{Defaults Associated With BGP Open Messages.}
+
+After establishing a TCP connection,  BGPmon sends a BGP OPEN message to the peer and expects to receive a BGP OPEN message in reply.    In BGP version 4, the open message specifies a BGP protocol version, AS number, Hold-time, BGP Identifier, and a set of optional parameters.      Default values are provided for many of these parameters.  
+
+The values  \emph{DEFAULT\_LOCAL\_PEER\_VERSION} and \emph{DEFAULT\_REMOTE\_PEER\_VERSION} set the BGP Protocol Version announced to the remote peer and the BGP Protocol Version expected from the remote peer.  
+BGPmon currently only supports BGP Protocol Version 4.  If demand warrants,  support can be added for other BGP Protocol versions.        
+
+The values
+
+Holdtime -  value announced and minimum value allowed.
+
+Identifier.   default for local only 
+
+Optional Parameters - none sent by default.
+
+Table summarizing OPEN message parameters.
+
+
+\subsubsection{Defaults Associated with Labeling and Periodic Reports}
+
+Label - yes or no
+
+Store RIB -  always.    if needed.
+
+Periodic Status Update time.
+
+\subsection{Default Parameters for BGPmon Clients}
+\label{sec:custom:clients}
+
+port to listen on
+
+number of clients that can be accepted.
+
+\subsection{Default Parameters for the Command Line Interface}
+\label{sec:custom:cli}
+
+port to listen on
+
+number of cli connections allowed - only one connection can be in enable mode
+
+\subsection{BGPmon General Settings}
+\label{sec:custom:general}
+
+While the BGPmon code is designed to be flexible and dynamic, there are places were efficiency and simplicity require the use of some internal default settings.    These settings do not typically need to be modified, but can be set to site specific values when necessary.      
+  
+\subsubsection{Maximum Characters That Can Appear in Filenames}    
+
+BGPmon sets a maximum number of characters that can appear in any file read or written by BGPmon.   This includes the BGPmon configuration file and the full path to the BGPmon executable program.  Names  with more characters than this are truncated.
+
+The site administrator can set this maximum number of characters by editing the source file \emph{Configuration/config\_defaults} and setting \emph{FILENAME\_MAX\_CHARS}.     
+
+\subsection{Maximum Number of Peer and Chain Identifiers}
+

@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{fullpage}
+\usepackage{fancyvrb}
+%\doublespacingjj
+\hyphenation{sub-scribe sys-tems}
+\newcommand\note[1]{\textcolor{red}{$=>$ #1\\}}
+
+\begin{document}
+
+\title{BGPmon: \\  Administrator's Reference Manual}
+\author{\\ \\ \\ Colorado State University}
+\maketitle
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+\listoffigures
+\listoftables
+
+\pagebreak
+
+\input{intro}
+\input{install}
+\input{cli}
+%\input{label}
+%\input{chains}
+%\input{clients}
+%\input{trouble}
+%\input{ack}
+\appendix
+\input{cliref}
+\input{ipref}
+
+
+\bibliographystyle{abbrv}
+\bibliography{sigproc}
+
+%\appendix
+
+\end{document}

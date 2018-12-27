@@ -1,0 +1,28 @@
+\section{Background}
+\label{sec:background}
+
+
+%Before introducing our new BGP Monitoring system, we will first review the basic concepts used by public data collection sites such as Oregon RouteViews\cite{routeviews} and RIPE RIS\cite{riperis}.    The objective of these sites is to provide interested researchers and operators with access to the updates sent by routers at various ISPs and to also provide periodic snapshots of the corresponding BGP routing tables.  To accomplish this, the current monitoring system negotiates BGP peering agreements with ISPs and deploys one or more collectors to obtain the BGP data.   To the ISP routers being monitored, a collector is simply another BGP peer router.   The collector receives and logs the BGP messages received from the ISP router being monitored.  
+
+Before introducing our new BGP Monitoring system, we will review already existing Routing Collectors (RC) in the Internet. Oregon RouteViews \cite{routeviews} and RIPE RIS\cite{riperis} projects provide a routing data to interested researchers and operators by establishing a BGP peering agreements with different ISP's around the world. Typically, RC is simply another BGP peer router, it does not advertise any routes to peers, it receives and logs the BGP messages from neighbor ISP's.
+
+Currently, RouteViews project provides update files that are roughly 15 minutes in duration and provides routing table snapshots every 2 hours. This is sufficient for analysis of past events, but real-time monitoring of BGP activity requires update files be available in seconds. For example, BGP prefix hijack alert systems would like to detect a potential route hijack within a few seconds. At best, today's RouteViews system only allows hijack alert systems to report hijacks that occurred many minutes ago.
+
+In addition to providing data in real-time, an ideal BGP monitoring system would scale to dramatically increase the number of peers providing data.   Given data from more locations,  BGP analysis systems and tools could potentially provide better answers. For example, a BGP prefix hijack may only be visible in a small portion of the network and ideally one would like to have a monitor present in that same portion of the network. Thus our goal is not only to make the data available in real-time, but also to dramatically increase the volume of data available.
+
+In summary, already existing Routing Collector systems are useful, but it would be useful to make the routing data available in real-time,  provide the data in an extensible XML format, and simultaneously increase the amount of data collected and dramatically increase the number of locations obtaining the data. All this should occur without lose of data fidelity.
+
+
+
+%The heart of the system is the data collectors.  A collector may be a simple unix machine running an open source routing toolkit.  The collector simply writes all received updates to a file in Multi-threaded Routing Toolkit (MRT)\cite{mrt} format and then the file is made publicly available.  % in which a header containing the peer session information precedes the BGP message or RIB entry. 
+%Applications can read the MRT formatted file directly or first convert the binary format to text using tools such as bdpdump\cite{bgpdump}. 
+
+%In addition to providing update logs, monitors also provide snapshots of the resulting BGP routing table, referred to as RIBs.    The collector builds a RIB table by applying the standard BGP protocol rules.   A BGP update may add a route to the RIB table, remove a route from the RIB table, or modify an existing route.  Whenever an update is received, the RIB table is modified accordingly.    As updates are received from a peer, the collector updates the routing table for that peer and periodically writes it to disk in MRT format. RIB files provide a snapshot of the routing tables over a very short interval while the updates provide a stream of changes that occur between the rib file snapshots.  Together, the RIB and update files provide the ability to rebuild the state of the routes at a particular time and replay subsequent changes to the routing infrastructure for analysis. 
+
+
+
+
+%Finally, such an ideal system could attract a large number of new applications. The data is public and should be available to any interested researcher or operator. In many cases, the data collected by RouteViews can serve as one input to monitoring systems throughout the network.
+
+
+

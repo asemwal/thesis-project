@@ -1,0 +1,659 @@
+% !TEX root = arm.tex
+\section{Configuring BGPmon}
+\label{sec:cli}
+The Command Line Interface (CLI) is used to configure BGPmon.
+Once connected, a user is initially set to \emph{access mode} which allows them to view statistics, show routing tables, and generally view (but not change) configuration parameters.
+In order to change the configuration settings,  a user must switch to \emph{enable mode}.
+In this mode a user can perform BGPmon configuration actions such as adding, deleting, or modifying BGP peers and chains,  disabling clients, and setting access control policies.
+
+At any time, a user in \emph{enable mode} can save the current BGPmon configuration so it can be loaded the next time BGPmon starts.
+{\bf Any configuration changes are stored in memory and will be lost if BGPmon restarts.
+To make changes permanent, the administrator must save the BGPmon configuration.}   
+
+
+This section describes how to configure BGPmon, beginning with logging into BGPmon and proceeding through the steps to configure future login access,  enable clients, configure chains,  create peers, and finally set optional parameters.  A first time administrator should \emph{read each subsection in order} and follow the configuration steps in that section. An experienced administrator may want to skip directly to the relevant subsection.  A complete command reference is also available beginning in Appendix \ref{sec:cliref}.
+
+\subsection{Logging Into BGPmon}
+\label{sec:configure:login}
+
+If BGPmon has not been previously configured, then the server will be listening on the loopback address and port 50000 for incoming connections.
+Use telnet to connect to the BGPmon server.
+After connecting to BGPmon,  you will be prompted for a guest password.
+By default, the guest password is  'BGPmon'.
+
+\begin{Verbatim}[frame=single]
+> telnet 127.0.0.1 50000
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+Password:
+\end{Verbatim}
+
+\note{loopback addresses\\
+   IPv4 loopback address is 127.0.0.1 \\
+   IPv6 loopback address is ::1\\
+}
+
+Initially, a user is connected in \emph{access mode} and must change to \emph{enable mode} to alter the server's configuration settings.
+To enter \emph{enable mode}, use \emph{enable}
+
+\begin{Verbatim}[frame=single]
+host> enable
+enable password:
+\end{Verbatim}
+
+You will then be prompted for the enable password, which is also 'BGPmon' by default. From \emph{privileged mode} you need to enter \emph{configure mode} to gain access to all the configuration commands.  To enter this mode type:
+
+\begin{Verbatim}[frame=single]
+host# configure
+host(config)#
+\end{Verbatim}
+
+You are now ready to configure BGPmon.
+It is recommended to change the default passwords and configure restrictions on future login accesses as discussed in Section \ref{sec:configure:cli}.
+
+In the future, if you are the BGPmon administrator and have lost the login settings,   Section \ref{sec:configure:loginrecovery} describes how to reset these values without losing the other configuration information.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LOGIN RECOVERY
+\subsubsection{BGPmon Login Recovery}
+\label{sec:configure:loginrecovery}
+
+Due to configuration errors and/or misplaced information, an administrator may be unable to login to BGPmon.   For example, the administrator may have lost the access password or set up an overly aggressive access control list to the BGPmon Command Line Interface.  In these cases, the administrator has four options for recovery.
+
+The first option is to use the \emph{-r recovery-port} parameter described in section \ref{sec:install:launch}.  This parameter will override the login-listener's port so an administrator can still use the Command Line Interface if there is a conflict between BGPmon and another application trying to use the same port.  However, the recovery-port will not allow an administrator to bypass the ACL specified for the login-listener.  If this is the problem, then one of the following options for recovery must be used.
+
+The second option can be used in cases where the configuration is simple or very close to the default settings.  Simply delete the active configuration, which is stored in 'bgpmon\_config.txt', and let BGPmon start with the default settings.  Then make any necessary changes to the BGPmon configuration and save the settings.
+
+There are many times where starting over or simply bypassing the default port won't be a viable option and for these cases there are other options. The first is trying to recover an old configuration.  Any configuration changes that are saved will be written into 'bgpmon\_config.txt'.  Every time a new configuration is saved the old configuration is archived in the same directory with the time and date preceding the file name.  An example archived configuration file is '1041\_2252009\_bgpmon\_config.txt', which was created at 10:41am on 02/25/2009.  To find a suitable recovery point, start by backing up the current configuration then copying the archived configuration over the current configuration.  Hopefully within a few tries a good recovery point can be identified. 
+
+The final option is to manually edit the active configuration with a text editor.  It's easy to manually edit the active configuration for BGPmon since all settings are stored as XML in 'bgpmon\_config.txt'.  By comparing the last known good configuration and the current configuration all changes between these versions can be identified then reapplied to the current configuration.  Just be careful to make changes slowly until the unwanted change to BGPmon is identified and corrected.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LOGIN ACCESS
+\subsection{Saving Configuration Changes}
+\label{sec:configure:save}
+
+\textbf{Any configuration changes made to BGPmon through the CLI will be lost unless the user saves the configuration file.}
+
+\begin{Verbatim}[frame=single]
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+
+The above command will copy the in-memory configuration (or the running-config) to the saved configuration file (startup-config).
+
+\subsection{Configuring Login Access To BGPmon }
+\label{sec:configure:cli}
+
+Login access is controlled in BGPmon by the login listener.  This module will bind to an address and port then listen for incoming Command Line Interface connections.  When a connection is established it will check to see if the address of the new connection is allowed or disallowed based on the Access Control List for the Login Listener.  Use the following commands to see what the current settings of the login-listener are: \\
+
+\begin{Verbatim}[frame=single]
+host> show login-listener address
+login-listener address is 127.0.0.1
+host> show login-listener port
+login-listener socket is 50000
+host> show login-listener acl
+Current acl: permitall
+\end{Verbatim}
+%\noindent Address:\\
+%\indent \texttt{show login-listener \emph{address}}\\
+%
+%\noindent Port:\\
+%\indent \texttt{show login-listener \emph{port}}\\
+%
+%\noindent Access Control List:\\
+%\indent \texttt{show login-listener \emph{acl}}\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LOGIN LISTENER
+\subsubsection{Configuring the login-listener}
+\label{sec:configure:login:login-listener}
+
+\note{In order to perform configuration the user must be in config mode}
+There are three main components that can be configured for login-listener.
+First is the address that the login-listener will attempt to use when BGPmon starts.
+To change the login-listener's address, type the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# login-listener address <new-address>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+
+BGPmon will check the \emph{new-address} to make sure that it's a valid IP address and is available on the local machine.  If the address isn't valid then a warning will be returned and nothing is set. Also, any loopback address in Appendix \ref{sec:ipref} can be used.
+
+The next major component to configure is the port.  To change the port, type the following command: \\
+
+\begin{Verbatim}[frame=single]
+host(config)# login-listener port <new-port>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+
+BGPmon will check to make sure the \emph{new-port} is a valid port number but will not check to see if the port can be bound.  So, if the port for the login-listener is set to an unavailable port and BGPmon is restarted then the Command Line Interface will not be available upon restart.  If this happens see section \ref{sec:configure:loginrecovery} about recovering.
+
+The final component for the login-listener is the Access Control List, which is the list that controls which addresses are allowed to connect or not connect. To set the active ACL, type the following:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# login-listener acl <acl-name>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+
+BGPmon will check to make sure the \emph{acl-name} is valid within BGPmon before setting it.
+Refer to section \ref{sec:configure:acl} to learn about configuring Access Control Lists.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CLIENT ACCESS
+\subsection{Configuring Client Access}
+\label{sec:configure:client}
+
+Similar to the login-listener, client access is controlled in BGPmon by the client-listener.
+This module binds to two addresses and ports and listens for incoming connections.
+One of the ports listens for clients requesting BGP update data and the other listens for requests for RIB table data.
+When a connection is established it will check to see if the address of the new connection is allowed or disallowed based on rules setup in the Access Control List.
+Use the following commands to see what the current settings of the client-listener are: \\
+
+\begin{Verbatim}[frame=single]
+host> show client-listener status
+client-listener is enabled
+host> show client-listener summary
+Client-listener is enabled
+
+UPDATE ACL: permitall
+UPDATE address is 127.0.0.1
+UPDATE port is 50001
+
+RIB ACL: permitall
+RIB address is 127.0.0.1
+RIB port is 50002
+host> show client-listener update ?
+ - acl 
+ - port 
+ - address 
+host> show client-listener update acl
+acl: permitall
+host> show client-listener update port
+port is 50001
+host> show client-listener update address
+address is 127.0.0.1
+host> show client-listener rib ?
+ - acl 
+ - port 
+ - address 
+host> show client-listener rib acl
+acl: permitall
+host> show client-listener rib port
+port is 50002
+host> show client-listener rib address
+address is 127.0.0.1
+\end{Verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CLIENT LISTENER 
+\subsubsection{Configuring the client-listener}
+\label{sec:configure:client:client-listener}
+
+\note{In order to perform configuration the user must be in config mode}
+There are four main components that can be configured for the client-listener. 
+Any change made to these components will result in the client-listener stopping then starting, if necessary, with the new values.
+The first component are the addresses that the client-listener will use.
+To change the addresses type the following commands:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# client-listener update address <new_update_address>
+host(config)# client-listener rib address <new_rib_address>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+
+BGPmon will check the \emph{new-address} to make sure that it's a valid IP address and is available on the local machine.
+Also, any loopback address in Appendix \ref{sec:ipref} can be used.
+
+The next major component to configure is the port.  To change the port, type the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)#client-listener update port <new_update_port>
+host(config)#client-listener rib port <new_rib_port>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+
+BGPmon will check to make sure the \emph{new-port} is a valid port number but will not check to see if the port can be bound until the client-listener stops then attempts to start again.
+
+The next component for the client-listener is the Access Control List, which is the list that controls which addresses are allowed to connect or not connect. To set the active ACL, type the following:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# client-listener update acl <acl_name>
+host(config)# client-listener rib acl <acl_name>
+host(config)# exit
+host# copy running-config startup-config
+\end{Verbatim}
+
+BGPmon will check to make sure the \emph{acl-name} is valid within BGPmon before setting it.  Refer to section \ref{sec:configure:acl} to learn about configuring Access Control Lists.
+
+The final component is the status, which can be set to either \emph{enabled} or \emph{disabled}. Use the following commands to change the status:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# client-listener <disable | enable>
+\end{Verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ACL
+\subsection{Access Control Lists}
+\label{sec:configure:acl}
+
+%The login-listener (see \ref{sec:configure:login:login-listener}) and client-listener (see \ref{sec:configure:client:client-listener}) are the two modules that make use of ACLs to control incoming connections.  
+Access Controls Lists are used within BGPmon to control which addresses are or aren't allowed to connect.
+BGPmon initially comes with two ACLs: `denyall' which denies all traffic and `permitall' which permits all traffic.
+To see a list of ACLs that are available, type \emph{show acl}.
+The optional parameter \emph{acl\_name} may be used to limit the results to a specific ACL.
+
+\begin{Verbatim}[frame=single]
+host> show acl
+ACL name:denyall
+index address               mask                  type 
+0     any                   any                   deny    
+
+ACL name:permitall
+index address               mask                  type 
+0     any                   any                   permit  
+
+host> show acl denyall
+ACL name:denyall
+index address               mask                  type 
+0     any                   any                   deny    
+
+\end{Verbatim}
+
+% ACL MASK LOGIC
+\subsubsection{ACL inverse mask logic}
+\label{sec:configure:acl:logic}
+
+Each ACL is made up of a series of rules and each rule is made up of three components.
+The first two components, address and mask, are used to determine whether the rule is applicable to the incoming address.
+The third component, type, tells BGPmon whether to permit or deny access to addresses that satisfy the rule.
+
+Tables \ref{tbl:acl:apply} and \ref{tbl:acl:notapply} are examples of how BGPmon determines if a rule is applicable to incoming address.
+The first step is to OR the rule's address and mask together then OR the incoming address and mask together.
+Subtracting these two results will indicate whether a rules is applied.
+A zero value means that the rule is applied and a non-zero value means that the rule does not apply.\\
+
+\begin{table*}[htb]
+\centering
+\caption{\label{tbl:acl:apply}An ACL example resulting in the application of the rule.}
+\begin{tabular}{|p{90pt}|p{90pt}|p{200pt}|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Example 1}}\\ 
+\hline
+ & \textbf{String} & \textbf{Binary} \\ 
+\hline
+Incoming address & 10.1.1.255 & 00001010 00000001 00000001 11111111 \\
+\hline
+Rule address & 10.1.1.1 & 00001010 00000001 00000001 00000001 \\
+\hline
+Rule mask & 0.0.255.255 & 00000000 00000000 11111111 11111111 \\
+\hline
+\multicolumn{3}{|c|}{ } \\
+\hline
+\multicolumn{2}{|l|}{ incoming address $\mid$ mask } & 00001010 00000001 11111111 11111111 \\
+\hline
+\multicolumn{2}{|l|}{ rule address $\mid$ mask } & 00001010 00000001 11111111 11111111 \\
+\hline
+\multicolumn{2}{|l|}{ \bf{zero difference - rule should be applied} } & 00000000 00000000 00000000 00000000 \\
+\hline
+\end{tabular}
+\end{table*}
+
+\begin{table*}[htb]
+\centering
+\caption{\label{tbl:acl:notapply}An ACL example resulting in the rule not being applied.}
+\begin{tabular}{|p{90pt}|p{90pt}|p{200pt}|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Example 2}}\\ 
+\hline
+ & \textbf{String} & \textbf{Binary} \\ 
+\hline
+Incoming address & 10.1.255.255 & 00001010 00000001 11111111 11111111 \\
+\hline
+Rule address & 10.1.1.1 & 00001010 00000001 00000001 00000001 \\
+\hline
+Rule mask & 0.0.0.255 & 00000000 00000000 00000000 11111111 \\
+\hline
+\multicolumn{3}{|c|}{ } \\
+\hline
+\multicolumn{2}{|l|}{ incoming address $\mid$ mask } & 00001010 00000001 11111111 11111111 \\
+\hline
+\multicolumn{2}{|l|}{ rule address $\mid$ mask } & 00001010 00000001 00000001 11111111 \\
+\hline
+\multicolumn{2}{|l|}{ \bf{non-zero difference - rule should not be applied} } & 00000000 00000000 11111110 00000000 \\
+\hline
+\end{tabular}
+\end{table*}
+
+% CREATING AND EDITING ACLS
+\subsubsection{Creating and Editing ACLs}
+\label{sec:configure:acl:createedit}
+
+\note{In order to perform configuration the user must be in config mode}
+To create an ACL each of the three components, along with a name must be entered.
+The first two components, address and mask, are used to determine whether the rule is applicable to the incoming address.
+The third component tells BGPmon whether to permit or deny applicable addresses.
+The following is an example that creates an ACL with the same functionality as ``permit all."
+
+\begin{Verbatim}[frame=single]
+host(config)#acl acl-test
+Created ACL, now editing: acl-test
+host(config-acl)#permit any 0
+host(config-acl)#
+\end{Verbatim}
+
+The first step to creating or editing an ACL is to begin an editing session associated with that ACL.\\
+
+\begin{Verbatim}[frame=single]
+host(config)#acl <acl_name>
+\end{Verbatim}
+
+This command will attempt to open the specified ACL.
+If it is not found, then a new ACL is created.
+Within the ACL edit mode there are several commands that allow the user to maintain an ACL.
+
+The first set of commands are used to create 'permit' or 'deny' rules.\\
+
+\begin{Verbatim}[frame=single]
+host(config-acl)#permit any [rule_index]
+host(config-acl)#permit address mask [rule_index]
+host(config-acl)#deny any [rule_index]
+host(config-acl)#deny address mask [rule_index]
+\end{Verbatim}
+
+In each of these commands either the 'permit' or 'deny' keyword is specified then followed by a series of rules that indicates the range of addresses the rule applies to.
+The parameter \emph{address} is the IP address used in the rule.
+The parameter \emph{mask} is used to specify which bits in the address are significant and which should be ignored.
+If a rule should be applied to all addresses then use the keyword 'any' instead of the address/mask pair.
+Finally the optional parameter \emph{rule\_index}, if set, will be used to specify where in the list the rule should be inserted.
+When a rule is inserted at a rule\_index, then all rules that follow will be incremented by one.
+
+To remove a rule from the list use the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config-acl)#no <rule_index>
+\end{Verbatim}
+
+When a rule is removed from the list all other rules in the list will be re-indexed while maintaining their relative ordering.
+
+% DELETING ACLS
+\subsubsection{Deleting ACLs}
+\label{sec:configure:acl:delete}
+
+To delete an ACL and all associated rules use the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)#no acl <acl_name>
+\end{Verbatim}
+
+It is important to note that when an ACL is removed, any modules using that ACL will be set to the default behavior, which is to deny all traffic.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CHAINS
+\subsection{Configuring Chains}
+\label{sec:configure:chains}
+
+Chaining is used in BGPmon to connect multiple instances of BGPmon together so XML messages from one BGPmon instance can be sent to another BGPmon instance.  This allows for easy distribution of data collection from peers at many distant locations.
+
+% CREATING AND UPDATING CHAINS
+\subsubsection{Creating and updating a chain}
+\label{sec:configure:chains:createupdate}
+
+To create a chain use the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)#chain address <[update:port] [rib:port]> [retry:retry_interval]
+\end{Verbatim}
+
+The only required parameters are address and port.  Any parameter which is not specified will have a default value assigned to it.  By default, the \emph{retry\_interval} is set to 60, and the chain is enabled.  If the user wishes to manually shut off or restore a chain, use the command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)#chain address <[update:port] [rib:port]> <[enable] [disable]>
+\end{Verbatim}
+
+Once a chain has been created, the same command can be used to update settings for that chain.  
+
+For example, assume a chain was created with the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# chain 192.168.1.1 update:50001
+\end{Verbatim}
+
+To set the status of this chain to disabled and retry interval to 10, use the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# chain 192.168.1.1 disable retry:10
+\end{Verbatim}
+
+One important thing to remember about creating chains is that the address and port uniquely identify a chain.
+So, assume a chain is created with the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# chain 192.168.1.1 update:50001
+\end{Verbatim}
+
+Now, assume this command is run:\\
+
+\begin{Verbatim}[frame=single]
+host(config)# chain 192.168.1.1 rib:50002
+\end{Verbatim}
+
+The second command will create a new chain at \emph{192.168.1.1} on port \emph{50002} while the first chain will remain at \emph{192.168.1.1} on port \emph{50001}.  {\bf Once a chain has been created its address and port cannot updated.}  Any command attempting to do this will create another chain.
+
+% DELETING A CHAIN
+\subsubsection{Delete a chain}
+\label{sec:configure:chains:delete}
+
+A chain can be deleted with the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config)#no chain address [port]
+\end{Verbatim}
+
+A port doesn't need to be specified if the default port was used when creating the chain.  When this command is issued BGPmon will set the chain to disabled then then mark the chain to be deleted.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PEERS
+\subsection{Configuring Peers and Peer Groups}
+\label{sec:configure:peers}
+
+A Peer is router that BGPmon maintains a connection with and every Peer has its own set of configurable parameters.  Peer Groups are a way of sharing configurations between sets of Peers .
+
+The first step in configuring a peer is to enter the router configuration mode.  To do this, enter the following command from the configuration mode prompt:\\
+
+\begin{Verbatim}[frame=single]
+host(config)#router bgp <AS_Number>
+\end{Verbatim}
+
+The \emph{AS\_Number} entered will be used as the local AS number for any peering sessions that are created. Every command associated with a peer or peer-group in this mode follows the same structure: a base command used to identify the peer or peer-group followed by a command to modify that peer or peer-group. The base of the command is as follows:\\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#neighbor <address | peer-group> [port <port>]
+\end{Verbatim}
+
+If a valid IP address is specified for the \emph{address} then the command will refer to a peer.  The optional \emph{port} parameter can then be used to specify a custom port, otherwise the default port 179 will be used.  If the \emph{address} is not a valid IP address then the command will refer to a peer-group.
+
+
+% CREATING PEERS
+\subsubsection{Creating Peers}
+\label{sec:configure:peers:create}
+
+To create a peer, run any command where the base command has a valid address.  If the peer does not exist then BGPmon will attempt to create the peer.  Example:\\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#neighbor 192.168.1.1 remote as 9552
+\end{Verbatim}
+
+If no pre-existing peers are configured, then this command would create a peer with an IPv4 address of \emph{192.168.1.1} and an AS number of 9552.
+
+To create a peer with IPv6 address, run following commands:
+
+\note{Note: this is a workaround for a known issue in version 7.2.3. The procedure for peering with an IPv6 router will change dramatically in the future.}
+
+\begin{Verbatim}[frame=single]
+host(config-router)# neighbor fd68:e916:5287:9f27::7 remote as 3552
+host(config-router)# neighbor fd68:e916:5287:9f27::7 local bgpid 129.82.138.29
+host(config-router)# exit
+host(config)# exit
+host# copy running-config startup-config
+host# exit
+host> exit
+\end{Verbatim}
+
+Shutdown BGPmon server:
+
+\begin{Verbatim}[frame=single]
+> sudo service bgpmon stop 
+\end{Verbatim}
+
+Open \emph{/usr/local/etc/bgpmon\_config.txt} with your favorite text editor. Under the \emph{$<$PEER$>$} tag that contains your IPv6 router information, add the following line:
+\begin{Verbatim}[frame=single]
+<MONITOR_IP_ADDR>ipv6any</MONITOR_IP_ADDR> 
+\end{Verbatim}
+
+Save configuration and restart BGPmon server:
+\begin{Verbatim}[frame=single]
+> sudo service bgpmon start 
+\end{Verbatim}
+
+
+If no pre-existing peers are configured, then this command would create a peer with an IPv6 address of \emph{fd68:e916:5287:9f27::7} and an AS number of 3552. In this example, BGPmon uses the BGPID 129.82.138.29.
+
+
+
+% CREATING PEER-GROUPS
+\subsubsection{Creating Peer-groups}
+\label{sec:configure:peersgroups:create}
+
+To create a peer-group the following command is used, where \emph{peer\_group\_name} will be the name of the peer-group and not a valid IP address:\\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#neighbor <peer_group_name> peer-group
+\end{Verbatim}
+
+Once a peer-group has been created then peers can be assigned to the group with the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#neighbor <address> [port <port>] peer-group <peer_group_name>
+\end{Verbatim}
+
+A peer can be moved to another peer-group with the same command and use the following command to remove a peer from a peer-group:\\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#no neighbor <address> [port <port>] peer-group <peer_group_name>
+\end{Verbatim}
+
+% CONFIGURING 
+\subsubsection{Configuring Parameters}
+\label{sec:configure:peers:configureparameters}
+
+Within a Peer or Peer-group there are many different parameters that can be configured.  The first group are the commands that configure parameters for the \emph{remote} and \emph{local} BGP versions.  These commands are as follows (the command prompt is omitted for space concerns):\\
+
+\small{
+\begin{Verbatim}[frame=single]
+neighbor <[address] [peer-group]> [port <port>] <[remote] [local]> as <as_number>
+neighbor <[address] [peer-group]> [port <port>] <[remote] [local]> bgpid <bgpid>
+neighbor <[address] [peer-group]> [port <port>] <[remote] [local]> bgp-version <bgp_version>
+neighbor <[address] [peer-group]> [port <port>] <[remote] [local]> hold-time <hold_time>
+\end{Verbatim}
+}
+
+The second group of commands are the labeling commands.  These commands control how messages are labeled in each peer:\\
+
+\begin{Verbatim}[frame=single]
+neighbor <[address] [peer-group]> [port <port>] label-action NoAction
+neighbor <[address] [peer-group]> [port <port>] label-action Label
+neighbor <[address] [peer-group]> [port <port>] label-action StoreRibOnly
+\end{Verbatim}
+
+The final group of commands are commands used to control the actual peer.  These commands will trigger a route-refresh, enable and disable a peer, and set the md5 encryption for a password.\\
+
+\begin{Verbatim}[frame=single]
+neighbor <[address] [peer-group]> [port <port>] route-refresh
+neighbor <[address] [peer-group]> [port <port>] enable
+neighbor <[address] [peer-group]> [port <port>] disable
+neighbor <[address] [peer-group]> [port <port>] md5 <md5_password>
+\end{Verbatim}
+
+% CONFIGURING CAPABILITIES
+\subsubsection{Configuring Capabilities}
+\label{sec:configure:peers:configurecapabilities}
+
+For every peer there are a set of \emph{announce} and \emph{receive} capabilities that can be configured.
+Announce capabilities are those that will be included in the BGP open message when establishing a peering connection.
+Receive capabilities are configured to require, allow or forbid capabilities announced in the open message from the peer.
+By default any capability not mentioned as a receive capability defaults to allowed.
+
+The three most common capabilities to include are 4-byte ASNs, IPv4 Multiprotocol and IPv6 Multiprotocol. These capabilities must be configured manually in the configuration file.  Before starting BGPmon you can configure these capabilities by adding the following XML to the configuration file.
+
+\begin{Verbatim}[frame=single]
+<PEERS>
+  <PEER>
+    <MONITOR_PORT>[bgpmon's monitoring port]</MONITOR_PORT>
+    <MONITOR_AS>[bgpmon's AS]</MONITOR_AS>
+    <PEER_IP_ADDR>[the peer's IP address]</PEER_IP_ADDR>
+    <PEER_PORT>[The peer's port (usually 179]</PEER_PORT>
+    <PEER_AS>[The peer's ASN]</PEER_AS>
+    <ANNOUNCE_CAPABILITY_LIST>
+      <!-- 4-byte ASN capability -->
+      <CAPABILITY>
+        <CODE>65</CODE>
+        <LENGTH>4</LENGTH>
+        <VALUE>[BGPmon's 4 byte ASN in HEX]</VALUE>
+      </CAPABILITY>
+      <!-- IPv4 multi-protocol capability -->
+      <CAPABILITY>
+        <CODE>1</CODE>
+        <LENGTH>4</LENGTH>
+        <VALUE>00010001</VALUE>
+      </CAPABILITY>
+      <!-- IPv6 multi-protocol capability -->
+      <CAPABILITY>
+        <CODE>1</CODE>
+        <LENGTH>4</LENGTH>
+        <VALUE>00020001</VALUE>
+      </CAPABILITY>
+    </ANNOUNCE_CAPABILITY_LIST>
+  </PEER>
+</PEERS>
+\end{Verbatim}
+
+\note{Note: When expressing the ASN in hex there is no need for a prefix of 0x. For example, an ASN of 100004 would be expressed as 000186a4. In the case that you are announcing the capability of handling 4 bytes ASNs, but have a 2 byte ASN simply express the 2 byte ASN in the same space prepended with zeros to take up 4 bytes. }
+
+% DELETING A PEER
+\subsubsection{Deleting a peer}
+\label{sec:configure:peers:delete}
+
+To delete a peer, use the following command: \\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#no neighbor <address> [port <port>]
+\end{Verbatim}
+
+\noindent To delete a peer-group, use the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#no neighbor <peer-group>
+\end{Verbatim}
+
+
+% RESETTING A PEER'S CONNECTION
+\subsubsection{Resetting a peer's connection}
+\label{sec:configure:peers:reset}
+
+Resetting a peer will close the peer's connection then attempt to reopen it.  Any new settings that have been applied to the peer will be applied when the peer starts again.  To reset a connection to a peer use the following command:\\
+
+\begin{Verbatim}[frame=single]
+host(config-router)#clear neighbor <address> [port <port>]
+\end{Verbatim}

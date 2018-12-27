@@ -1,0 +1,43 @@
+\section{Introduction}
+\label{sec:intro}
+
+%Understanding global routing is critically important for current Internet research.  The existing Internet relies on the BGP\cite{bgprfc} routing protocol, but research challenges related to BGP are well known.  Security remains an open challenge and is the subject of active research\cite{listenwhisper}, routing convergence problems have been identified and solutions have been proposed\cite{rcn, ghostflushing}, the research community is actively working on understanding the impact of routing policies\cite{gao, feamster-sigcomm05}, and efforts on next generation designs\cite{hlp-sigcomm05} have been motivated by problems experienced in the current system and are often evaluated using data drawn from the current Internet.  This BGP data also supports a wide range of efforts ranging from understanding the Internet topology to building more accurate simulations for network protocols.   
+
+To truly understand and properly analyze BGP routing, one needs data from a wide range of sites with different geographical locations and different types (tiers) of ISPs.  Fortunately global routing monitoring projects such as Oregon RouteViews\cite{routeviews} and RIPE RIS\cite{riperis} have been providing this essential data to both operations and research community.    Google Scholar lists hundreds of papers that cite these monitoring sources.   Results on route damping, route convergence, routing policies, power-law topologies, routing security, routing protocol design, and so forth have all benefited from this data.  Operational uses of the data range from analyzing the impact of major events such as fiber cuts to detecting prefix hijacks in real-time.      All this work is possible because there are monitoring systems to collect and publish BGP data.
+
+One can collect BGP data directly from a commercial router (e.g. use commands such as show ip bgp) or one can use open source routing toolkits to collect and log data.    However, experience over the years has also shown there are major limitations in adopting tools not specifically designed for the BGP data collection process.   An ideal monitoring system would scale to a vast numbers of peer routers and provide BGP data in real-time to an even larger number of clients.   For example,  one might like to add peers from different geographic locations and lower tier ISPs.    At the same time,  real-time access would enable new tools for analysis of events such as fiber cuts, prefix hijacks, and so forth.     The system should also reflect the fact that BGP is still evolving and the system should be easily extended to include updates such as the expansion to four byte AS numbers, improved security for peering, and any number of current or future extensions to the protocol.
+
+This paper presents the implementation and specification of a next generation BGP monitoring system.   We propose a mesh of interconnected data collectors and data brokers that operate using a publish/subscribe model.   Our approach extends the scalable event driven architecture in \cite{seda} to meet the requirements of BGP monitoring.   Interested clients receive an event stream in real-time or may read historical event streams from archival sources.    The single stream incorporates both incremental BGP update messages and periodic routing table snapshots.   We use XML to provide easy extensibility, integrate with common tools, and allow local data annotations.      The backbone of this system is BGPmon,  a scalable and extensible tool for collecting and publishing BGP data.   
+
+Readers interested only in the overall BGPmon system and general approach should refer to the technical paper\cite{imc08} for an overview of the BGPmon system.     Readers interested only in installing, configuring, and running BGPmon should refer to the BGPmon Administrators Reference Manual\cite{bgparm}.    
+
+This paper describes the implementation of BGPmon.  
+The objective is to document design decisions and provide a detailed picture of how BGPmon is implemented.   The intended audience is a reader who is interested in understanding the implementation details of BGPmon and it is expected many readers will use this document as a companion to the open source code.   For example, someone interested in adding a new feature to BGPmon should consult this document along with the source code in order to understand how the system currently operates and where to make enhancements.
+
+\subsection{Document Overview}
+
+The sections in the remainder of this paper roughly correspond to directories in the BGPmon source code tree.    Readers interested in modifying or understanding portions of the BGPmon implementation do not need to read the entire document.   The discussion below describes which sections correspond to which functions and recommends who should read a particular section.
+
+Section \ref{sec:main} roughly corresponds to the main program(main.c) which reads and saves the configuration, listens for signals, and is responsible for starting, stopping, and monitoring all other modules' threads.  The overall architecture of BGPmon is also discussed here.  The section is useful to most readers in order to broadly understand the BGPmon implementation.
+
+Section \ref{sec:config} roughly corresponds to the $Configuration$ directory in the source code. It provides facade functions to read and save the configuration which are called by main program and call the module specific read/save functions .  In addition, the $Configuration$ directory also provides the utility functions to parse the XML configuration file to other modules. Programmers interested in facade functions and XML utility functions should read this section.   
+
+Section \ref{sec:peering} roughly corresponds to the $Peering$ directory in the source code and handles all functions related to opening and maintaining sessions with BGP peers.   Programmers interested in adding new BGP capabilities or modifying how peering sessions are managed should read this section. 
+
+Section \ref{sec:mrt} roughly corresponds to the $Mrt$ directory in the source code and handles all functions related to receiving and parsing MRT data. 
+
+Section \ref{sec:labeling} roughly corresponds to the $Labeling$ directory in the source code and handles the optional storing or RIBIN tables and the optional addition of labels to BGP updates.   Programmers interested in adding new labels or annotations to BGP update messages should read this section.
+
+Section \ref{sec:periodic} roughly corresponds to the $PeriodicEvents$ directory in the source code and handles all actions related to periodic events.    Periodic events include requesting a route refresh from a peer,   announcing a RIBIN table for peers that do not support route refresh, and sending status messages regarding peers, queues and chains.    Generally speaking, this module generates every message that is reported to clients but not exchanged over a peering session.   Programmers interested in adding or modifying periodic events or reporting any type of BGPmon state should read this section.
+
+Section \ref{sec:xml} roughly corresponds to the $XML$ directory in the source code and handles the XML formating of messages.   Programmers interested in modifying the XML format or changing which XML tags are included in a message should read this section.
+
+Section \ref{sec:clients} roughly corresponds to the $Clients$ directory in the source code and handles all actions related to accepting client connections and delivering XML formatted data to clients.
+
+Section \ref{sec:chains} roughly corresponds to the $Chains$ directory in the source code and handles chaining BGPmon instances together in order to form a mesh.     Programmers interested in enhancing BGPmon chaining features should read this section.
+
+Section \ref{sec:queue} roughly corresponds to the $Queues$ directory in the source code and handles the message queueing operations.   Programmers interested in BGPmons queue management and dampening algorithms should read this section.
+
+Section \ref{sec:login} roughly corresponds to the $Login$ directory in the source code and handles command line related operations. The command line interface is similar to Cisco IOS.  Programmers interested in command line interface should read this section.
+
+Section \ref{sec:conclude} concludes the document and provides references to related documents.

@@ -1,0 +1,916 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2012/dev/Arch Linux) (format=pdflatex 2011.11.13)  13 NOV 2011 14:31
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**techreport.tex
+(./techreport.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2009-06-19, ngerman-x-2009-06-19, afrikaans, ancientgreek, ibycus, arabi
+c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
+h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
+h, french, galician, german, ngerman, swissgerman, monogreek, greek, hungarian,
+ icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, marathi, or
+iya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji,
+ lao, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, pol
+ish, portuguese, romanian, russian, sanskrit, serbian, serbianc, slovak, sloven
+ian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded
+.
+(./sig-alternate-10pt.cls (/usr/share/texmf-dist/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count79
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+)
+\epsfxsize=\dimen104
+\epsfysize=\dimen105
+)
+(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip41
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen106
+))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count80
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count81
+\leftroot@=\count82
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count83
+\DOTSCASE@=\count84
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count85
+\c@MaxMatrixCols=\count86
+\dotsspace@=\muskip10
+\c@parentequation=\count87
+\dspbrk@lvl=\count88
+\tag@help=\toks17
+\row@=\count89
+\column@=\count90
+\maxfields@=\count91
+\andhelp@=\toks18
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks19
+\multlinegap=\skip42
+\multlinetaggap=\skip43
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+Document Class 'sig-alternate' <3rd January '07>. Hacked by Anja Feldmann
+Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
+shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
+Excerpts were taken from (Journal Style) 'esub2acm.cls'.
+****** Bugs/comments/suggestions/technicalities to Gerry Murray -- murray@hq.ac
+m.org ******
+Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org
+
+\footheight=\dimen115
+\@maxsep=\dimen116
+\@dblmaxsep=\dimen117
+\aucount=\count92
+\originalaucount=\count93
+\auwidth=\dimen118
+\auskip=\dimen119
+\auskipcount=\count94
+\auskip=\dimen120
+\allauboxes=\dimen121
+\addauthors=\toks21
+\addauflag=\count95
+\subtitletext=\toks22
+\savesection=\count96
+\sectioncntr=\count97
+\c@figure=\count98
+\c@table=\count99
+\titleboxnotes=\toks23
+\titleboxnoteflag=\count100
+
+LaTeX Warning: You have requested document class `sig-alternate-10pt',
+               but the document class provides `sig-alternate'.
+
+Document Class: sig-alternate 2007/03/01 - V1.9 - based on acmproc.cls V1.3 <No
+v. 30 '99>
+(/usr/share/texmf-dist/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+\@acmtitlebox=\box28
+\titlenotecount=\count101
+\tntoks=\toks24
+\tntokstwo=\toks25
+\tntoksthree=\toks26
+\tntoksfour=\toks27
+\tntoksfive=\toks28
+\catcount=\count102
+\conf=\toks29
+\confinfo=\toks30
+\c@part=\count103
+\c@section=\count104
+\c@subsection=\count105
+\c@subsubsection=\count106
+\c@paragraph=\count107
+
+Using 'Abbrev' bibliography style
+\bibindent=\dimen122
+\colcntr=\count108
+\savebox=\box29
+\copyrtyr=\toks31
+\acmcopyr=\toks32
+\boilerplate=\toks33
+\copyrightetc=\toks34
+) (/usr/share/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
+(/usr/share/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2001/02/13 v0.1j Color table columns (DPC)
+
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen123
+\extrarowheight=\dimen124
+\NC@list=\toks35
+\extratabsurround=\skip44
+\backup@length=\skip45
+)
+\everycr=\toks36
+\minrowclearance=\skip46
+)
+(/usr/share/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+) (/usr/share/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen125
+) (./techreport.aux)
+\openout1 = `techreport.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+
+(/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count109
+\scratchdimen=\dimen126
+\scratchbox=\box30
+\nofMPsegments=\count110
+\nofMParguments=\count111
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count112
+\MPscratchDim=\dimen127
+\MPnumerator=\count113
+\makeMPintoPDFobject=\count114
+\everyMPtoPDFconversion=\toks38
+) (/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+))
+(/usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    Try loading font information for U+msa on input line 26.
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 26.
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 26.
+
+(/usr/share/texmf-dist/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+) (./abstract.tex) (./intro.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+Overfull \hbox (24.69498pt too wide) in paragraph at lines 21--22
+[]\OT1/cmr/m/n/10 Section 2[] roughly cor-re-sponds to the main pro-gram(main.c
+)
+ []
+
+
+Overfull \hbox (4.63931pt too wide) in paragraph at lines 31--32
+\OT1/cmr/m/n/10 quest-ing a route re-fresh from a peer, an-nounc-ing a RIBIN
+ []
+
+
+Overfull \hbox (3.82448pt too wide) in paragraph at lines 31--32
+\OT1/cmr/m/n/10 over a peer-ing ses-sion. Pro-gram-mers in-ter-ested in adding
+ []
+
+
+Underfull \vbox (badness 5050) has occurred while \output is active []
+
+
+
+LaTeX Warning: Reference `sec:conclude' on page 2 undefined on input line 43.
+
+) (./main.tex
+Overfull \hbox (3.89609pt too wide) in paragraph at lines 1--1
+[]\secfnt OVERALL AR-CHI-TEC-TURE AND MAIN
+ []
+
+
+Overfull \hbox (5.90793pt too wide) in paragraph at lines 8--10
+\OT1/cmr/m/n/10 to take max-i-mum ad-van-tage of thread-ing. Cur-rent trends
+ []
+
+[2] <figs/architecture.jpg, id=16, 430.60875pt x 196.48407pt>
+File: figs/architecture.jpg Graphic file (type jpg)
+
+<use figs/architecture.jpg>
+Package pdftex.def Info: figs/architecture.jpg used on input line 13.
+(pdftex.def)             Requested size: 430.60768pt x 196.48358pt.
+
+Overfull \hbox (2.97166pt too wide) in paragraph at lines 22--23
+\OT1/cmr/m/n/10 di-tion-ally, con-fig-u-ra-tion mod-ule pro-vides the XML unitl
+-
+ []
+
+
+Overfull \hbox (3.35397pt too wide) in paragraph at lines 28--31
+[]\OT1/cmr/m/it/10 Peering Mod-ule: \OT1/cmr/m/n/10 man-ages the congu-ra-tion 
+for all peers
+ []
+
+
+Overfull \hbox (11.85352pt too wide) in paragraph at lines 45--47
+[]\OT1/cmr/m/it/10 Clients Man-age-ment Mod-ule: \OT1/cmr/m/n/10 man-ages the s
+erver thread
+ []
+
+
+Underfull \vbox (badness 5050) has occurred while \output is active []
+
+
+Overfull \hbox (5.72069pt too wide) in paragraph at lines 52--53
+[] \OT1/cmr/m/it/10 Lo-gin Mod-ule: \OT1/cmr/m/n/10 han-dles the Cisco-like com
+-mands typed
+ []
+
+<figs/BMF.pdf, id=17, 546.3612pt x 257.2812pt>
+File: figs/BMF.pdf Graphic file (type pdf)
+ <use figs/BMF.pdf>
+Package pdftex.def Info: figs/BMF.pdf used on input line 60.
+(pdftex.def)             Requested size: 546.35986pt x 257.28058pt.
+ [3 <./figs/BMF.pdf>]
+Overfull \hbox (20.23041pt too wide) in paragraph at lines 67--69
+[]\OT1/cmr/m/n/10 In BGP-mon each peer-ing ses-sion has a in-ter-nal $\OML/cmm/
+m/it/10 SessionID$
+ []
+
+
+Overfull \hbox (10.13322pt too wide) in paragraph at lines 67--69
+\OT1/cmr/m/n/10 La-bel-ing mod-ule can use $\OML/cmm/m/it/10 SessionID$ \OT1/cm
+r/m/n/10 to de-ter-mine whether
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (38.88972pt too wide) in paragraph at lines 97--122
+ [][] 
+ []
+
+[4 <./figs/architecture.jpg>]
+Overfull \hbox (7.9716pt too wide) in paragraph at lines 221--223
+\OT1/cmr/m/n/10 XML thread, pe-ri-odic thread, clients man-age-ment thread,
+ []
+
+
+Overfull \hbox (2.417pt too wide) in paragraph at lines 221--223
+\OT1/cmr/m/n/10 also re-quires ev-ery mod-ule needs to make sure its threads
+ []
+
+
+Overfull \hbox (81.17273pt too wide) in paragraph at lines 221--223
+\OT1/cmr/m/n/10 up-date their times-tamps at least once per THREAD[]CHECK[]INTE
+RVAL.
+ []
+
+[5]
+Overfull \hbox (5.26434pt too wide) in paragraph at lines 247--250
+\OT1/cmr/m/n/10 BGP-mon just quits with-out sav-ing a new read-able congu-
+ []
+
+) (./configuration.tex [6]
+Overfull \hbox (1.4979pt too wide) in paragraph at lines 34--34
+[]       \OT1/cmtt/m/n/10 <LISTEN_ADDR>ipv4loopback</LISTEN_ADDR>[] 
+ []
+
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+Missing character: There is no Þ in font cmr10!
+) (./peering.tex
+Overfull \hbox (3.69489pt too wide) in paragraph at lines 4--6
+[]\OT1/cmr/m/n/10 Peering mod-ule man-ages the con-fig-u-ra-tion for all peers
+ []
+
+[7] <figs/peerandpeergroup.pdf, id=44, 476.98201pt x 183.084pt>
+File: figs/peerandpeergroup.pdf Graphic file (type pdf)
+
+<use figs/peerandpeergroup.pdf>
+Package pdftex.def Info: figs/peerandpeergroup.pdf used on input line 24.
+(pdftex.def)             Requested size: 476.98083pt x 183.08354pt.
+
+<figs/configurationSub.pdf, id=45, 485.17259pt x 617.66759pt>
+File: figs/configurationSub.pdf Graphic file (type pdf)
+
+<use figs/configurationSub.pdf>
+Package pdftex.def Info: figs/configurationSub.pdf used on input line 49.
+(pdftex.def)             Requested size: 485.1714pt x 617.66608pt.
+
+Overfull \hbox (1.08386pt too wide) in paragraph at lines 46--53
+\OT1/cmr/m/n/10 ment, la-bel-ing mod-ule and pe-ri-odic event han-dling mod-
+ []
+
+[8 <./figs/peerandpeergroup.pdf>] [9 <./figs/configurationSub.pdf>]
+<figs/FSMSub.pdf, id=64, 462.52798pt x 367.61339pt>
+File: figs/FSMSub.pdf Graphic file (type pdf)
+ <use figs/FSMSub.pdf>
+Package pdftex.def Info: figs/FSMSub.pdf used on input line 79.
+(pdftex.def)             Requested size: 462.52684pt x 367.61247pt.
+
+<figs/StatSub.pdf, id=65, 480.83641pt x 300.64319pt>
+File: figs/StatSub.pdf Graphic file (type pdf)
+ <use figs/StatSub.pdf>
+Package pdftex.def Info: figs/StatSub.pdf used on input line 87.
+(pdftex.def)             Requested size: 480.83524pt x 300.64244pt.
+
+Overfull \hbox (15.96486pt too wide) in paragraph at lines 97--98
+[]\OT1/cmr/m/it/10 sessionStringIncoming: \OT1/cmr/m/n/10 is sim-i-lar to ses-s
+ion-StringOut-
+ []
+
+[10] [11 <./figs/FSMSub.pdf> <./figs/StatSub.pdf>]) (./mrt.tex [12]
+Overfull \hbox (4.8895pt too wide) in paragraph at lines 20--21
+\OT1/cmr/m/n/10 (ipv4loopback, ipv4any, ipv6loopback and ipv6any).
+ []
+
+
+Overfull \hbox (7.23654pt too wide) in paragraph at lines 55--56
+[]\OT1/cmr/m/n/10 Although BGP-mon is able to peer di-rectly with routers,
+ []
+
+
+Overfull \hbox (4.06256pt too wide) in paragraph at lines 57--58
+\OT1/cmr/m/it/10 BGP-mon: \OT1/cmr/m/n/10 For ex-am-ple shown in Fig-ure 8[], i
+f Router
+ []
+
+[13]
+Overfull \hbox (7.80594pt too wide) in paragraph at lines 63--64
+[]\OT1/cmr/m/n/10 First an-swer looks rea-son-able be-cause of peers up/down
+ []
+
+<figs/bgpmon-quagga.pdf, id=91, 722.7pt x 542.025pt>
+File: figs/bgpmon-quagga.pdf Graphic file (type pdf)
+
+<use figs/bgpmon-quagga.pdf>
+Package pdftex.def Info: figs/bgpmon-quagga.pdf used on input line 68.
+(pdftex.def)             Requested size: 722.69823pt x 542.02367pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14]
+Overfull \hbox (6.72263pt too wide) in paragraph at lines 125--126
+\OT1/cmr/m/n/10 data from peer which reestab-lished con-nec-tion with Rout-
+ []
+
+
+Underfull \vbox (badness 1902) has occurred while \output is active []
+
+ [15 <./figs/bgpmon-quagga.pdf>]
+Overfull \hbox (24.1144pt too wide) in paragraph at lines 181--182
+\OT1/cmr/m/n/10 ture with "BGP4MP" type and "BGP4MP[]MESSAGE"
+ []
+
+
+Overfull \hbox (1.9299pt too wide) in paragraph at lines 198--199
+\OT1/cmr/m/n/10 draft spec-i-fi-ca-tion and con-verts it to in-ter-nal BMF BGP-
+
+ []
+
+
+Overfull \hbox (24.74007pt too wide) in paragraph at lines 198--199
+\OT1/cmr/m/n/10 mon mes-sage. Then new BMF mes-sage ap-plied to PeerQueue. 
+ []
+
+
+Overfull \hbox (2.61028pt too wide) in paragraph at lines 208--209
+\OT1/cmr/m/n/10 cre-ates new Ses-sion struc-ture with ses-sionID (based
+ []
+
+
+Overfull \hbox (6.06764pt too wide) in paragraph at lines 208--209
+\OT1/cmr/m/n/10 through the RIB-IN queue buffer for BGP at-tributes
+ []
+
+[16]
+Overfull \hbox (3.20982pt too wide) in paragraph at lines 224--225
+[]\OT1/cmr/m/it/10 Second mes-sage is up-date and has 2 bytes ASN:
+ []
+
+
+Overfull \hbox (3.20982pt too wide) in paragraph at lines 225--226
+[]\OT1/cmr/m/it/10 Second mes-sage is up-date and has 4 bytes ASN:
+ []
+
+
+Overfull \hbox (3.20982pt too wide) in paragraph at lines 229--230
+[]\OT1/cmr/m/it/10 Second mes-sage is up-date and has 2 bytes ASN:
+ []
+
+
+Overfull \hbox (3.20982pt too wide) in paragraph at lines 230--231
+[]\OT1/cmr/m/it/10 Second mes-sage is up-date and has 4 bytes ASN:
+ []
+
+
+Overfull \hbox (2.60924pt too wide) in paragraph at lines 257--258
+[]\OT1/cmr/m/n/10 To de-tect cor-rupted MRT up-date mes-sage, MRT mod-
+ []
+
+[17]) (./labeling.tex
+Overfull \hbox (15.30602pt too wide) in paragraph at lines 20--21
+[]\OT1/cmr/m/n/10 Labeling Mod-ule uses 2 main data struc-tures(PrefixTable
+ []
+
+
+Overfull \hbox (4.3893pt too wide) in paragraph at lines 31--32
+[]\OT1/cmr/m/n/10 emphprefixEntries: is an ar-ray of Pre-fix-En-try struc-
+ []
+
+<figs/PrefixEntryStruct.pdf, id=118, 506.85359pt x 358.94101pt>
+File: figs/PrefixEntryStruct.pdf Graphic file (type pdf)
+
+<use figs/PrefixEntryStruct.pdf>
+Package pdftex.def Info: figs/PrefixEntryStruct.pdf used on input line 35.
+(pdftex.def)             Requested size: 506.85234pt x 358.94012pt.
+ [18]
+<figs/AttributeEntryStruct.pdf, id=122, 506.85359pt x 502.51741pt>
+File: figs/AttributeEntryStruct.pdf Graphic file (type pdf)
+
+<use figs/AttributeEntryStruct.pdf>
+Package pdftex.def Info: figs/AttributeEntryStruct.pdf used on input line 56.
+(pdftex.def)             Requested size: 506.85234pt x 502.51617pt.
+
+Overfull \hbox (2.85234pt too wide) in paragraph at lines 56--57
+ [][] 
+ []
+
+[19 <./figs/PrefixEntryStruct.pdf>] [20 <./figs/AttributeEntryStruct.pdf>]
+Overfull \hbox (8.10478pt too wide) in paragraph at lines 87--88
+[]\OT1/cmr/m/n/10 IPv4 uni-cast reach-able NLRI and un-reach NLRI 
+ []
+
+
+Overfull \hbox (2.9104pt too wide) in paragraph at lines 88--89
+[]\OT1/cmr/m/n/10 multiple pro-to-col(mp) reach-able NLRI and un-
+ []
+
+
+Overfull \hbox (3.98926pt too wide) in paragraph at lines 104--104
+[]\OT1/cmr/m/n/10 If the ex-ist-ing pre-fix node's linked at-tribute
+ []
+
+
+Overfull \hbox (3.78923pt too wide) in paragraph at lines 106--107
+\OT1/cmr/m/n/10 at-tribute node's linked pre-fix nodes list.
+ []
+
+
+Overfull \hbox (3.23923pt too wide) in paragraph at lines 112--113
+[]\OT1/cmr/m/n/10 Create a pre-fix node(PrefixNodeStruct, see
+ []
+
+
+Overfull \hbox (25.04489pt too wide) in paragraph at lines 113--114
+[]\OT1/cmr/m/n/10 Update its linked at-tribute node field('dataAttr'
+ []
+
+
+Overfull \hbox (3.68364pt too wide) in paragraph at lines 122--123
+[]\OT1/cmr/m/n/10 Delete this pre-fix node from its cor-re-spond-
+ []
+
+[21]
+Overfull \hbox (2.72148pt too wide) in paragraph at lines 136--137
+\OT1/cmr/m/n/10 NLRI and mul-ti-pro-to-col reach-able NLRI. Each pre-
+ []
+
+
+Overfull \hbox (3.98926pt too wide) in paragraph at lines 140--140
+[]\OT1/cmr/m/n/10 If the ex-ist-ing pre-fix node's linked at-tribute
+ []
+
+
+Overfull \hbox (2.59474pt too wide) in paragraph at lines 142--142
+[]\OT1/cmr/m/n/10 If they are same, la-bel it as 'same path'. 
+ []
+
+[22]
+Overfull \hbox (12.6115pt too wide) in paragraph at lines 181--182
+[]\OT1/cmr/m/n/10 The last de-sign is-sue here is about con-fig-u-ra-tion chang
+es.
+ []
+
+) (./periodic.tex
+Overfull \hbox (9.17584pt too wide) in paragraph at lines 1--1
+[]\secfnt PERIODIC EVENT HAN-DLING MOD-ULE 
+ []
+
+
+Overfull \hbox (3.86034pt too wide) in paragraph at lines 7--8
+\OT1/cmr/m/n/10 writes ses-sion sta-tus mes-sages(BMF type 5), queues
+ []
+
+
+Overfull \hbox (3.89214pt too wide) in paragraph at lines 8--9
+[]\OT1/cmr/m/it/10 Route Re-fresh Re-quest Thread: \OT1/cmr/m/n/10 It cen-tral-
+ized sched-
+ []
+
+[23]
+Overfull \hbox (1.05585pt too wide) in paragraph at lines 103--104
+[]\OT1/cmr/m/n/10 Check the 'routeRe-freshType' field of ses-sion struc-
+ []
+
+
+Overfull \hbox (6.71146pt too wide) in paragraph at lines 108--109
+[]\OT1/cmr/m/n/10 The 'pre-fixTable' and 'at-tributeTable' fields
+ []
+
+
+Overfull \hbox (2.98257pt too wide) in paragraph at lines 111--112
+[]\OT1/cmr/m/n/10 Build a BMF mes-sage(type 4) that con-
+ []
+
+
+Overfull \hbox (12.09364pt too wide) in paragraph at lines 112--113
+[]\OT1/cmr/m/n/10 Write this BMF mes-sage into la-bel queue. 
+ []
+
+
+Overfull \hbox (3.46701pt too wide) in paragraph at lines 115--116
+[]\OT1/cmr/m/n/10 Otherwise, that means this peer sup-ports route
+ []
+
+) (./xml.tex
+Overfull \hbox (2.3604pt too wide) in paragraph at lines 111--112
+[]\OT1/cmr/m/n/10 The XML mod-ule con-verts all the mes-sages from BMF
+ []
+
+[24]) (./clients.tex
+Overfull \hbox (35.00053pt too wide) in paragraph at lines 14--15
+\OT1/cmr/m/n/10 a IPv4/IPv6 ad-dress or one of four key-words(ipv4loopback,
+ []
+
+
+Overfull \hbox (1.9984pt too wide) in paragraph at lines 18--19
+[]\OT1/cmr/m/it/10 activeClients: \OT1/cmr/m/n/10 It is the num-ber of con-nect
+ed clients. 
+ []
+
+
+Overfull \hbox (19.9726pt too wide) in paragraph at lines 31--32
+\OT1/cmr/m/n/10 pe-ri-od-i-cally ev-ery THREAD[]CHECK[]INTERVAL
+ []
+
+[25] <figs/ClientsctrlNode.pdf, id=160, 480.3546pt x 196.5744pt>
+File: figs/ClientsctrlNode.pdf Graphic file (type pdf)
+
+<use figs/ClientsctrlNode.pdf>
+Package pdftex.def Info: figs/ClientsctrlNode.pdf used on input line 61.
+(pdftex.def)             Requested size: 480.35342pt x 196.57391pt.
+
+Overfull \hbox (7.8892pt too wide) in paragraph at lines 69--70
+[]\OT1/cmr/m/n/10 This client thread fails to write mes-sages to "socket". 
+ []
+
+
+Overfull \hbox (2.86148pt too wide) in paragraph at lines 71--72
+\OT1/cmr/m/n/10 The client thread also might be deleted(call delete-Client)
+ []
+
+) (./chains.tex
+Missing character: There is no Þ in font cmr10!
+ [26]
+Overfull \hbox (1.39282pt too wide) in paragraph at lines 29--30
+[]\OT1/cmr/m/it/10 establishedTime: \OT1/cmr/m/n/10 It is a times-tamp in-di-ca
+t-ing when
+ []
+
+[27 <./figs/ClientsctrlNode.pdf>]
+Overfull \hbox (4.52254pt too wide) in paragraph at lines 46--47
+[]\OT1/cmr/m/n/10 The "en-abled" flag is set di-rectly by CLI. When
+ []
+
+
+Overfull \hbox (9.47163pt too wide) in paragraph at lines 68--70
+\OT1/cmr/m/n/10 NOT oc-cur im-me-di-ately by call-ing func-tion "deleteChain"
+ []
+
+) (./queue.tex [28]
+Overfull \hbox (2.33368pt too wide) in paragraph at lines 13--15
+[]\OT1/cmr/m/n/10 The queue mod-ule im-ple-ments a Read-ers/Writers pat-
+ []
+
+
+Overfull \hbox (3.04855pt too wide) in paragraph at lines 33--34
+[] \OT1/cmr/m/it/10 queue-cond: \OT1/cmr/m/n/10 It is a pthread con-di-tion var
+i-able which
+ []
+
+<figs/QueueStructGeneral.pdf, id=177, 462.52798pt x 184.0476pt>
+File: figs/QueueStructGeneral.pdf Graphic file (type pdf)
+
+<use figs/QueueStructGeneral.pdf>
+Package pdftex.def Info: figs/QueueStructGeneral.pdf used on input line 39.
+(pdftex.def)             Requested size: 462.52684pt x 184.04715pt.
+
+Overfull \hbox (9.1784pt too wide) in paragraph at lines 58--59
+[] \OT1/cmr/m/it/10 sizeof: \OT1/cmr/m/n/10 It is a call-back func-tion. Based 
+on 'QueueEn-
+ []
+
+<figs/QueueStructItems.pdf, id=178, 479.87279pt x 231.26399pt>
+File: figs/QueueStructItems.pdf Graphic file (type pdf)
+
+<use figs/QueueStructItems.pdf>
+Package pdftex.def Info: figs/QueueStructItems.pdf used on input line 64.
+(pdftex.def)             Requested size: 479.87161pt x 231.26341pt.
+ [29] [30 <./figs/QueueStructGeneral.pdf> <./figs/QueueStructItems.pdf>]
+<figs/QueueExample.png, id=199, 479.7925pt x 503.8825pt>
+File: figs/QueueExample.png Graphic file (type png)
+
+<use figs/QueueExample.png>
+Package pdftex.def Info: figs/QueueExample.png used on input line 83.
+(pdftex.def)             Requested size: 479.7913pt x 503.88127pt.
+
+Overfull \hbox (1.9392pt too wide) in paragraph at lines 95--96
+[]\OT1/cmr/m/n/10 All the oth-ers item with se-quence num-ber from
+ []
+
+[31 <./figs/QueueExample.png>]
+<figs/QueueStructWriters.pdf, id=204, 462.52798pt x 175.3752pt>
+File: figs/QueueStructWriters.pdf Graphic file (type pdf)
+
+<use figs/QueueStructWriters.pdf>
+Package pdftex.def Info: figs/QueueStructWriters.pdf used on input line 129.
+(pdftex.def)             Requested size: 462.52684pt x 175.37477pt.
+
+Overfull \hbox (2.02702pt too wide) in paragraph at lines 147--148
+\OT1/cmr/m/n/10 queue by giv-ing a queue ID, reader ID and a pointer
+ []
+
+
+Overfull \hbox (3.91696pt too wide) in paragraph at lines 154--155
+\OT1/cmr/m/n/10 can read 8 mes-sages per sec-ond av-er-agely, we should
+ []
+
+
+Overfull \hbox (69.0006pt too wide) in paragraph at lines 159--163
+\OT1/cmr/m/n/10 queue uti-liza-tion ex-ceeds a con-fig-urable thresh-old(Pacing
+OnThreshold),
+ []
+
+[32]
+Overfull \hbox (13.31335pt too wide) in paragraph at lines 168--169
+\OT1/cmr/m/n/10 for-mula. Note 'al-pha' is con-fig-urable, 'writes-
+ []
+
+
+Overfull \hbox (69.69649pt too wide) in alignment at lines 169--172
+ [][][] []
+ []
+
+
+Overfull \hbox (6.37814pt too wide) in paragraph at lines 174--175
+\OT1/cmr/m/n/10 fig-urable 'min-Writes-Limit', use 'min-Writes-
+ []
+
+
+Overfull \hbox (87.55618pt too wide) in paragraph at lines 178--179
+\OT1/cmr/m/n/10 queue uti-liza-tion with the con-fig-urable thresh-old(PacingOf
+fThreshold). 
+ []
+
+
+Overfull \hbox (87.2784pt too wide) in paragraph at lines 188--189
+\OT1/cmr/m/n/10 queue uti-liza-tion with the con-fig-urable thresh-old(PacingOn
+Threshold). 
+ []
+
+
+Overfull \hbox (18.68254pt too wide) in paragraph at lines 198--199
+[]\OT1/cmr/m/n/10 If 'write-Count[writerID]' is larger than 'writes-
+ []
+
+[33 <./figs/QueueStructWriters.pdf>]
+Overfull \hbox (22.39377pt too wide) in paragraph at lines 223--224
+[]\OT1/cmr/m/n/10 If nex-tItem[readerID] = READER[]SLOT[]AVAILABLE
+ []
+
+
+Overfull \hbox (101.36714pt too wide) in paragraph at lines 223--224
+\OT1/cmr/m/n/10 , it means the reader has ceased and re-turn READER[]SLOT[]AVAI
+LABLE
+ []
+
+) (./login.tex) (./ack.tex) (./techreport.bbl
+! Undefined control sequence.
+l.16 \newblock \url
+                   {http://www.ietf.org/rfc/rfc4271.txt}.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[34]
+! Undefined control sequence.
+l.21 \newblock \url
+                   {http://www.ietf.org/internet-drafts/draft-ietf-grow-mrt-...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+) [35
+
+] (./techreport.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2814 strings out of 493633
+ 36943 string characters out of 3148831
+ 100435 words of memory out of 3000000
+ 5991 multiletter control sequences out of 15000+200000
+ 41678 words of font info for 51 fonts, out of 3000000 for 9000
+ 833 hyphenation exceptions out of 8191
+ 41i,12n,26p,1445b,320s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
+r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/fonts/typ
+e1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr
+8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texm
+f-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/
+times/utmri8a.pfb>
+Output written on techreport.pdf (35 pages, 1596344 bytes).
+PDF statistics:
+ 261 PDF objects out of 1000 (max. 8388607)
+ 161 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
+

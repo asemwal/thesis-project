@@ -1,0 +1,160 @@
+\section{Configuration Module}
+\label{sec:config}
+
+Configuration of BGPmon is entirely via command line interface which is very similar to a cisco router. Internally all the configurations will be stored in a XML file which can be loaded later. The configuration of a module corresponds to a  part of the XML file. In a high level, configuration module builds a bridge between main program and all the other modules in oder to facilitate the configuration management. 
+More specifically, configuration module mainly consists of 3 parts.
+First configuration module provides a facade to main program that allows it to read, save and backup XML configuration file without knowing the details of other modules . Secondly configuration module provides some XML utility functions to other modules as each of them needs the same set of functions to read configuration from XML file and save configuration into XML file. At last, configuration module is also a centralized place to define the XPaths of  all the configuration. 
+  
+  
+ \subsection{Read, Save and Backup XML Configuation File} 
+Configuration module provides the following 3 functions to main program:
+ \begin{itemize}
+ 	\item{\emph{ readConfigFile: } This facade function is called by main program to load the configuration into memory from XML file. Instead of direct reading the XML configuration file it delegate reading functions to each module. In other words, each module provides a reading configuration function to load its own configuration from XML file and the facade function just needs to call these read functions in order to load all the configuration.
+	If the XML configuration file is corrupted, this function will try to load as much as possible into memory and return a error code .}
+	\item{\emph{ saveConfigFile:} This facade function is called by main program and login module to write the configuration from memory into XML file. Similar to \emph{ readConfigFile}, it doesn't directly write the configuration into XML file. Each module provides a writing configuration function to write its own configuration into XML file and this facade function just calls them one by one.}   
+	\item{\emph{ backupConfigFile:} This function is called by main program to back up the current configuration file. It is called typically when the current configuration file is corrupted.}
+	We described in details how main program uses the 3 functions in section \ref{sec:main}.
+\end{itemize}  
+ 
+  \subsection{XML Utility Functions} 
+Configuration module provides a couple of get and set functions to read and write XML file.  The caller of these functions needs to pass in the XPath to locate a particular configuration item.
+These get functions can return the configuration item in a specified data type and check the value against the specified conditions. For example, the caller can specify to get a configuration item in integer and check if the value is between 0 and 10. If this configuration item in XML file cannot be converted to a integer or its value is larger than 10, a error code will be returned.
+ 
+  \subsection{XPath Definitions} 
+  Each module needs to define a bunch of XPaths in order to read its own configurations from XML file.  For example, for the clients management module it configurations look like this:
+     \begin{verbatim}
+	<BGPmon>
+    <CLIENTS>
+       <LISTEN_ADDR>ipv4loopback</LISTEN_ADDR>
+       <LISTEN_PORT>50001</LISTEN_PORT>
+       <ENABLED>0</ENABLED>
+       <MAX_CLIENTS>10000</MAX_CLIENTS>
+    </CLIENTS>
+	</BGPmon>
+\end{verbatim}
+As a result, clients management module needs to define 4 XPaths for the 4 items: LISTEN\_ADDR, LISTEN\_PORT, ENABLED and MAX\_CLIENTS. In order to get the 4 values,  clients management module needs to call the get functions mentioned before and pass in the XPaths. The XPath definitions of all modules can be found in Config\/configdefaults.h.
+  
+  
+  \subsection{Design Philosophy} 
+  As each module has the best knowledge of its own conﬁguration, our design divides the entire conﬁguration of BGPmon into a couple of small pieces according to the division of modules. Each module only handles it own piece. In this way, the changes of conﬁguration will be localized inside one module and none of them will be exposed to main program or other modules. XML utility functions are deﬁned here as most of modules need them to handle the XML ﬁle. Also in order to manage all the XPaths of modules e?ciently, they are centralized stored in the conﬁguration module. The last design issue here is about default conﬁguration. There are 2 reasons why we need this default conﬁguration.
+   \begin{itemize}
+ 	\item{ It includes the minimal set of conﬁguration to start BGPmon for this ﬁrst time. For 	example, the command line interface needs a default enable password and a default port to
+	listen on even if there is no conﬁguration yet.}
+	\item{ It provides the defaults for all the optional conﬁguration. For example, the BGP
+	version of peer conﬁguration is optional and the default value will be used if it is not speciﬁed by the user.}   
+\end{itemize}  
+
+The default conﬁguration of BGPmon can be found in site defaults.h. It can be changed by editing this ﬁle and then recompile BGPmon. And default conﬁguration will be overwritten by the conﬁguration via command line interface.
+
+%  As each module has the best knowledge of its own configurations, our design divides the entire configurations of BGPmon into a couple of small pieces according to the division of modules. Each module only handles it own piece.
+%  In this way, the changes of configurations will be localized inside one module and none of them will be exposed to main program or other modules. 
+%  XML utility functions are defined here as most of modules need them to handle the configurations in XML file. Also in order to manage all the XPaths of modules efficiently, they are  centralized stored in the configuration module.  
+%    
+%The BGPmon configuration parameters are divided into four classes.   First,  \emph{Peering Parameters} control all actions related to BGP peering sessions.   These parameters are discussed in Section~\ref{sec:config:peers}.     Second,  \emph{Client Parameters} control who can receive data from BGPmon.   These parameters are discussed in Section~\ref{sec:config:clients}.  Third, \emph{Chaining Parameters} instruct this BGPmon to form chains by connecting to other BGPmon instances.  These parameters are discussed in Section~\ref{sec:config:chains}.   Finally, \emph{General Parameters} control administrative access to BGPmon,  queue management, and other BGPmon system specific settings.   These parameters are discussed in Section~\ref{sec:config:general}.  
+
+%The resulting BGPmon configuration file has the following format is shown in Figure \ref{fig:config:overview}. 
+
+%\begin{figure}[!htb]
+%\begin{verbatim}
+%<BGPmon>
+%     <Peering>
+%          See Peering Configuration Parameter Section
+%     </Peering>
+%     <Clients>
+%          See Client Configuration Parameter Section
+%     </Clients>
+%     <Chains>
+%          See Chaining Configuration Parameter Section
+%     </Chains>
+%     <General>
+%          See General Configuration Parameter Section
+%     </General>
+%</BGPmon>
+%\end{verbatim}
+%\caption{BGPmon Configuration Overview}
+%\label{fig:config:overview}
+%\end{figure}
+
+%\subsection{Peering Configuration Parameters}
+%\label{sec:config:peers}
+
+%\begin{figure}[!htb]
+%\begin{verbatim}
+%<Peering>
+%     <PEER_DEFAULTS>
+%          Peer Settings
+%     </PEER_DEFAULTS>
+%     <PEER>
+%          Peer Settings
+%     </PEER>
+%     ....
+%     <PEER>
+%            Peer Settings
+%     </PEER>
+%</Peering>
+%\end{verbatim}
+%\caption{Peering Configuration Overview}
+%\label{fig:config:peer:overview}
+%\end{figure}
+
+%\emph{Peering Parameters} control all actions related to BGP peering sessions.   This is the largest and most complex configuration section.      Peering parameters are divided into three broad classes.   
+
+%First,  there are a set of mandatory settings with compiled defaults.     The BGP version number is an example of a mandatory setting with a compiled default.    The BGP version number is a required part of some BGP messages and BGPmon must know the version number to implement the protocol correctly.     However,  most routers at the time of this writing to use version 4.   
+
+%
+
+%
+
+%\begin{figure}[!htb]
+%\begin{verbatim}
+
+%<MONITOR_ADDRESS AFI=NUMBER>   
+%     ADDRESS  - DEFAULT TO ADDRESS OF SOME INTERFACE 
+%</MONITOR_ADDRESS>
+
+%<MONITOR_PORT>
+%    PORT_NUMBER - DEFAULT to Port 128
+%</MONITOR_PORT>
+
+%<MONITOR_VERSION>
+%   BGP_VERSION_NUMBER> - DEFAULT to 4
+%</MONITOR_VERSION>
+
+%\end{verbatim}
+%\caption{Mandatory - With Default}
+%\label{fig:config:peer:settings}
+%\end{figure}
+
+%\begin{figure}[!htb]
+%\begin{verbatim}
+%<MONITOR_ADDRESS AFI=NUMBER>   
+%     ADDRESS  - DEFAULT TO ADDRESS OF FIRST INTERFACE 
+%</MONITOR_ADDRESS>
+
+%<MONITOR_PORT>
+%    PORT_NUMBER - DEFAULT to Port 128
+%</MONITOR_PORT>
+
+%<MONITOR_VERSION>
+%   BGP_VERSION_NUMBER> - DEFAULT to 4
+%</MONITOR_VERSION>
+%\end{verbatim}
+%\caption{Mandatory - With Default}
+%\label{fig:config:peer:settings}
+%\end{figure}
+
+%\subsection{Client Configuration Parameters}
+%\label{sec:config:clients}
+
+%\emph{Client Parameters} control who can receive data from BGPmon.
+
+%\subsection{Chaining Configuration Parameters}
+%\label{sec:config:chains}
+
+%\emph{Chaining Parameters} instruct this BGPmon to form chains by connecting to other BGPmon instances. 
+
+%\subsection{General Parameters}
+%\label{sec:config:general}
+
+%\emph{General Parameters} control administrative access to BGPmon,  queue management, and other BGPmon system specific settings.
+

@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# $FREEBSD$
+#
+# PROVIDE: bgpmon
+# REQUIRE: DAEMON
+#
+# Author: Mikhail Strizhov
+# strizhov@cs.colostate.edu
+#
+BINDIR=@bindir[@]
+daemon=${BINDIR}/bgpmon
+STATEDIR=@statedir[@]
+SYSCONFDIR=@sysconfdir[@]
+CONFIG_FILE=${SYSCONFDIR}/bgpmon_config.txt
+GEODB_FILE=${SYSCONFDIR}/bgpmon_geodb.txt
+daemon_flags="-d -c $CONFIG_FILE -s -g $GEODB_FILE"
+
+. /etc/rc.subr
+
+name="bgpmon"
+rcvar=${name}_enable
+
+command=${daemon}
+command_args=${daemon_flags}
+
+load_rc_config $name
+
+: ${bgpmon_enable="NO"}
+
+run_rc_command "$1"

@@ -1,0 +1,9 @@
+test/unit_test_input
+This directory is meant to hold all of the input that is needed for unit tests.
+Unit tests are those that are run using CUnit using the make test target in the Makefile.
+
+There should be a directory's for each different protocal that is being tested.
+For instance the mrt directory contains mrt messages.
+Thus far the mrt directory has adopted the naming convention  mrt.[type].[subtye]
+There are variations within each of those and so as we expand the tests the naming conventions
+need to become more specific.

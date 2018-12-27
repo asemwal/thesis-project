@@ -1,0 +1,111 @@
+\section{Configuration Parameters}
+\label{sec:config:overall}
+
+The BGPmon configuration parameters are divided into four classes.   First,  \emph{Peering Parameters} control all actions related to BGP peering sessions.   These parameters are discussed in Section~\ref{sec:config:peers}.     Second,  \emph{Client Parameters} control who can receive data from BGPmon.   These parameters are discussed in Section~\ref{sec:config:clients}.  Third, \emph{Chaining Parameters} instruct this BGPmon to form chains by connecting to other BGPmon instances.  These parameters are discussed in Section~\ref{sec:config:chains}.   Finally, \emph{General Parameters} control administrative access to BGPmon,  queue management, and other BGPmon system specific settings.   These parameters are discussed in Section~\ref{sec:config:general}.  
+
+The resulting BGPmon configuration file has the following format is shown in Figure \ref{fig:config:overview}. 
+
+\begin{figure}[!htb]
+\begin{verbatim}
+<BGPmon>
+     <Peering>
+          See Peering Configuration Parameter Section
+     </Peering>
+     <Clients>
+          See Client Configuration Parameter Section
+     </Clients>
+     <Chains>
+          See Chaining Configuration Parameter Section
+     </Chains>
+     <General>
+          See General Configuration Parameter Section
+     </General>
+</BGPmon>
+\end{verbatim}
+\caption{BGPmon Configuration Overview}
+\label{fig:config:overview}
+\end{figure}
+
+\subsection{Peering Configuration Parameters}
+\label{sec:config:peers}
+
+\begin{figure}[!htb]
+\begin{verbatim}
+<Peering>
+     <PEER_DEFAULTS>
+          Peer Settings
+     </PEER_DEFAULTS>
+     <PEER>
+          Peer Settings
+     </PEER>
+     ....
+     <PEER>
+            Peer Settings
+     </PEER>
+</Peering>
+\end{verbatim}
+\caption{Peering Configuration Overview}
+\label{fig:config:peer:overview}
+\end{figure}
+
+\emph{Peering Parameters} control all actions related to BGP peering sessions.   This is the largest and most complex configuration section.      Peering parameters are divided into three broad classes.   
+
+First,  there are a set of mandatory settings with compiled defaults.     The BGP version number is an example of a mandatory setting with a compiled default.    The BGP version number is a required part of some BGP messages and BGPmon must know the version number to implement the protocol correctly.     However,  most routers at the time of this writing to use version 4.   
+
+
+
+
+
+\begin{figure}[!htb]
+\begin{verbatim}
+
+<MONITOR_ADDRESS AFI=NUMBER>   
+     ADDRESS  - DEFAULT TO ADDRESS OF SOME INTERFACE 
+</MONITOR_ADDRESS>
+
+<MONITOR_PORT>
+    PORT_NUMBER - DEFAULT to Port 128
+</MONITOR_PORT>
+
+<MONITOR_VERSION>
+   BGP_VERSION_NUMBER> - DEFAULT to 4
+</MONITOR_VERSION>
+
+\end{verbatim}
+\caption{Mandatory - With Default}
+\label{fig:config:peer:settings}
+\end{figure}
+
+\begin{figure}[!htb]
+\begin{verbatim}
+<MONITOR_ADDRESS AFI=NUMBER>   
+     ADDRESS  - DEFAULT TO ADDRESS OF FIRST INTERFACE 
+</MONITOR_ADDRESS>
+
+<MONITOR_PORT>
+    PORT_NUMBER - DEFAULT to Port 128
+</MONITOR_PORT>
+
+<MONITOR_VERSION>
+   BGP_VERSION_NUMBER> - DEFAULT to 4
+</MONITOR_VERSION>
+\end{verbatim}
+\caption{Mandatory - With Default}
+\label{fig:config:peer:settings}
+\end{figure}
+
+\subsection{Client Configuration Parameters}
+\label{sec:config:clients}
+
+\emph{Client Parameters} control who can receive data from BGPmon.
+
+\subsection{Chaining Configuration Parameters}
+\label{sec:config:chains}
+
+\emph{Chaining Parameters} instruct this BGPmon to form chains by connecting to other BGPmon instances. 
+
+\subsection{General Parameters}
+\label{sec:config:general}
+
+\emph{General Parameters} control administrative access to BGPmon,  queue management, and other BGPmon system specific settings.
+

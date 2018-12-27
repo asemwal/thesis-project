@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# Startup Fedora and RedHat script for BGPmon.
+#
+# Author: Mikhail Strizhov
+# strizhov@cs.colostate.edu
+#
+#
+# chkconfig: 35 85 15     - start or stop process definition within the boot process
+# description: BGPmon Monitoring System
+# processname: bgpmon
+# pidfile: @statedir[@]/run/bgpmon.pid
+SYSTEMCTL_SKIP_REDIRECT=1
+
+# Source function library.      This creates the operating environment for the process to be started
+. /etc/rc.d/init.d/functions
+
+BGPMON=bgpmon
+BINDIR=@bindir[@]
+STATEDIR=@statedir[@]
+BGPMON_EXEC=${BINDIR}/${BGPMON}
+SYSCONFDIR=@sysconfdir[@]
+CONFIG_FILE=${SYSCONFDIR}/bgpmon_config.txt
+GEODB_FILE=${SYSCONFDIR}/bgpmon_geodb.txt
+STARTSTOPD=@STARTSTOPD[@]
+ARGS=" -c $CONFIG_FILE -d -s -g $GEODB_FILE"
+lockfile=/var/lock/subsys/${BGPMON}
+
+case "$1" in
+  start)
+	if pgrep -f ${BGPMON_EXEC} > /dev/null
+	then
+		echo "$BGPMON is running"
+	else
+	        echo -n "Starting $BGPMON: "
+        	daemon $BGPMON_EXEC $ARGS
+                RETVAL=$?
+		echo
+                [ $RETVAL -ne 0 ] && exit $RETVAL
+                echo
+		touch $lockfile
+	fi	
+        ;;
+  stop)
+	if pgrep -f ${BGPMON_EXEC} > /dev/null
+	then
+        	echo -n "Shutting down $BGPMON: "
+	        killproc $BGPMON_EXEC
+                echo
+	        rm -f $lockfile
+	else
+		echo "$BGPMON is not running!"
+	fi	
+        ;;
+ restart)
+	$0 stop && $0 start
+  	;;
+ *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+exit 0
+

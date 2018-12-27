@@ -1,0 +1,5 @@
+\begin{abstract}
+This paper describes the implementation and technical specification for  BGPmon, a new BGP monitoring system.    
+BGPmon uses a publish/subscribe approach to provide real-time  access to vast numbers of peers and clients.   
+BGPmon scales up by eliminating route selection, forwarding functions, and routing table dumps to focus solely on the monitoring function.   Using features such as route refresh, all events including periodic table transfers are consolidated into a single XML stream.  XML allows us to add additional features such as labeling updates to allow easy identification of useful data by clients.  Clients subscribe to BGPmon and receive the XML stream, performing tasks such as archiving, filtering, or real- time data analysis.     This document captures the underlying implementations decisions behind BGPmon.   The intended audience is a reader who wants to understand how BGPmon was built and possibly enhance the design with new features.  
+\end{abstract}

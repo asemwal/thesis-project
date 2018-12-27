@@ -1,0 +1,1616 @@
+An XML-Based Format for Representing BGP Messages (XFB)
+Jason Bartlett, Mikhail Strizhov, Kirill Belyaev, Daniel Massey
+NetSec Group, Colorado State University
+Jason.D.Bartlett@gmail.com, strizhov@cs.colostate.edu, 
+kirillbelyaev@yahoo.com, massey@cs.colostate.edu
+
+Abstract
+In this document we present XFB, an XML-based Format for BGP messages.
+The goal of this format is to make raw BGP data easier to understand and 
+process by both human and computers.  By using XML as the template for XFB, 
+we achieve a high level of readability, extensibility, and portability.
+
+Table of Contents
+
+    1.  Introduction
+    2.  Terminology
+        2.1 Requirements Language
+        2.2 XML Terminology
+        2.3 Data Types
+    3.  XFB Message Format
+        3.1 BGP_MESSAGE
+        3.2 ASCII_MSG
+            3.2.1   OPEN
+                3.2.1.a PARAMETER
+            3.2.2   UPDATE
+                3.2.2.a PREFIX
+                3.2.2.b ATTRIBUTE
+            3.2.3   NOTIFICATION
+            3.2.4   KEEPALIVE
+            3.2.5   ROUTE_REFRESH
+            3.2.6   UNKNOWN
+        3.3 OCTET_MSG
+    4.  Additional Definitions
+        4.1 Path Attribute Definitions
+            4.1.1   ORIGIN
+            4.1.2   AS_PATH
+            4.1.3   NEXT_HOP
+            4.1.4   MULTI_EXIT_DISC
+            4.1.5   LOCAL_PREF
+            4.1.6   ATOMIC_AGGREGATE
+            4.1.7   AGGREGATOR
+            4.1.8   COMMUNITIES
+                4.1.8.a COMMUNITY and RESERVED_COMMUNITY
+            4.1.9   ORIGINATOR_ID
+            4.1.10  CLUSTER_LIST
+            4.1.11  ADVERTISER
+            4.1.12  RCID_PATH
+            4.1.13  MP_REACH_NLRI
+            4.1.14  MP_UNREACH_NLRI
+            4.1.15  EXTENDED_COMMUNITIES
+            4.1.16  AS4_PATH
+            4.1.17  AS4_AGGREGATOR
+            4.1.18  TUNNEL_ENCAP
+            4.1.19  TRAFFIC_ENGR
+            4.1.20  IPv6-SPECIFIC EXTENDED COMMUNITIES
+            4.1.21  UNKNOWN
+        4.2 Enumerated Data Type Definitions
+            4.2.1   AFI
+            4.2.2   SAFI
+            4.2.3   Origin Type
+            4.2.4   Open Parameter Type
+            4.2.5   BGP Message Type
+            4.2.6   BGP Error Codes
+            4.2.7   BGP Error Subcodes
+            4.2.8   Path Attribute Type
+            4.2.9   AS Segment Type
+    5.  Security Concerns
+    6.  IANA Considerations
+    7.  References
+    Appendix A. Recommended Metadata
+        A.1 DATETIME data type
+        A.2 TIME
+        A.3 PEERING
+    Appendix B. XFB XSD
+
+1: Introduction
+
+BGP routing information is a valuable resource for both network 
+administrators and researchers.  It then becomes important to standardize a 
+way to communicate this data.  Any such standard ought to have the following 
+properties:
+
+- Easy for operators to read
+- Easy to process by machine
+- Easy to extend for new features in BGP
+
+It is with these conditions in mind that we present XFB, an XML-based format, 
+as a standardized way to represent the information passed in BGP messages.  
+By using XML as a base for XFB, we gain XML's portability and extensibility.  
+In addition, the markup is easy for people to read and also straightforward 
+to process by machine.  Extensions in BGP are added by simply including 
+additional tags and/or annotations to existing tags, and systems not 
+interested in this new data can simply ignore it, allowing for XFB 
+implementations to catch up to new features in BGP with no loss of efficiency.
+
+2: Terminology
+
+2.1: Requirements Language
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", 
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be 
+interpreted as described in RFC 2119 [RFC2119].
+
+2.2: XML Terminology
+For purposes of this document, we define the following terms:
+
+- tag: a capitalized language keyword enclosed in angle brackets.  Tags are 
+generally paired as matching start tags (e.g. <EXAMPLE_TAG>) and end or 
+closing tags (e.g. </EXAMPLE_TAG>).
+
+- content: the actual information enclosed in a matched pair of tags, e.g. 
+<EXAMPLE_TAG>content</EXAMPLE_TAG>.
+
+- element: refers to a start tag, an end tag, and any text content and/or
+nested elements, e.g., 
+<EXAMPLE_TAG>data (possibly with nested elements)</EXAMPLE_TAG>.
+
+- empty element: a shorthand representation of an element with no content 
+it, e.g., <EXAMPLE_TAG/>.
+
+- attribute: additional information annotated to an element.  
+If present, attributes MUST be listed inside their owner's tags, e.g. 
+<EXAMPLE_TAG attribute="value">. Attributes MAY be present in empty elements, 
+e.g. <EXAMPLE_TAG attribute="value"/>.  To lessen confusion, BGP path 
+attributes are referred to in this document as "path attributes".
+
+2.3: Data Types
+Because XFB is a representation of BGP, we restrict the valid data types of 
+the language to the following:
+
+- INTEGER: A standard integer data type.  INTEGERs MUST be encoded as Base-10.
+
+- CHARACTER: A single ASCII character.  Special characters MUST be encoded 
+with entity references.
+
+- STRING: A string of CHARACTERs.
+
+- HEXBIN: A data type for representing binary data.  Each octet is encoded as 
+two (2) hexadecimal (base-16) digits.
+
+- ENUM: An enumerated data type defined with a list of acceptable values.  
+Each acceptable value MUST have a representative keyword.  Defined enumerated 
+data types are listed in Section 4.2.
+
+3: XFB Message Format
+
+A BGP Message represented in XFB is constructed as an XML tree of nested 
+elements.  The top-level element is BGP_MESSAGE, which contains the data from 
+the actual BGP message in human-readable ASCII and/or in the raw binary data.
+
+3.1: The BGP_MESSAGE Element
+A BGP_MESSAGE is the root element of every XFB message.  The BGP_MESSAGE 
+element defines the following five (5) attributes:
+
+- STRING xmlns: Required. An attribute for the namespace of the current XFB 
+specification.
+
+- STRING version: Required. An attribute for the current version of XFB.  
+Currently 0.5.
+
+- INTEGER length: Required. An attribute for the length of the entire 
+BGP_MESSAGE (in octets), including the BGP_MESSAGE tags.
+
+- INTEGER type_value: Required. The type of BGP message being represented. 
+RFC 4271 defines type codes 1 through 4, and RFC 2918 defines type code 5.  
+An implementation MAY handle other types.  In the event of an unrecognized 
+type, the type code MUST be preserved.
+
+- STRING type: Required. A human-readable representation of type_value.
+
+In addition, the following two (2) elements are defined:
+
+- ASCII_MSG: Optional. An element that contains an ASCII representation of 
+the BGP_MESSAGE.  Defined in Section 3.2.
+
+- OCTET_MSG: Optional. An element that contains the raw bytes of the 
+BGP_MESSAGE.  Defined in Section 3.11.
+
+An implementation MUST include at least one (1) of ASCII_MSG or OCTET_MSG.
+
+Implementations of XFB SHOULD include both ASCII and binary versions of the 
+BGP_MESSAGE.  If only one is to be used, implementations SHOULD prefer the 
+binary version.
+
+The BGP_MESSAGE element MAY include additional child elements or additional 
+attributes.  See Appendix A for some recommended examples.
+
+3.2: The ASCII_MSG Element
+
+The ASCII_MSG is defined with the following attributes and elements:
+
+- MARKER: Required. An element containing the HEXBIN representation of the 16-
+octet BGP header field.
+
+- INTEGER length: Required. An attribute containing the length of the 
+message, including the header field, in octets.
+
+- {OPEN,UPDATE,NOTIFICATION,KEEPALIVE,ROUTE_REFRESH,UNKNOWN}.  Exactly one 
+(1) Required. An element corresponding to a given message type.  These 
+elements are defined below.
+
+The ASCII_MSG MAY be extended with additional attributes.
+
+3.2.1: The OPEN Message
+The OPEN message defines the following attributes and elements:
+
+- VERSION: Required. An element containing the protocol version of BGP used 
+in the message.
+
+- SRC_AS: Required. An element containing the Autonomous System (AS) number 
+of the source of the BGP_MESSAGE.
+
+- HOLD_TIME: Required. An element containing the proposed hold time, in 
+seconds, for this peering session.
+
+- BGPID: Required. An element containing the BGP Identification of the BGP 
+peer.
+
+- OPT_PAR_LEN: Required. An element containing the length of the Optional 
+Parameters field, in octets.
+
+- OPT_PAR: Optional. If Optional Parameters are present, the OPT_PAR element 
+contains one or more PARAMETER elements.  The PARAMETER element is defined 
+below.  In addition, the OPT_PAR element MAY be extended with additional 
+attributes.
+
+3.2.1.a: The PARAMETER element
+The PARAMETER class is simple, containing only two (2) elements and one (1) 
+attribute:
+
+- TYPE: Required. An element containing the type of the parameter.  Type 1 
+(Authentication) and Type 2 (Capabilities) MUST be included.  Unknown types 
+MUST be preserved.
+
+- INTEGER length: Required. An attribute containing the length of the 
+parameter value, in octets.
+
+- VALUE: Required. An element containing the value of the parameter. Unknown 
+types MUST be preserved as binary data. Type 1 and Type 2 parameters are 
+defined.
+
+The AUTHENTICATION element contains a single optional attribute 'code' to 
+indicate the type of authentication, and contains the actual binary 
+authentication data.  Note that the Authentication Parameter is deprecated in 
+BGP-4, but is included in XFB for compatibility.  The AUTHENTICATION element 
+MAY be annotated with additional attributes.
+
+The CAPABILITIES element, as defined in RFC 5492, contains one or more CAP 
+child elements, each of which defines the following information:
+
+- CODE: Required. An element containing the string code of the capability 
+being advertised.
+
+- INTEGER length: Required. An attribute containing the length, in octets, of 
+the advertisement.
+
+- DATA: Required. An element that contains the string value of the Capability 
+Value field.
+
+The CAPABILITIES element MAY be annotated with extra attributes.
+
+3.2.2: The UPDATE Message
+The UPDATE message element is defined with the following information:
+
+- INTEGER withdrawn_len: Required. An attribute containing the length of the 
+Withdrawn Routes element, in octets.
+
+- INTEGER path_attributes_len: Required. An attribute containing the length of 
+the Path Attributes field, in octets.
+
+- WITHDRAWN: Optional. If withdrawn_len is zero (0), the WITHDRAWN element MAY 
+be omitted OR included as an empty element.  If withdrawn_len is not 
+zero (0), the WITHDRAWN element contains one or more PREFIX 
+elements.  The PREFIX element is defined below.
+
+- PATH_ATTRIBUTES: Optional. If path_attributes_len is zero (0), the 
+PATH_ATTRIBUTES element MAY be omitted or included as an empty 
+element.  If not, the PATH_ATTRIBUTES contains one or more ATTRIBUTE 
+elements.  The ATTRIBUTE element is defined below.
+
+- NLRI: Optional. If path_attributes_len is zero (0), the NLRI element may be 
+omitted OR included as an empty element.  If not, the NLRI element contains 
+one or more PREFIX elements.
+
+3.2.2.a: The PREFIX Element
+The PREFIX element defines the following information:
+
+- INTEGER length: Optional. An attribute containing the length of the prefix, 
+in bits.
+
+- AFI: Optional. An element containing a string representation of the Address 
+Family Identifier of this prefix.  It SHOULD also have an attribute with the 
+INTEGER type code of the AFI.
+
+- SAFI: Optional. An element containing a string representation of the 
+Subsequent Address Family Identifier of this prefix.  It SHOULD also have an
+attribute with the INTEGER type code of the SAFI.
+
+- ADDRESS: The string representation of the CIDR prefix.
+
+The PREFIX element MAY be extended with additional attributes.
+
+3.2.2.b: The ATTRIBUTE element
+The ATTRIBUTE element defines the following information:
+
+- FLAGS: Required. An empty element with boolean attributes corresponding to 
+each of the four (4) defined path attribute flags (optional, transitive, 
+partial, extended).  In addition, the FLAGS element MAY be extended with 
+additional attributes.  Any flag with a FALSE value MAY be omitted. 
+
+- TYPE: Required. A human-readable element containing the type of this path 
+attribute.
+
+- INTEGER length: Required. An attribute containing the length of this path 
+attribute, in octets.
+- 
+{ORIGIN, AS_PATH, NEXT_HOP, MULTI_EXIT_DISC, LOCAL_PREF, ATOMIC_AGGREGATE, 
+AGGREGATOR, COMMUNITIES, ORIGINATOR_ID, CLUSTER_LIST, ADVERTISER, RCID_PATH, 
+MP_REACH_NLRI, MP_UNREACH_NLRI, EXTENDED_COMMUNITIES, AS4_PATH, 
+AS4_AGGREGATOR, TUNNEL_ENCAP, TRAFFIC_ENGR, OTHER}: Required. An element 
+corresponding to one or more of these path attributes.
+
+The individual path attribute elements are defined in Section 4.1.  Also, the 
+ATTRIBUTE element MAY be extended with additional attributes.
+
+3.2.3: The NOTIFICATION Message
+The NOTIFICATION element defines the following information:
+
+- CODE: Required. An element containing a human-readable representation of the 
+error code.  This element SHOULD include an INTEGER attribute with the 
+numerical error code. Valid error codes are given in Section 4.2.4.
+
+- SUBCODE: Required. An element containing a human-readable representation of 
+the error subcode.  This element SHOULD include an INTEGER attribute with the 
+numerical error subcode.  Valid error subcodes are given in Section 4.2.5.
+
+- DATA: Optional. If specified for the given error code and subcode, the DATA 
+element contains a human-readable representation of the necessary data.
+
+The NOTIFICATION element SHOULD NOT be extended with additional elements, but
+MAY be extended with attributes.
+
+3.2.4: The KEEPALIVE Message
+The KEEPALIVE message type is represented in XFB as an empty element with no 
+attributes.  It SHALL NOT be extended with additional attributes or elements.
+
+3.2.5: The ROUTE_REFRESH Message
+The ROUTE_REFRESH message type is represented in XFB with these child elements:
+
+- AFI: Required. An element containing the Address Family Identifier.  This 
+element SHOULD include an INTEGER attribute with the type code of the AFI.
+
+- SAFI: Required. An element containing the Subsequent Address Family 
+Identifier. This element SHOULD include an INTEGER attribute with the type 
+code of the SAFI.
+
+The ROUTE_REFRESH MAY NOT be extended with additional elements, but MAY be 
+extended with attributes.
+
+3.2.6: UNKNOWN Message Types
+In the event an unknown type of BGP message is collected, the ASCII_MSG will 
+contain only an UNKNOWN element that preserves the message in HEXBIN format.  
+The UNKNOWN element MAY be extended with additional attributes, but MAY NOT
+be extended with additional elements.
+
+3.2.7: The OCTET_MSG Element
+By default, the OCTET_MSG element contains no attributes.  It defines an 
+OCTETS element which contains the HEXBIN version of the BGP_MESSAGE.  The 
+OCTET_MSG element MAY be extended with additional attributes or elements.
+
+4: Additional Definitions
+
+4.1: Path Attribute Element Definitions
+These sections define the information in the elements for each of the defined 
+path attributes.  Unless otherwise noted, they SHOULD NOT be extended with 
+additional elements or attributes.
+
+4.1.1: ORIGIN
+The ORIGIN element defines one (1) attribute:
+
+- content: Required. The human-readable representation of the source of this 
+BGP information. Defined types are in Section 4.2.3.
+
+- INTEGER code: Required. An attribute containing the numerical code for the 
+source of this BGP information.
+
+4.1.2: AS_PATH
+The AS_PATH element contains one or more AS_SEG elements, and MAY be extended
+with additional attributes.
+
+Each AS_SEG element has a STRING attribute which contains one of the segment
+types given in Section 4.2.7 and MAY include additional attributes.  The 
+AS_SEG element contains one or more AS elements, which each contain exactly
+one (1) AS number.  These AS elements SHOULD NOT have any additional 
+attributes or child elements.
+
+4.1.3: NEXT_HOP
+The NEXT_HOP path attribute contains a human-readable version of the IPv4 next 
+hop to reach the prefixes in the NLRI element.
+
+4.1.4: MULTI_EXIT_DISC
+The MULTI_EXIT_DISC element only contains a single integer.  It does not 
+define any attributes or elements. It MAY NOT be extended.
+
+4.1.5: LOCAL_PREF
+The LOCAL_PREF element only contains a single integer.  It does not define any 
+attributes or elements.  It MAY NOT be extended.
+
+4.1.6: ATOMIC_AGGREGATE
+The ATOMIC_AGGREGATE is defined as an empty element with no attributes.  It 
+MAY NOT be extended.
+
+4.1.7: AGGREGATOR
+The AGGREGATOR element contains the following two (2) elements:
+
+- AS: Required. Contains the INTEGER AS Number of the BGP speaker that 
+aggregated routes.
+
+- ADDR: Required. Contains the STRING IP address of the aggregator.
+
+These elements MAY NOT be extended with additional attributes or elements.
+
+4.1.8: COMMUNITIES
+The COMMUNITIES element is defined to hold one or more of the following 
+elements:
+
+- NO_EXPORT: An empty element that indicates the NO_EXPORT well-known 
+community.
+
+- NO_ADVERTISE: An empty element that indicates the NO_ADVERTISE well-known 
+community.
+
+- NO_EXPORT_SUBCONFED: An empty element that indicates the NO_EXPORT_SUBCONFED 
+well-known community.
+
+- COMMUNITY: An element defining a specific community.  This element is 
+defined below.
+
+- RESERVED_COMMUNITY: An element defining a specific reserved community.  This 
+element is defined below.
+
+The COMMUNITIES element does not define any attributes, but MAY be extended 
+with additional attributes.
+
+4.1.8.a: COMMUNITY and RESERVED_COMMUNITY
+The COMMUNITY and RESERVED_COMMUNITY elements are defined to contain the 
+following two (2) elements:
+
+- AS: The AS Number contained in the first two octets of the Community 
+value.
+
+- VALUE: The identifier contained in the last two octets of the Community 
+value.
+
+The content of both the AS and VALUE elements are INTEGERs.
+
+4.1.9: ORIGINATOR_ID
+The ORIGINATOR_ID element contains the INTEGER representation of the source of 
+a reflected route.  No attributes or elements are defined.  It MAY NOT be 
+extended.
+
+4.1.10: CLUSTER_LIST
+The CLUSTER_LIST element contains one or more ID elements, which contain a 
+human-readable representation of the cluster ID through which a particular 
+reflected route has passed.  It does not define any attributes, but MAY be 
+extended with additional attributes.
+
+4.1.11: ADVERTISER
+The ADVERTISER element contains a human-readable representation of a BGP 
+speaker's ID.
+Note that RFC 1863 is classified as Historic.  Implementations MUST, however, 
+handle this type.
+
+4.1.12: RCID_PATH
+The RCID_PATH element contains one or more ID elements that contain human-
+readable representations of RS Cluster Identifiers as defined in RFC 1863.  
+This element does not define any attributes, but MAY be extended with 
+additional attributes.
+
+4.1.13: MP_REACH_NLRI
+The MP_REACH_NLRI element contains the following information:
+
+- AFI: Required. An element containing the Address Family Identifier.  This 
+element SHOULD include an INTEGER attribute with the type code of the AFI.
+
+- SAFI: Required. An element containing the Subsequent Address Family 
+Identifier. This element SHOULD include an INTEGER attribute with the type 
+code of the SAFI.
+
+- NEXT_HOP_LEN: Required. An element containing the INTEGER length, in octets, 
+of the next hop field.
+
+- NEXT_HOP: Required. Contains one or more ADDRESS elements, each of which
+contain the STRING representation of exactly one (1) address.  Multiple
+next hops are permissible, and can be encountered in IPv6 data that follows
+RFC 2545 [RFC2545], which includes a second link-local IPv6 address in addition
+to the unicast IPv6 next hop.
+
+- NLRI: Required. An element with the multiprotocol NLRI information.  The 
+NLRI element is defined in Section 3.6.
+
+The MP_REACH_NLRI element MAY be extended with additional attributes.
+
+4.1.14: MP_UNREACH_NLRI
+The MP_UNREACH_NLRI element defines the following information:
+
+- AFI: Required. An element containing the Address Family Identifier.  This 
+element SHOULD include an INTEGER attribute with the type code of the AFI.
+
+- SAFI: Required. An element containing the Subsequent Address Family 
+Identifier. This element SHOULD include an INTEGER attribute with the type 
+code of the SAFI.
+
+- WITHDRAWN: Required. A WITHDRAWN element as defined in Section 3.6.
+
+As with MP_REACH_NLRI, MP_UNREACH_NLRI MAY be extended with additional 
+attributes.
+
+4.1.15: EXTENDED_COMMUNITIES
+An EXTENDED_COMMUNITIES element contains one or more EXT_COM elements that 
+define the following information:
+
+- TYPE: Required. An element containing a human-readable STRING representation 
+of the type code of the Extended Community.
+
+- SUBTYPE: Required. An element containing a human-readable STRING 
+representation of the subtype of the Extended Community.
+
+- INTEGER transitive: Optional. An attribute containing a boolean value 
+representing if the Extended Community attribute is transitive or not.
+
+- VALUE: An element containing the binary representation of the value field of 
+the Extended Community.
+
+Based on the type and subtype, the EXT_COM element SHOULD be extended with 
+additional elements, for example the IPv4 Address in the IPv4 Address Specific 
+Extended Community, or the AS number in the 2-Octet AS Specific Extended 
+Community.
+
+The EXTENDED_COMMUNITIES element MAY be extended with additional 
+attributes.  Implementations SHOULD include support for the types and subtypes 
+defined in RFC 4360 [RFC4360].  RFC 5512 [RFC5512] and RFC 5566 [RFC5566] 
+define the BGP Encapsulation Extended Community and additional types.
+Implementations of XFB SHOULD include support for these types.
+
+4.1.16: AS4_PATH
+The AS4_PATH element is defined exactly the same as the AS_PATH element 
+(Section 4.1.2).  Because XFB uses INTEGER as its numerical data type, 2-byte 
+and 4-byte AS numbers require no special processing in XFB.
+
+4.1.17: AS4_AGGREGATOR
+As with AS4_PATH, the AS4_AGGREGATOR element is defined the same way as the 
+AGGREGATOR element above (Section 4.1.7).
+
+4.1.18: TUNNEL_ENCAP
+The TUNNEL_ENCAP element holds one or more ENCAP elements, each of which 
+contains information about a particular tunneling technology.  The 
+TUNNEL_ENCAP element MAY be extended with additional attributes.
+
+The ENCAP element contains the following information:
+
+- TYPE: Required. An element that contains a human-readable representation of 
+the tunnel type.  It SHOULD include the INTEGER type code as an attribute.
+
+- INTEGER length: Required. An INTEGER attribute that gives the length of the 
+value field in octets.
+
+- TLV: One or more Required.  Each TLV element has an INTEGER attribute that
+gives the length in octets of the current sub-TLV, a TYPE element that contains
+a human-readable STRING representation of the sub-TLV type and additional 
+elements for any value fields defined by the type.  An implementation SHOULD 
+provide support for ALL sub-TLV types defined in RFC 5512 [RFC5512], RFC 5566 
+[RFC5566], and RFC 5640 [RFC5460].
+
+4.1.19: TRAFFIC_ENGR
+The TRAFFIC_ENGR element holds one or more ENGR elements.  The ENGR element 
+MUST contain the following elements:
+
+- SWITCH_CAP: An element containing the human-readable version of the 
+Switching Capability being carried in this ENGR element.  Defined types are 
+listed in RFC 3471 [RFC3471].
+
+- ENCODING: An element containing the human-readable version of the encoding 
+used in this ENGR element. Acceptable values are listed in RFC 3471 [RFC3471].
+
+- MAX_LSP_BANDWIDTH: Each ENGR element MUST contain eight (8) of these 
+elements, each of which contains a 32-bit INTEGER value.  Each of these 
+elements MUST contain an INTEGER attribute specifying the priority of the 
+given MAX_LSP_BANDWIDTH element.
+
+In addition, based on the value of SWITCH_CAP, a given ENGR element MUST 
+contain elements corresponding to the additional information defined in RFC 
+5543 [RFC5543].
+
+4.1.20: IPv6-Specific Extended Communities
+This is a distinct but related path attribute from the EXTENDED_COMMUNITIES 
+path attribute defined in Section 4.1.15.  It also defines an 
+EXTENDED_COMMUNITIES element that contains one or more IPV6_SPECIFIC_EXT_COM 
+elements.
+
+Each IPV6_SPECIFIC_EXT_COM element contains the following information:
+
+- STRING transitive: Optional.  If the specified extended community is 
+transitive, this attribute MUST be included and set to TRUE.  If the extended 
+community is not transitive, the attribute MAY be omitted.
+
+- SUBTYPE: Required.  An element containing a human-readable representation of 
+the subtype of the extended community.  An implementation MUST include support 
+for the subtypes in RFC 5701 [RFC5701].
+
+- IPV6_ADDR: Required. The 16-octet IPv6 address assigned by one of the 
+internet registries.
+
+- LOCAL: Required. The Local Administrator field, preserved in HEXBIN.
+
+4.1.21: UNKNOWN
+Unknown path attributes are represented in an UNKNOWN element.  No attributes 
+are defined but additional attributes MAY be defined for the UNKNOWN element.  
+This element contains the HEXBIN representation of the unknown data. It MAY
+NOT be extended with additional elements.
+
+4.2: Enumerated Data Type Definitions
+These are the enumerated data types that an implementation MUST include.  They 
+MAY be extended with additional values.
+
+4.2.1: Address Family Identifier
+
+- "IPV4"
+- "IPV6"
+- "OTHER"
+
+4.2.2: Subsequent Address Family Identifier
+
+- "UNICAST"
+- "MULTICAST"
+- "MPLS"
+- "ENCAPSULATION"
+- "OTHER"
+
+4.2.3: Origin Type
+
+- "IGP"
+- "EGP"
+- "INCOMPLETE"
+- "OTHER"
+
+4.2.4: Parameter Type
+
+- "AUTHENTICATION"
+- "CAPABILITIES"
+- "OTHER"
+
+4.2.5: BGP Message Type
+
+- "ORIGIN"
+- "UPDATE"
+- "NOTIFICATION"
+- "KEEPALIVE"
+- "ROUTE_REFRESH"
+- "UNKNOWN"
+
+4.2.6: Error Types
+
+- "MESSAGE HEADER ERROR"
+- "OPEN MESSAGE ERROR"
+- "UPDATE MESSAGE ERROR"
+- "HOLD TIMER EXPIRED"
+- "FINITE STATE MACHINE ERROR"
+- "CEASE"
+- "UNKNOWN ERROR"
+
+4.2.7: Error Sub-Types
+
+- "CONNECTION NOT SYNCHRONIZED"
+- "BAD MESSAGE LENGTH"
+- "BAD MESSAGE TYPE"
+
+- "UNSUPPORTED VERSION NUMBER"
+- "BAD PEER AS"
+- "BAD BGP IDENTIFIER"
+- "UNSUPPORTED OPTIONAL PARAMETER"
+- "AUTHENTICATION FAILURE"
+- "UNACCEPTABLE HOLD TIME"
+- "UNSUPPORTED CAPABILITY"
+
+- "MALFORMED ATTRIBUTE LIST"
+- "UNRECOGNIZED WELL-KNOWN ATTRIBUTE"
+- "MISSING WELL-KNOWN ATTRIBUTE"
+- "ATTRIBUTE FLAGS ERROR"
+- "ATTRIBUTE LENGTH ERROR"
+- "INVALID ORIGIN ATTRIBUTE"
+- "AS ROUTING LOOP"
+- "INVALID NEXT_HOP ATTRIBUTE"
+- "OPTIONAL ATTRIBUTE ERROR"
+- "INVALID NETWORK FIELD"
+- "MALFORMED AS_PATH"
+
+- "MAXIMUM NUMBER OF PREFIXES REACHED"
+- "ADMINISTRATIVE SHUTDOWN"
+- "PEER DE-CONFIGURED"
+- "ADMINISTRATIVE RESET"
+- "CONNECTION REJECTED"
+- "OTHER CONFIGURATION CHANGE"
+- "CONNECTION COLLISION RESOLUTION"
+- "OUT OF RESOURCES"
+
+- "UNKNOWN ERROR"
+
+Note that even though the values "AUTHENTICATION FAILURE" and "AS ROUTING 
+LOOP" are deprecated, they MUST be included for compatibility.
+
+4.2.8: Path Attribute Type
+
+- "ORIGIN"
+- "AS_PATH"
+- "NEXT_HOP"
+- "MULTI_EXIT_DISC"
+- "LOCAL_PREF"
+- "ATOMIC_AGGREGATE"
+- "AGGREGATOR"
+- "COMMUNITIES"
+- "ORIGINATOR_ID"
+- "CLUSTER_LIST"
+- "ADVERTISER"
+- "RCID_PATH"
+- "MP_REACH_NLRI"
+- "MP_UNREACH_NLRI"
+- "EXTENDED_COMMUNITIES"
+- "AS4_PATH"
+- "AS4_AGGREGATOR"
+- "TUNNEL_ENCAP"
+- "TRAFFIC_ENGR"
+- "OTHER"
+
+4.2.9: AS Path Segment Type
+
+- "AS_SET"
+- "AS_SEQUENCE"
+- "AS_CONFED_SEQUENCE"
+- "AS_CONFED_SET"
+
+5: Security Concerns
+
+The fields of an XFB document are descriptive only and do not create any 
+additional security risks.
+
+6: IANA Considerations
+
+This document uses URNs to describe an XML namespace and schema.  Two
+registrations are needed: (1) registration for the XFB namespace:
+urn:ietf:params:xml:ns:xfb-0.5 and (2) registration for the XFB XML
+schema: urn:ietf:params:xml:schema:xfb-0.5
+
+7: References
+
+				Cheng, P., Yan, H., Burnett, K., Massey, D., Zhang, L., "BGP 
+                routing	information in XML", Internet Draft, February 2009.
+
+	[RFC4456]	Bates, T., Chen, E., and Chandra, R., "BGP Route Reflection: 
+				An Alternative to Full Mesh Internal BGP (IBGP)", RFC 4456, 
+                April 2006.
+
+	[RFC1863]	Haskin, D., "A BGP/IDRP Route Server alternative to a full 
+                mesh routing", RFC 1863, October 1995.
+
+	[RFC4360]	Sangli, S., Tappan, D., Rekhter, Y., "BGP Extended Communities 
+                Attribute",	RFC 4360, February 2006.
+
+	[RFC4486]	Chen, E., Gillet, V., "Subcodes for BGP Cease Notification 
+                Message", RFC 4486, April 2006.
+
+	[RFC3392]	Scudder, J., Chandra, R., "Capabilities Advertisement with 
+                BGP-4",	RFC 3392, February 2009.
+
+	[RFC5512]	Mohapatra, P., Rosen, E., "The BGP Encapsulation Subsequent 
+                Address Family Identifier (SAFI) and the BGP Tunnel 
+                Encapsulation Attribute", RFC 5512, April 2009.
+
+	[RFC5543]	Ould-Brahim, H., Fedyk, D., Rekhter, Y., "BGP Traffic 
+                Engineering Attribute",	RFC 5543, May 2009.
+
+	[RFC5566]	Berger, L., White, R., Rosen, E., "BGP IPsec Tunner 
+                Encapsulation Attribute", RFC 5566, June 2009.
+
+	[RFC5640]	Filsfils, C., Mohapatra, P., Pignataro, C., "Load-Balancing 
+                for Mesh Softwires", RFC 5640, August 2009.
+
+	[RFC3471]	Berger, L., "Generalized Multi-Protocol Label Switching 
+                (GMPLS) Signaling Functional Description", RFC 3471, January 
+                2003.
+
+    [RFC2545]	Marques, P. and F. Dupont, "Use of BGP-4 Multiprotocol 
+                Extensions for IPv6	Inter-Domain Routing", RFC 2545, March 
+                1999.
+
+    [RFC1997]   Chandrasekeran, R., Traina, P., and T. Li, "BGP
+                Communities Attribute", RFC 1997, August 1996.
+
+    [RFC2119]   Bradner, S., "Key words for use in RFCs to Indicate
+                Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+    [RFC2918]   Chen, E., "Route Refresh Capability for BGP-4", RFC 2918,
+                September 2000.
+
+    [RFC4271]   Rekhter, Y., Li, T., and S. Hares, "A Border Gateway
+                Protocol 4 (BGP-4)", RFC 4271, January 2006.
+
+    [RFC4760]   Bates, T., Chandra, R., Katz, D., and Y. Rekhter,
+                "Multiprotocol Extensions for BGP-4", RFC 4760,
+                January 2007.
+
+    [RFC4893]   Vohra, Q. and E. Chen, "BGP Support for Four-octet AS
+                Number Space", RFC 4893, May 2007.
+
+    [RFC6396]   Blunk, L. Karir, M., and Labovitz, C, "Multi-Threaded Routing
+                Toolkit (MRT) Routing Information Export Format", RFC 6939,
+                October 2011.
+
+Appendix A: Recommended Metadata
+
+The XML structures given above will encode any BGP-4 message.  However, an 
+operator may need additional metadata about the BGP connection over which some
+set of BGP messages were received, for example the time 
+and peering session that each BGP message was received at/over.  This 
+information is extremely important to both operators and researchers.
+
+Therefore, to avoid inconsistencies in implementations, we provide XFB 
+definitions for this information.  If used, these elements MUST be included 
+within the BGP_MESSAGE element, at the same level of the XML as ASCII_MSG and 
+OCTET_MSG.  These definitions are STRONGLY RECOMMENDED, but are not part of
+the official specification because they do not encode official BGP data.
+
+A.1: DATETIME type
+We add the following type to the types already defined in Section 2.3:
+
+- DATETIME: A data type for representing a date-time string.  The fields of a 
+DATETIME are the same as the dateTime data type in XML.
+
+A.2: The TIME Element
+The timestamp element indicates the specific time when the BGP_MESSAGE was 
+received or generated.  The TIME element defines the following attributes:
+
+- INTEGER timestamp: The UNIX timestamp of the message, corresponding to the 
+number of seconds since 00:00 1 Jan 1970.
+
+- DATETIME datetime: The human-readable version of the same time.
+
+- INTEGER precision_time:  An additional field to provide millisecond 
+resolution, if available.
+
+The TIME element MAY also include additional representations of the time, 
+provided such a representation can be expressed as an XML simple type.  Child 
+elements SHALL NOT be defined.
+
+A.3: The PEERING Element
+The PEERING element contains information that uniquely identifies the 
+connection over which the BGP_MESSAGE is received.  The PEERING element 
+defines the following information:
+
+- SRC_ADDR: Required. An element representing the source IP address.
+
+- DST_ADDR: Required. An element representing the destination IP address.
+
+- SRC_PORT: Required. An element containing the INTEGER source port for the 
+BGP_MESSAGE.
+
+- DST_PORT: Required. An element containing the INTEGER destination port for 
+the BGP_MESSAGE.
+
+- SRC_AS: Optional. An element containing the INTEGER AS Number for the source.
+
+- DST_AS: Optional. An element containing the INTEGER AS Number for the 
+destination.
+
+The SRC_ADDR and DST_ADDR elements are defined exactly the same as the PREFIX 
+element in Section 3.6.1, except that the ADDRESS element MUST contain a full 
+address.  The PEERING element MAY be extended with additional elements or 
+attributes.
+
+Appendix B: XFB XML Schema
+
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema targetNamespace="urn:ietf:params:xml:ns:xfb-0.5"
+	xmlns="urn:ietf:params:xml:ns:xfb-0.5"
+	xmlns:xfb="urn:ietf:params:xml:ns:xfb-0.5"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>
+			XML Format for BGP Information v0.5, see RFC XXX
+		</xs:documentation>
+	</xs:annotation>
+
+    <!-- Root element of XFB Schema. -->
+    <!--Defined in Section 3.1 of XFB Spec -->
+	<xs:element name="BGP_MESSAGE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="xfb:ASCII_MSG" maxOccurs="1"/>
+				<xs:element ref="xfb:OCTET_MSG" maxOccurs="1"/>
+				<xs:any/>
+			</xs:sequence>
+			<xs:attribute type="xs:string" name="version" fixed="0.5" use="required"/>
+			<xs:attribute use="required" name="length" type="xs:nonNegativeInteger"/>
+			<xs:attribute use="required" name="xmlns" fixed="urn:ietf:params:xml:ns:xfb-0.5" type="xs:string"/>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Binary representation of BGP message, included in XFB message -->
+    <!-- Defined in Section 3.11 of XFB Specification -->
+	<xs:element name="OCTET_MSG">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OCTETS" type="xfb:rawBits"/>
+                <xs:any/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- ASCII representation of BGP data in XFB message -->
+    <!-- Defined in Section 3.2 of XFB Specification -->
+	<xs:element name="ASCII_MSG">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MARKER" type="xs:hexBinary" minOccurs="1" maxOccurs="1"/>
+				<xs:choice>
+					<xs:element ref="xfb:OPEN"/>
+					<xs:element ref="xfb:UPDATE"/>
+					<xs:element ref="xfb:NOTIFICATION"/>
+					<xs:element ref="xfb:KEEPALIVE"/>
+					<xs:element ref="xfb:ROUTE_REFRESH"/>
+					<xs:element ref="xfb:UNKNOWN"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="length" type="xs:nonNegativeInteger" use="required"/>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Defintion of the Open message.  All fields are required except 
+    Optional Parameters -->
+    <!-- Defined in Section 3.2.1 of XFB Specification -->
+	<xs:element name="OPEN">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="VERSION" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="SRC_AS" type="xfb:asn" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="HOLD_TIME" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="OPT_PAR_LEN" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="BGP_ID" type="xfb:address" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="xfb:OPT_PAR"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Definition of the Optional Parameters container field -->
+    <!-- Defined in Section 3.2.1 of XFB Specification -->
+	<xs:element name="OPT_PAR">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" minOccurs="0" ref="xfb:PARAMETER"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType> 
+	</xs:element>
+
+    <!-- Definition of an individual Optional Parameter. -->
+    <!-- Authentication and Capabilities are included. -->
+    <!-- Defined in Section 3.2.1.a of XFB Specification -->
+	<xs:element name="PARAMETER">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TYPE" type="xfb:enum_par_type" minOccurs="1" maxOccurs="1"/>
+				<xs:choice>
+					<xs:element ref="xfb:AUTHENTICATION"/>
+					<xs:element ref="xfb:CAPABILITIES"/>
+					<xs:element ref="xfb:UNKNOWN"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute use="required" name="length" type="xs:nonNegativeInteger"/>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Authentication element.  Included for compatibility -->
+    <!-- Defined in Section 3.2.1.a of XFB Specification -->
+	<xs:element name="AUTHENTICATION">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:hexBinary">
+					<xs:attribute name="code" type="xs:string" use="required"/>
+					<xs:anyAttribute/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Capabilities announcement element.  BGP defined in RFC 5492. -->
+    <!-- XML defined in Section 3.2.1.a of XFB Specification -->
+	<xs:element name="CAPABILITIES">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="CAP">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CODE" type="xs:string" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="DATA" type="xs:string" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+						<xs:attribute use="required" name="length" type="xs:nonNegativeInteger"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- element that preserves unknown data -->
+	<xs:element name="UNKNOWN" type="xfb:rawBits"/>
+
+    <!-- Definition of the update message -->
+    <!-- Defined in Section 3.2.2 of XFB Specification -->
+	<xs:element name="UPDATE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="xfb:WITHDRAWN"/>
+				<xs:element ref="xfb:PATH_ATTRIBUTES"/>
+				<xs:element ref="xfb:NLRI"/>
+			</xs:sequence>
+			<xs:attribute use="required" name="withdrawn_len" type="xs:nonNegativeInteger"/>
+			<xs:attribute use="required" name="path_attributes_len" type="xs:nonNegativeInteger"/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- definition of the Path Attributes container field -->
+    <!-- Defined in Section 3.2.2 of XFB Specification -->
+	<xs:element name="PATH_ATTRIBUTES">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="xfb:ATTRIBUTE"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- definition of an individual path attribute -->
+    <!-- Defined in Section 3.2.2.b of XFB Specification -->
+	<xs:element name="ATTRIBUTE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FLAGS">
+					<xs:complexType>
+						<xs:attribute name="OPTIONAL" type="xs:boolean"/>
+						<xs:attribute name="TRANSITIVE" type="xs:boolean"/>
+						<xs:attribute name="PARTIAL" type="xs:boolean"/>
+						<xs:attribute name="EXTENDED" type="xs:boolean"/>
+						<xs:anyAttribute/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TYPE" type="xfb:enum_attr_type" minOccurs="1" maxOccurs="1"/>
+				<xs:choice>
+					<xs:element ref="xfb:ORIGIN"/>
+					<xs:element ref="xfb:AS_PATH"/>
+					<xs:element ref="xfb:NEXT_HOP"/>
+					<xs:element ref="xfb:MULTI_EXIT_DISC"/>
+					<xs:element ref="xfb:LOCAL_PREF"/>
+					<xs:element ref="xfb:ATOMIC_AGGREGATE"/>
+					<xs:element ref="xfb:AGGREGATOR"/>
+					<xs:element ref="xfb:COMMUNITIES"/>
+					<xs:element ref="xfb:ORIGINATOR_ID"/>
+					<xs:element ref="xfb:CLUSTER_LIST"/>
+					<xs:element ref="xfb:ADVERTISER"/>
+					<xs:element ref="xfb:RCID_PATH"/>
+					<xs:element ref="xfb:MP_REACH_NLRI"/>
+					<xs:element ref="xfb:MP_UNREACH_NLRI"/>
+					<xs:element ref="xfb:EXTENDED_COMMUNITIES"/>
+					<xs:element ref="xfb:AS4_PATH"/>
+					<xs:element ref="xfb:AS4_AGGREGATOR"/>
+					<xs:element ref="xfb:TUNNEL_ENCAP"/>
+					<xs:element ref="xfb:TRAFFIC_ENGR"/>
+					<xs:element ref="xfb:UNKNOWN"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute use="required" name="length" type="xs:nonNegativeInteger"/>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Definitions of path attribute classes. -->
+
+    <!-- Definition of the ORIGIN path attribute -->
+    <!-- Defined in Section 4.1.1 of the XFB Specification -->
+	<xs:element name="ORIGIN">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xfb:enum_origin_type">
+					<xs:attribute name="code" type="xs:nonNegativeInteger" use="required"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- A container element for the AS Path attribute -->
+    <!-- The contents are the same as those for the AS4 Path -->
+    <!-- Defined in Section 4.1.2 of the XFB Specification -->
+	<xs:element name="AS_PATH" type="xfb:as_path"/>
+
+    <!-- The next hop path attribute contains a single IPv4 address -->
+    <!-- Defined in Section 4.1.3 of the XFB Specification -->
+	<xs:element name="NEXT_HOP" type="xfb:address"/>
+
+    <!-- MED is simply a single integer value -->
+    <!-- Defined in Section 4.1.4 of the XFB Specification -->
+	<xs:element name="MULTI_EXIT_DISC" type="xs:integer"/>
+
+    <!-- Local Pref is just a single integer value -->
+    <!-- Defined in Section 4.1.5 of the XFB Specification -->
+	<xs:element name="LOCAL_PREF" type="xs:integer"/>
+
+    <!-- Atomic Aggregate is just an empty element -->
+    <!-- Defined in Section 4.1.6 of the XFB Specification -->
+	<xs:element name="ATOMIC_AGGREGATE"/>
+
+    <!-- The contents of the Aggregator element are identical to those of the
+    AS4 Aggregator -->
+    <!-- Defined in Section 4.1.7 of the XFB Specification -->
+	<xs:element name="AGGREGATOR" type="xfb:aggregator"/>
+
+    <!-- Definitions for the Communities element -->
+    <!-- Defined in Section 4.1.8 of the XFB Specification -->
+	<xs:element name="COMMUNITIES">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="NO_EXPORT"/>
+				<xs:element name="NO_ADVERTISE"/>
+				<xs:element name="NO_EXPORT_SUBCONFED"/>
+				<xs:element ref="xfb:COMMUNITY"/>
+				<xs:element ref="xfb:RESERVED_COMMUNITY"/>
+			</xs:choice>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- COMMUNITY and RESERVED COMMUNITY are defined identically -->
+    <!-- Defined in Section 4.1.8.a of the XFB Specification -->
+	<xs:element name="COMMUNITY" type="xfb:community_type"/>
+	<xs:element name="RESERVED_COMMUNITY" type="xfb:community_type"/>
+
+    <!-- Defined in Section 4.1.9 of the XFB Specification -->
+	<xs:element name="ORIGINATOR_ID" type="xs:integer"/>
+
+    <!-- Defined in Section 4.1.10 of the XFB Specification -->
+	<xs:element name="CLUSTER_LIST">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ID" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Advertiser contains an IPv4 address.  Included for completeness. -->
+    <!-- Defined in Section 4.1.11 of the XFB Specification -->
+	<xs:element name="ADVERTISER" type="xfb:address"/>
+
+    <!-- Contains a series of ID elements -->
+    <!-- Defined in Section 4.1.12 of the XFB Specification -->
+	<xs:element name="RCID_PATH">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ID" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Element to encode Multiprotocol routing information -->
+    <!-- Defined in Section 4.1.13 of the XFB Specification -->
+	<xs:element name="MP_REACH_NLRI">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NEXT_HOP_LEN" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="NEXT_HOP" type="xfb:mp_next_hop" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="AFI" type="xfb:afi_element" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="SAFI" type="xfb:safi_element" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="xfb:NLRI"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Encoding for Multiprotocol withdrawal of routes -->
+    <!-- Defined in Section 4.1.14 of the XFB Specification -->
+	<xs:element name="MP_UNREACH_NLRI">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AFI" type="xfb:afi_element" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="SAFI" type="xfb:safi_element" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="xfb:WITHDRAWN"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Definition of the Extended Community attribute.  Overloaded in XFB
+    to also include the IPv6-Specific Extended Communities -->
+    <!-- Defined in Section 4.1.15 of the XFB Specification -->
+	<xs:element name="EXTENDED_COMMUNITIES">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="EXT_COM" type="xfb:ext_community_type" maxOccurs="unbounded"/>
+				<xs:element name="IPV6_SPECIFIC_EXT_COM" type="xfb:ipv6_ext_community_type" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- The AS4 Path Attribute is defined just like the normal AS Path in XFB -->
+    <!-- Defined in Section 4.1.16 of the XFB Specification -->
+	<xs:element name="AS4_PATH" type="xfb:as_path"/>
+
+    <!-- Ditto for AS4 Aggregator -->
+    <!-- Defined in Section 4.1.17 of the XFB Specification -->
+	<xs:element name="AS4_AGGREGATOR" type="xfb:aggregator"/>
+
+    <!-- Encoding for the Tunnel Encapsulation attribute -->
+    <!-- Defined in Section 4.1.18 of the XFB Specification -->
+	<xs:element name="TUNNEL_ENCAP">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ENCAP" type="xfb:encap_tlv" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Encoding for Traffic Engineering attribute -->
+    <!-- Defined in Section 4.1.19 of the XFB Specification -->
+	<xs:element name="TRAFFIC_ENGR">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ENGR" type="xfb:engr" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Definitions of variable-length fields in update message -->
+	<xs:element name="WITHDRAWN" type="xfb:prefixes"/>
+	<xs:element name="NLRI" type="xfb:prefixes"/>
+
+    <!-- Definition of Notification message format -->
+    <!-- Defined in Section 3.2.3 of the XFB Specification -->
+	<xs:element name="NOTIFICATION">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="1" maxOccurs="1" name="CODE" type="xfb:error_code_element"/>
+				<xs:element minOccurs="0" maxOccurs="1" name="SUBCODE" type="xfb:error_subcode_element"/>
+				<xs:element name="DATA" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Definition of Keepalive message.  Has no fields or attributes. -->
+    <!-- Defined in Section 3.2.4 of the XFB Specification -->
+	<xs:element name="KEEPALIVE"/>
+
+    <!-- Definition of Route Refresh Message -->
+    <!-- Defined in Section 3.2.5 of the XFB Specification -->
+	<xs:element name="ROUTE_REFRESH">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="AFI" type="xfb:afi_element"/>
+				<xs:element name="SAFI" type="xfb:safi_element"/>
+			</xs:all>
+            <xs:anyAttribute/>
+		</xs:complexType>
+	</xs:element>
+
+    <!-- Type definitions used above -->
+    <!-- These are not defined explicitly in the XFB spec, but are necessary
+    to make the underlying XML itself work correctly -->
+
+    <!-- Definition to use for both addresses (as in Next Hop fields) OR
+    CIDR prefixes (as in NLRI and WITHDRAWN). We do not define/use any
+    restrictions for addresses, so the XML is identical. Further, the
+    anyAttribute can be used to define the length of a prefix. -->
+	<xs:complexType name="address">
+		<xs:all>
+			<xs:element name="ADDRESS" type="xs:string"/>
+			<xs:element name="AFI" type="xfb:afi_element" minOccurs="0"/>
+			<xs:element name="SAFI" type="xfb:safi_element" minOccurs="0"/>
+		</xs:all>
+        <xs:anyAttribute/>
+	</xs:complexType>
+
+    <!-- The complex type that NLRI and WITHDRAWN use. They each allow for
+    multiple prefixes, and can take extra attributes, such as a total count -->
+	<xs:complexType name="prefixes">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" type="xfb:address" name="PREFIX"/>
+		</xs:sequence>
+		<xs:anyAttribute/>
+	</xs:complexType>
+
+    <!-- A simple port-number data type. We allow port numbers from 0-65535 -->
+	<xs:simpleType name="port">
+		<xs:restriction base="xs:integer">
+			<xs:maxInclusive value="65535"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+    <!-- A data type for AS Numbers. They must be positive and up to 4 bytes-->
+	<xs:simpleType name="asn">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="4294967295"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+    <!-- The definition for an AS Segment. These are identical in both AS Path
+    and AS4 Path attributes. -->
+	<xs:complexType name="as_seg">
+		<xs:sequence>
+			<xs:element name="AS" type="xfb:asn" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="type" type="xfb:enum_as_path_type" use="required"/>
+		<xs:attribute name="length" type="xs:nonNegativeInteger" use="optional"/>
+	</xs:complexType>
+
+    <!-- The definition of an AS Path. It is a sequence of AS Segments, which
+    mirrors the definition in the BGP RFC -->
+	<xs:complexType name="as_path">
+		<xs:sequence>
+			<xs:element name="AS_SEG" type="xfb:as_seg" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+        <xs:anyAttribute/>
+	</xs:complexType>
+
+    <!-- Definition for the MP_REACH next-hop field. Unlike the normal
+    Next Hop, the MP Next Hop can carry multiple addresses, so this must
+    be accounted for in the XFB. -->
+    <xs:complexType name="mp_next_hop">
+        <xs:sequence>
+            <xs:element name="ADDRESS" type="xfb:address" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:anyAttribute/>
+    </xs:complexType>
+
+    <!-- The definition of the AGGREGATOR/AS4_AGGREGATOR attributes -->
+    <!-- As with as_path above, 4-byte ASNs do not require any special
+    processing, so we can define a single type and handle both cases -->
+	<xs:complexType name="aggregator">
+		<xs:all>
+			<xs:element name="AS" type="xfb:asn"/>
+			<xs:element name="ADDR" type="xfb:address" minOccurs="1" maxOccurs="1"/>
+		</xs:all>
+	</xs:complexType>
+
+    <!-- A Community has 2 fields: An ASN and an integer identifier -->
+	<xs:complexType name="community_type">
+		<xs:sequence>
+			<xs:element name="AS" type="xfb:asn"/>
+			<xs:element name="VALUE" type="xs:nonNegativeInteger"/>
+		</xs:sequence>
+	</xs:complexType>
+
+    <!-- Extended communities (excluding IPv6-Specific) have a type, subtype,
+    and binary value -->
+	<xs:complexType name="ext_community_type">
+		<xs:sequence>
+			<xs:element name="TYPE" type="xs:string"/>
+			<xs:element name="SUBTYPE" type="xs:string"/>
+			<xs:element name="VALUE" type="xfb:rawBits"/>
+			<xs:any/>
+		</xs:sequence>
+		<xs:attribute name="transitive" type="xs:boolean"/>
+		<xs:anyAttribute/>
+	</xs:complexType>
+
+    <!-- The IPv6-Specific Extended Communities are defined a little 
+    differently. Mainly this is due to needing to define the 16-octet v6 
+    address. -->
+	<xs:complexType name="ipv6_ext_community_type">
+		<xs:sequence>
+			<xs:element name="SUBTYPE" type="xs:string"/>
+			<xs:element name="IPV6_ADDR" type="xs:string"/>
+			<xs:element name="LOCAL" type="xfb:rawBits"/>
+		</xs:sequence>
+		<xs:attribute name="transitive" type="xs:boolean"/>
+		<xs:anyAttribute/>
+	</xs:complexType>
+
+    <!-- The root-level TLV for the Tunnel Encapsulation attribute. It will
+    have its own type and its length value will include ALL of its child
+    TLV elements. -->
+	<xs:complexType name="encap_tlv">
+		<xs:sequence>
+			<xs:element name="TYPE" type="xs:string"/>
+			<xs:element name="TLV" type="xfb:tlv" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="length" type="xs:nonNegativeInteger"/>
+		<xs:anyAttribute/>
+	</xs:complexType>
+
+    <!-- Each sub-TLV in a Tunnel Encapsulation attribute will have its own
+    length attribute and type child element. Depending on type, there may be
+    additional elements. -->
+	<xs:complexType name="tlv">
+		<xs:sequence>
+			<xs:element name="TYPE" type="xs:string"/>
+			<xs:any maxOccurs="unbounded"/>
+		</xs:sequence>
+        <xs:attribute name="length" type="xs:nonNegativeInteger" use="required"/>
+	</xs:complexType>
+
+    <!-- The definition of the ENGR sub-elements for the Traffic Engineering
+    attribute. Each one of these must have the defined elements, and will have
+    additional elements based on type. -->
+	<xs:complexType name="engr">
+		<xs:sequence>
+			<xs:element name="SWITCH_CAP" type="xs:string"/>
+			<xs:element name="ENCODING" type="xs:string"/>
+			<xs:element name="MAX_LSP_BANDWIDTH" type="xfb:max_lsp_bandwidth" minOccurs="8" maxOccurs="8"/>
+			<xs:any maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:anyAttribute/>
+	</xs:complexType>
+
+    <!-- This type is defined to save raw binary data. It gives the additional
+    ability to annotate such data with attributes, for instance a length 
+    field.-->
+    <xs:complexType name="rawBits">
+        <xs:simpleContent>
+            <xs:extension base="xs:hexBinary">
+                <xs:anyAttribute/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- These five types are basically identical. They each contain an
+    enumerated data value and an integer type code attribute. -->
+	<xs:complexType name="afi_element">
+		<xs:sequence>
+			<xs:element type="xfb:enum_afi_type" name="AFI" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:nonNegativeInteger"/>
+	</xs:complexType>
+
+	<xs:complexType name="safi_element">
+		<xs:sequence>
+			<xs:element type="xfb:enum_safi_type" name="SAFI" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:nonNegativeInteger"/>
+	</xs:complexType>
+
+	<xs:complexType name="error_code_element">
+		<xs:sequence>
+			<xs:element type="xfb:enum_error_type" name="CODE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="code" type="xs:nonNegativeInteger" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="error_subcode_element">
+		<xs:sequence>
+			<xs:element type="xfb:enum_suberror_type" name="SUBCODE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="code" type="xs:nonNegativeInteger" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="max_lsp_bandwidth">
+		<xs:sequence>
+			<xs:element type="xs:integer" name="MAX_LSP_BANDWIDTH" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="priority" type="xs:nonNegativeInteger" use="required"/>
+	</xs:complexType>
+
+    <!-- BEGIN ENUMERATED DATA TYPES -->
+
+	<xs:simpleType name="enum_origin_type">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="IGP"/>
+			<xs:enumeration value="EGP"/>
+			<xs:enumeration value="INCOMPLETE"/>
+			<xs:enumeration value="OTHER"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_par_type">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="AUTHENTICATION"/>	<!-- Deprecated -->
+			<xs:enumeration value="CAPABILITIES"/>
+			<xs:enumeration value="OTHER"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_bgp_type">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="OPEN"/>
+			<xs:enumeration value="UPDATE"/>
+			<xs:enumeration value="NOTIFICATION"/>
+			<xs:enumeration value="KEEPALIVE"/>
+			<xs:enumeration value="ROUTE_REFRESH"/>
+			<xs:enumeration value="UNKNOWN"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_afi_type">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="IPV4"/>
+			<xs:enumeration value="IPV6"/>
+			<xs:enumeration value="OTHER"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_as_path_type">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="as_sequence"/>
+			<xs:enumeration value="as_set"/>
+            <xs:enumeration value="as_confed_sequence"/>
+            <xs:enumeration value="as_confed_set"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_safi_type">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="NLRI_UNICAST"/>
+			<xs:enumeration value="NLRI_MULTICAST"/>
+			<xs:enumeration value="NLRI_MPLS"/>
+			<xs:enumeration value="OTHER"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_error_type">
+		<xs:restriction base="xs:string">
+<!-- Error Codes -->
+			<xs:enumeration value="MESSAGE HEADER ERROR"/>
+			<xs:enumeration value="OPEN MESSAGE ERROR"/>
+			<xs:enumeration value="UPDATE MESSAGE ERROR"/>
+			<xs:enumeration value="HOLD TIMER EXPIRED"/>
+			<xs:enumeration value="FINITE STATE MACHINE ERROR"/>
+			<xs:enumeration value="CEASE"/>
+			<xs:enumeration value="UNKNOWN ERROR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_suberror_type">
+		<xs:restriction base="xs:string">
+<!-- Message Header Error Subcodes -->
+			<xs:enumeration value="CONNECTION NOT SYNCHRONIZED"/>
+			<xs:enumeration value="BAD MESSAGE LENGTH"/>
+			<xs:enumeration value="BAD MESSAGE TYPE"/>
+<!-- OPEN Message Error Subcodes -->
+			<xs:enumeration value="UNSUPPORTED VERSION NUMBER"/>
+			<xs:enumeration value="BAD PEER AS"/>
+			<xs:enumeration value="BAD BGP IDENTIFIER"/>
+			<xs:enumeration value="UNSUPPORTED OPTIONAL PARAMETER"/>
+			<xs:enumeration value="AUTHENTICATION FAILURE"/>	<!-- Deprecated -->
+			<xs:enumeration value="UNACCEPTABLE HOLD TIME"/>
+			<xs:enumeration value="UNSUPPORTED CAPABILITY"/>	<!-- Added by RFC 5492 -->
+<!-- UPDATE Message Error Subcodes -->
+			<xs:enumeration value="MALFORMED ATTRIBUTE LIST"/>
+			<xs:enumeration value="UNRECOGNIZED WELL-KNOWN ATTRIBUTE"/>
+			<xs:enumeration value="MISSING WELL-KNOWN ATTRIBUTE"/>
+			<xs:enumeration value="ATTRIBUTE FLAGS ERROR"/>
+			<xs:enumeration value="ATTRIBUTE LENGTH ERROR"/>
+			<xs:enumeration value="INVALID ORIGIN ATTRIBUTE"/>
+			<xs:enumeration value="AS ROUTING LOOP"/>		<!--Deprecated -->
+			<xs:enumeration value="INVALID NEXT_HOP ATTRIBUTE"/>
+			<xs:enumeration value="OPTIONAL ATTRIBUTE ERROR"/>
+			<xs:enumeration value="INVALID NETWORK FIELD"/>
+			<xs:enumeration value="MALFORMED AS_PATH"/>
+<!-- CEASE NOTIFICATION message Subcodes (added by RFC 4486) -->
+			<xs:enumeration value="MAXIMUM NUMBER OF PREFIXES REACHED"/>
+			<xs:enumeration value="ADMINISTRATIVE SHUTDOWN"/>
+			<xs:enumeration value="PEER DE-CONFIGURED"/>
+			<xs:enumeration value="ADMINISTRATIVE RESET"/>
+			<xs:enumeration value="CONNECTION REJECTED"/>
+			<xs:enumeration value="OTHER CONFIGURATION CHANGE"/>
+			<xs:enumeration value="CONNECTION COLLISION RESOLUTION"/>
+			<xs:enumeration value="OUT OF RESOURCES"/>
+
+			<xs:enumeration value="UNKNOWN ERROR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="enum_attr_type">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ORIGIN"/>
+			<xs:enumeration value="AS_PATH"/>
+			<xs:enumeration value="NEXT_HOP"/>
+			<xs:enumeration value="MULTI_EXIT_DISC"/>
+			<xs:enumeration value="LOCAL_PREF"/>
+			<xs:enumeration value="ATOMIC_AGGREGATE"/>
+			<xs:enumeration value="AGGREGATOR"/>
+			<xs:enumeration value="COMMUNITIES"/>
+			<xs:enumeration value="ORIGINATOR_ID"/>
+			<xs:enumeration value="CLUSTER_LIST"/>
+			<xs:enumeration value="ADVERTISER"/>
+			<xs:enumeration value="RCID_PATH"/>
+			<xs:enumeration value="MP_REACH_NLRI"/>
+			<xs:enumeration value="MP_UNREACH_NLRI"/>
+			<xs:enumeration value="EXTENDED_COMMUNITIES"/>
+			<xs:enumeration value="AS4_PATH"/>
+			<xs:enumeration value="AS4_AGGREGATOR"/>
+			<xs:enumeration value="TUNNEL_ENCAP"/>
+			<xs:enumeration value="TRAFFIC_ENGR"/>
+			<xs:enumeration value="OTHER"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
+

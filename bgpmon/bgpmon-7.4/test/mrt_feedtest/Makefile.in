@@ -1,0 +1,52 @@
+EXEC = mrtfeedtest
+CC = @CC@
+CFLAGS = -Wall @CFLAGS@ @CPPFLAGS@ @DEFS@
+LDFLAGS = @LDFLAGS@ @LIBS@
+
+SRC = ./src
+BIN = ./bin
+OBJECTDIR = ./obj
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_MODE= -m 0755
+
+# Include some boilerplate Gnu makefile definitions.
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+libdir = @libdir@
+infodir = @infodir@
+includedir = @includedir@
+datarootdir = @datarootdir@
+
+MAINOBJS  = $(OBJECTDIR)/mrtfeedtest.o $(OBJECTDIR)/file.o $(OBJECTDIR)/readMRT.o $(OBJECTDIR)/server.o $(OBJECTDIR)/unp.o
+
+all: $(EXEC)
+
+$(EXEC): $(MAINOBJS) 
+	$(CC) $(CFLAGS) $(MAINOBJS) $(LDFLAGS) -o $(BIN)/$(EXEC)
+
+$(OBJECTDIR)/mrtfeedtest.o: $(SRC)/mrtfeedtest.c
+	$(CC) $(CFLAGS) -c $(SRC)/mrtfeedtest.c -o $(OBJECTDIR)/mrtfeedtest.o
+
+$(OBJECTDIR)/file.o: $(SRC)/file.c
+	$(CC) $(CFLAGS) -c $(SRC)/file.c -o $(OBJECTDIR)/file.o
+
+$(OBJECTDIR)/readMRT.o: $(SRC)/readMRT.c
+	$(CC) $(CFLAGS) -c $(SRC)/readMRT.c -o $(OBJECTDIR)/readMRT.o
+	
+$(OBJECTDIR)/server.o: $(SRC)/server.c
+	$(CC) $(CFLAGS) -c $(SRC)/server.c -o $(OBJECTDIR)/server.o
+
+$(OBJECTDIR)/unp.o: $(SRC)/unp.c
+	$(CC) $(CFLAGS) -c $(SRC)/unp.c -o $(OBJECTDIR)/unp.o
+
+clean:
+	rm -f $(BIN)/$(EXEC) $(MAINOBJS) 
+
+install: 
+	-( mkdir -p $(bindir) )
+	$(INSTALL_PROGRAM) $(INSTALL_MODE) $(BIN)/$(EXEC) $(bindir)/$(EXEC)
+

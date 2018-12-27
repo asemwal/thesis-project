@@ -1,0 +1,50 @@
+\documentclass{sig-alternate-10pt}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{multirow}
+%\doublespacingjj
+\hyphenation{sub-scribe sys-tems}
+\newcommand\note[1]{\textcolor{red}{$=>$ #1}}
+
+\begin{document}
+
+\CopyrightYear{2010} % Allows default copyright year (200X) to be over-ridden - IF NEED BE.
+
+\title{BGPmon Version7}
+\subtitle{Implementation and Technical Specification}
+\numberofauthors{1} 
+\author{
+\alignauthor
+He Yan, Kevin Burnett, Mikhail Strizhov, Dave Matthews and Daniel Massey\\
+       \affaddr{Colorado State University}\\
+       \affaddr{Computer Science Department}\\
+       \affaddr{Fort Collins, Colorado, USA 80523}\\
+       \email{[yanhe,burnet,strizhov,dvmtthws,massey]@cs.colostate.edu}
+}
+\maketitle
+
+\input{abstract}
+\input{intro}
+\input{main}
+%\input{configuration}
+\input{configuration}
+\input{peering}
+\input{mrt}
+\input{labeling}
+\input{periodic}
+\input{xml}
+\input{clients}
+\input{chains}
+\input{queue}
+\input{login}
+%\input{conclude}
+\input{ack}
+
+\bibliographystyle{abbrv}
+\bibliography{sigproc}
+
+%\appendix
+
+\end{document}

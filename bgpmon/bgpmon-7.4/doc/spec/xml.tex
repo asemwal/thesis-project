@@ -1,0 +1,153 @@
+\section{XML Generation Module}
+\label{sec:xml}
+
+%The XML thread simply copies from the label queue to the xml queue for processing by the clients.
+The XML generation module manages the conversion of all BGPmon received and generated messages into XML. It has one single thread which consists of three main steps. 
+\begin{itemize}
+\item{It reads messages from the label queue. These messages can be any of all eight types in Figure \ref{tab:types}.}
+\item{It converts all types of messages into XML format according to our XML specification. }
+\item{It writes messages in XML format to the XML queue for processing by the client threads.}
+\end{itemize}
+
+%The main data structure of  XML generation module only consists of two fields.
+%\begin{itemize}
+%%\item{\emph{expandModeFlag}: It is a 0 or 1 flag. If it is set to 0, the XML generation module will work in normal mode. If it is set to 1, it will work in expand model. We will discuss these two modes later in this secion.
+%%If it is set to 0, the session ID field in the internal messages will not be expanded before XML generation. If it is set to 1, the session ID field will be expanded to the status of the session before XML generation. 
+%%} 
+%%\item{\emph{sessions:} It is a pointer to an array of session structures for all the peers.}
+%%\item{\emph{RLs:} It is a pointer to an array of rib and labeling structures for all the peers.}
+%\item{\emph{labelQueueReader:} It is used to read the messages from the label queue.}
+%\item{\emph{XMLQueueWriter:} It is used to write the converted messages to the XML queue.}
+%\end{itemize}
+
+
+%\subsection{Expanding Session ID}
+%In order to expand the session ID before XML generation, the XML generation thread needs to locate all the information related the session status. In our design all the session status information are from session structure(Figure \ref{fig:sessionStruct}) and RL structure(Figure \ref{fig:RLStruct}).
+%%More specifically, the XML generation thread extracts the data from session structure and RL structure to build the session status.
+%Do we need to discuss the exact format of session status?
+
+%For different types of internal messages read from label queue, session ID expansion works differently.
+%\begin{itemize}
+%\item{ \emph{Type 1, 2, 4, 7, 8:} If  expandFlag is set to 1, the session ID in them needs to be expanded to the status of the corresponding session before XML generation. In this case, the session status is attached to each message before XML generation. Otherwise they can directly be converted to XML. 
+
+%\item{ \emph{Type 3:} If  expandFlag is set to 0, XML generation module doesn't need to expand the session ID for other types of internal messages. the periodic module will send this type of message periodically. That means  such as 1, 2, 4, 7 and 8. In this case, XML gener 
+
+%\end{itemize}
+
+%\subsection{XML Format Overview}
+%The XML formats of all eight types internal messages share the same basic structure as follows:
+%\begin{verbatim}
+%<bgpmon>
+%	<time>...</time>
+%	<peering>...</peering>
+%	[ <message>...</message> |
+%	  <status>...</status> |
+%         <state_change>...</state_change> |
+%         <start>...</start> |
+%         <stop>...</stop>|
+%	  <table_transfer_entry>...</table_transfer_entry>]
+%   </bgpmon>
+%\end{verbatim}
+
+%The 'time' element is the most common part, it has the following three sub elements: 
+%\begin{itemize}
+%\item{\emph{time:} It is in unix format and converted from 'TimeStamp' in the internal format (see Figure\ref{fig:BMF}).}
+%\item{\emph{precision\_time:} It is in unix format and converted from 'PrecisionTime' in the internal format (see Figure\ref{fig:BMF}).}
+%\item{\emph{GMT:} It is GMT format and converted from both 'TimeStamp' in the internal format (see Figure\ref{fig:BMF}).}
+%\end{itemize}
+
+%The 'peering' element is the common part for all types except types 5 and 6. It has six sub elements:
+%\begin{itemize}
+%\item{\emph{src\_as:} It is the source AS number. }
+%\item{\emph{src\_ip:} It is IPv4 or IPv6 source address.}
+%\item{\emph{src\_port:} It is the source port number.}
+%\item{\emph{dst\_as:} It is the destination AS number. }
+%\item{\emph{dst\_ip:} It is IPv4 or IPv6 destination address.}
+%\item{\emph{dst\_port:} It is the destination port number.}
+%\end{itemize}
+%Note this 'peering' element should be maintained by configuration module. And configuration module should maintain this element for both directions: from peer to monitor and from monitor to peer.
+%\begin{itemize}
+%\item{\emph{from peer to monitor:} The peer is the source and the monitor is the destination. It is used for type 1,3,4,7 and 8}
+%\item{\emph{from monitor to peer:} The monitor is the source and the peer is the destination. It is used only for type 2.}
+%\end{itemize}
+%The configuration module should be able to provide 'peering' element in string by given session ID and a specific direction.
+
+%Another critical issue is about the changes of 'peering' element. For example after one message $M$ with 'sessionID' 1 are written into the peer queue, the 'scr\_ip' of the 'peering' element of this session changes. Some time later the message $M$ is processed by XML module and XML module will ask configuration module for the 'peering' element with 'sessionID' 1. As a result, the configuration module will provide the 'peering' element with the new 'src\_ip' and this new 'src\_ip' will be used in the final XML format of message $M$. Obviously it is a inconsistency problem. 
+
+%The solution is whenever anyone of the six sub elements changes, the configuration module needs to keep the current session ID and its corresponding 'peering' element unchanged. And it also needs to create a new session ID and a new 'peering' element which includes the changes. Then in the above case, the XML module can still get the old 'peering' element based on the old session ID.
+
+%The remaining part actually is the body of XML message. It uses different elements to represent various types.
+%\begin{itemize}
+%\item{\emph{message:} It is corresponding to type 1, 2 and 7. By looking at the 'peering' element, we can distinguish between incoming(type 1) messages and outgoing(type 2) messages.}
+%\item{\emph{status} It is corresponding to type 3.}
+%\item{\emph{state\_change:} It is corresponding to type 4.}
+%\item{\emph{start:} It is corresponding to type 5. }
+%\item{\emph{stop:} It is corresponding to type 6.}
+%\item{\emph{table\_transfer\_entry} It is corresponding to type 8. Its format is same as element 'message'. We only use a different element to identify table transfers.}
+%\end{itemize}
+%For the details about these elements, please refer to the XML specification.
+
+
+%\subsection{Convert Internal Messages to XML}
+%The XML generation module reads the internal messages in any of the eight types from label queue and converts them into XML as follows:
+%%\begin{itemize}
+%\item{}
+%\end{itemize} 
+
+
+
+
+
+%\subsection{Expand Mode}
+%In expand mode the XML generation module reads the internal messages with types 1, 2, 4, 5, 6, 7, 8 from label queue. 
+%\begin{itemize}
+%\item{For messages with type 5 and 6, they can be converted directly into XML and writes into XML queue.}
+%\item{For messages with type 1, 2, 4, 7 and 8, the session ID in them needs to be expanded to the status of the corresponding session before XML generation. It uses the same approach as normal mode to locate all the information related the session status. The session status is attached to each message before XML generation and then convert them together into XML.}
+%In expand mode, type 3 message is not supposed to appear in label queue because the session status is attached to each session related message and the periodically sent session status messages are not needed. But in case the temporary inconsistence between periodic module and XML generation module, the XML generation module should ignore all the messages with type 3 read from label queue. 
+
+%The advantage of expand mode is a client can know the session status of a session related message by just reading the content of this message.  But in this mode, the session related message's size is bigger than normal mode as the session status is included.
+%\end{itemize}
+\subsection{XML Format Overview}
+The XML module converts all the messages from BMF to XFB, a XML-based format for BGP routing information. XML is a general-purpose markup language; its primary purpose is to facilitate the sharing of data across different information systems, particularly via the Internet. Using XML as the base for our XFB markup provides the following advantages:
+
+  \begin{itemize}
+  \item{ XFB is human and machine-readable. By using CSS or XSL, XFB can be easily displayed on websites. Because XFB is based on XML which is a common interface to many applications, XFB can be processed by a variety of existing tools. }
+
+   \item{XFB can easily be extended with additional information based on the raw BGP routing information. The BGP data is simply annotated with additional attributes and/or elements; programs which are not looking for this new information will simply ignore it. This allows us to easily modify XFB in general (or particular BGPmons) to allow for newly required information. We include guidelines for adding new standard elements in each section.}
+
+    \item{XFB messages can be used to reconstruct the raw BGP messages, if needed. }
+  \end{itemize}
+Though XFB pays a storage cost since a compact binary message is (usually) expanded into ASCII text with additional tags, the results of our experiments using the default compression parameters for bzip2 on XFB data are promising.  Currently there are two types of BGP routing information which are included in XFB: BGP messages which come "over the wire" and may or may not have additional "helper" information appended, and BGP control information that originates with the BGPmon. 
+For the details about XFB, please refer to the BGPmon XFB specification.
+
+\subsection{Design Philosophy}
+%The output format of BGPmon is one critical design issue. As BGP routing information is an essential resource for both researchers and operation communities in Internet routing In order to collect and aggregate this information, it is important to define a public format to encapsulate, export, and archive it. But what are the requirements for this format?
+
+%    * human and machine-readable 
+
+%    * easily accessible 
+
+%    * suitable for further processing by existing tools 
+
+%    * easy to add user annotations 
+
+%    * easy to reconstuct raw BGP messages / ability to replay into router 
+
+%    * record full control information 
+
+%    * support BGP extensions 
+
+There are two issues when we design how to convert messages to xml.
+\begin{itemize}
+\item{How to convert the fields which are not defined in xml specification?  The answer to this question is each unknown field is represented by the a 'Octets'
+   element.  The 'Octets' element looks like: $<$octets length = '3'$>$2E3A4D$<$$/$octets$>$. In this way, we avoid any information loss even for the information we don't know.}
+\item{How to convert the xml message back to binary?  Similar to the previous one, the solution is we piggyback a 'Octets' field which represent the entire BGP raw message from wire in the end of xml message. In this way, we can easily replay some BGP raw messages to routers by extracting the last 'Octets' field.  }
+\end{itemize} 
+
+
+%\subsection{Dynamic Configuration Change}
+%N/A
+%Similar to the other modules,  the XML generation module also needs to detect the dynamic configuration changes related its running mode(normal or expand). In order to detect these configuration changes, the field 'expandModeFlag' in the data structure is set by configuration module and read by XML generation module.
+%Right before processing each message from label queue, the XML generation module needs to check the flag and change its running mode.
+
+

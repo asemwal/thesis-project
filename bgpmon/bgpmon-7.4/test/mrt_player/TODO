@@ -1,0 +1,16 @@
+1) mrtPlayer should better sanity check the command line input.   it should also list the possible 
+   collector names in the usage message.   - just trivial coding and checking in parseCommandLine
+
+2) mrtPlayer should have an option to just verify files,  not send them out over the TCP connection.
+   if the option is set,just have connectBGPmon do nothing and return null for a socket and
+   if the option is set,  don't call the only send line in readAndSendMRT.
+
+3) mrtPlayer should allow more precision in the interval so a user can select only a single day or 
+   single hour or even range of minutes.   just add checking to the main loop to skip any update 
+   file not in the desired range.
+
+4) mrtPlayer should add a -r option to send an initial RIB table before sending the updates.  for example,  
+   if the user specifies January 2011 from collector route-views6, mrtPlayer should first download and 
+   send the first MRT table from January 1, 2011.   this is a more substantial change 
+
+
