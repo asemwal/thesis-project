@@ -232,7 +232,7 @@ def degreebased(length = None , degree = None):
         monset.add(temp.pop(-1)[0])
     return monset
 
-def generategraph(f = None, n = 0, flip = False):
+def generategraph(f = None, n = 0, flip = False,key='p2c'):
     print f
     file = open(f , 'r')
     l = str(file.readline()).strip()
@@ -248,10 +248,22 @@ def generategraph(f = None, n = 0, flip = False):
         
         l = str(file.readline()).strip()
     #print(g.degree())
+    c = {'p2p':'peer-to-peer','p2c':'provider-to-customer'}
     if n > 0:
-        G = nx.Graph(g)
-        edges  = list(G.edges())
+        edgesall  = list(g.edges())
+        edges = []
+        for i in edgesall:
+            if g.get_edge_data(i[0],i[1])['relationship'] == c[key]:
+                edges.append(i)
+        edgesall = list(edges)
+        print len(edges), 'first'
+        if key == 'p2p':
+            edges = list()
+            for i in edgesall:
+                if (i[1],i[0]) not in edges:
+                    edges.append(i)
         length = int(n * len(edges))
+        print len(edges), 'second'
         print length
         prob = [1.0] * len(edges)
         prob /= np.sum(prob)
@@ -310,6 +322,25 @@ def generategraph2(f):
         
         l = str(file.readline()).strip()
     return g
+    
+    
+def generategraph3(f):
+    file = open(f , 'r')
+    l = str(file.readline()).strip()
+#    c = {0: 'peer-to-peer', -1: 'provider-to-customer'}
+    g = nx.DiGraph()
+    while l != "":
+        if l.find("#") > -1:
+            pass
+        else:
+            x = l.split("|")
+            #g.add_edge(x[0].split("_")[1], x[1].split("_")[1] , relationship =  (x[2]))
+            g.add_edge(x[0], x[1] , relationship =  (x[2]))
+            #g.add_edge(x[1], x[0] , relationship = inverselink( (x[2])))
+            
+        
+        l = str(file.readline()).strip()
+    return g
 
 def getPartialMonitorSet(g,G):
     #g = Main Graph
@@ -359,9 +390,180 @@ def elimination(g, monitors , key):
     print("{} Monitors found after peer elimination, at {}".format( len(monitors), time.time()))
     return monitors
 
-def elimination2(g, monitors , key):
+def elimination3(g, monitors , key, moncustcone = dict()):
     print("{} elimination stage".format(key))
     #return monitors
+    maindegreeMap = dict(degreemap(g)) 
+        
+    b= nx.DiGraph(g.subgraph(list(monitors)))
+    edges = list(b.edges())
+    for i in edges:
+        if c[b.get_edge_data(i[0],i[1])['relationship']] == key:
+            pass
+        else:
+            b.remove_edge(i[0], i[1])
+    newset = set()            
+    nodedegree = dict(degreemap(b))
+    r2r = dict()
+    for n in nodedegree.keys():
+        if nodedegree[n][key] > 0:
+            r2r[n] = nodedegree[n][key]
+        else:
+            newset.add(n)
+    ranks = dict()
+    rank = 1
+    sorted_r2r = sorted(r2r.items(), key=operator.itemgetter(1))     
+    while len(sorted_r2r ) > 0 :
+        print(len(sorted_r2r))
+        print "sorted r2r"
+        element1 = sorted_r2r.pop(-1)
+        element2 = sorted_r2r.pop(-1)
+        element = ()
+        removeedges = set(b.edges(element1[0]))
+        print removeedges
+        ranks[rank] = set(element1[0])
+        while element1[1] == element2[1]:
+            element1 = element2
+            removeedges.intersection_update(set(b.edges(element1[0])))
+            ranks[rank].add(element1[0])
+            if len(sorted_r2r)>0:
+                element2 = sorted_r2r.pop(-1)
+            else:
+                break
+                
+        for i in removeedges:
+            #if c[i[2]] == key:
+                b.remove_edge(i[0],i[1])
+                b.remove_edge(i[1],i[0])
+        if len(removeedges) == 0:
+            print "removing nodes"
+            b.remove_nodes_from(list(ranks[rank]))
+        nodedegree = dict(degreemap(b))
+        rank+=1
+        r2r = dict()
+        for n in nodedegree.keys():
+            if nodedegree[n][key] > 0:
+                r2r[n] = nodedegree[n][key]
+        sorted_r2r = sorted(r2r.items() , key = operator.itemgetter(1))
+
+    print("{} Monitors found after peer elimination, at {}".format( len(newset), time.time()))
+    newset = set()
+    rankkeys = list(ranks.keys())
+    rankkeys.sort()
+    ranklen = dict()
+    for i in rankkeys:
+        ranklen[i] = {}
+        ranklen[i]['len']=len(ranks[i])
+        ranklen[i]['sel']=0
+    observed = set()
+    for i in rankkeys:
+        if ranklen[i]['len']==1:
+            newset.add(i)
+            observed = observed.union(moncustcone[i])
+    for i in newset:
+        rankkeys.remove(i)
+    ranklen = dict()
+    for i in rankkeys:
+        ranklen[i] = {}
+        ranklen[i]['len']=len(ranks[i])
+        ranklen[i]['sel']=0
+    for i in ranklen.keys():
+        m = ranks[i].pop()
+        ob = moncustcone[m]
+        while len(ranks[i])!=0:
+            print "here"
+            m2 =  ranks[i].pop()
+            ob2 = moncustcone[m]
+            edges = list(g.edges())
+            if (m,m2) in edges:
+                if len(ob) < len(ob2):
+                    ob=ob2
+                    m=m2
+                newset.add(m)
+            else:
+                newset.add(m)
+                newset.add(m1)
+    return newset
+
+def longtermshorttermelimination(g, monitors,key, decisions = dict()  ):
+    print("entering {} elimination stage with {} monitors".format(key, len(monitors)))
+    #return monitors
+    maindegreeMap = dict(degreemap(g)) 
+    b= nx.DiGraph(g.subgraph(list(monitors)))
+    edges = list(b.edges())
+    for i in edges:
+        if c[b.get_edge_data(i[0],i[1])['relationship']] == key:
+            pass
+        else:
+            b.remove_edge(i[0], i[1])
+    newset = set()            
+    nodedegree = dict(degreemap(b))
+    r2r = dict()
+    for n in nodedegree.keys():
+        if nodedegree[n][key] > 0:
+            r2r[n] = nodedegree[n][key]
+        else:
+            newset.add(n)
+    itr=1
+    sorted_r2r = sorted(r2r.items(), key=operator.itemgetter(1))
+    element1 = sorted_r2r.pop(-1) 
+    #x=element1[0]    
+    while len(sorted_r2r ) > 0 :
+        element2 = sorted_r2r.pop(-1)
+        if itr not in decisions.keys():
+            print "breaking"
+            break
+        if element1[0] not in decisions[itr]['left'] and \
+            element1[0] not in decisions[itr]['decided']:
+                decisions[itr]['left'].append(element1[0])
+        if decisions[itr]['status'] == 'U':
+            decisions[itr]['status'] = 'S'
+        while element2[1] == element1[1] and decisions[itr]['status'] =='S':
+            element1 = element2
+            if element1[0] not in decisions[itr]['left'] and \
+            element1[0] not in decisions[itr]['decided']:
+                    decisions[itr]['left'].append(element1[0])
+        
+            if len(sorted_r2r)>0:
+                element2 = sorted_r2r.pop(-1)
+        if decisions[itr]['status'] == 'S' and decisions[itr-1]['status'] == 'S':
+            decisions[itr-1]['status'] = 'L'
+        if len(decisions[itr]['left']) >0:
+            x=decisions[itr]['left'].pop()
+            print x
+            #print decisions
+            decisions[itr]['decided'].append(x)
+        else:
+            x = element1[0]
+        print itr,x, decisions
+        print list(b.edges(x))
+        edges = list(b.edges(x , 'relationship'))
+        print edges
+        for i in edges:
+            if c[i[2]] == key:
+                print "removing edges"
+                b.remove_edge(i[0],i[1])
+                b.remove_edge(i[1],i[0])
+        newset.add(x)
+        nodedegree = dict(degreemap(b))
+        r2r = dict()
+        for n in nodedegree.keys():
+            if nodedegree[n][key] > 0:
+                r2r[n] = nodedegree[n][key]
+        sorted_r2r = sorted(r2r.items() , key = operator.itemgetter(1))
+        itr+=1
+        
+        
+    return newset,decisions
+     
+
+
+
+def elimination2(g, monitors , key ):
+    print("{} elimination stage".format(key))
+    #return monitors
+    maindegreeMap = dict(degreemap(g)) 
+        
     b= nx.DiGraph(g.subgraph(list(monitors)))
     edges = list(b.edges())
     for i in edges:
@@ -380,7 +582,29 @@ def elimination2(g, monitors , key):
     sorted_r2r = sorted(r2r.items(), key=operator.itemgetter(1))     
     while len(sorted_r2r ) > 0 :
         print(len(sorted_r2r))
-        element = sorted_r2r.pop(-1)
+        element1 = sorted_r2r.pop(-1)
+        element2 = sorted_r2r.pop(-1)
+        element = ()
+        if element1[1] == element2[1]:
+            if maindegreeMap[element1[0]]['c2p'] > maindegreeMap[element2[0]]['c2p']:
+                element = element1
+            elif maindegreeMap[element1[0]]['c2p'] < maindegreeMap[element2[0]]['c2p']:
+                element = element2
+            elif maindegreeMap[element1[0]]['p2c'] > maindegreeMap[element2[0]]['p2c']:
+                element = element1
+            elif maindegreeMap[element1[0]]['p2c'] < maindegreeMap[element2[0]]['p2c']:
+                element = element2
+            elif maindegreeMap[element1[0]]['s2s'] > maindegreeMap[element2[0]]['s2s']:
+                element = element1
+            elif maindegreeMap[element1[0]]['s2s'] > maindegreeMap[element2[0]]['s2s']:
+                element = element2
+            elif element1[0] < element2[0]:
+                element = element1
+            else:
+                element = element2
+        else:
+            element = element1
+                
         edges = list(b.edges(element[0] , 'relationship'))
         for i in edges:
             if c[i[2]] == key:
@@ -394,8 +618,292 @@ def elimination2(g, monitors , key):
                 r2r[n] = nodedegree[n][key]
         sorted_r2r = sorted(r2r.items() , key = operator.itemgetter(1))
 
-    print("{} Monitors found after peer elimination, at {}".format( len(monitors), time.time()))
+    print("{} Monitors found after peer elimination, at {}".format( len(newset), time.time()))
     return newset
+
+
+def elimination4(g, monitors , key ):
+    print("{} elimination stage".format(key))
+    #return monitors
+    newset = set()
+    if len(monitors) > 0:
+        print "subgraph created"
+        b= nx.DiGraph(g.subgraph(list(monitors)))
+    else:
+        b= nx.DiGraph(g)
+    edges = list(b.edges())
+    maindegreeMap = dict(degreemap(b)) 
+    nodedegree = dict(degreemap(b))
+    r2r = dict()
+    for n in nodedegree.keys():
+        if nodedegree[n][key] > 0:
+            r2r[n] = nodedegree[n][key]
+        else:
+            pass
+            #newset.add(n)
+    sorted_r2r = sorted(r2r.items(), key=operator.itemgetter(1))     
+    while len(sorted_r2r ) > 0 :
+        print "size of sorted r2r is:"
+        print(len(sorted_r2r))
+        element1 = sorted_r2r.pop(-1)
+        element = element1
+        element2 = (-1,-1)
+        if len(sorted_r2r) > 0:
+           element2=sorted_r2r.pop(-1)
+        while element2[1] == element1[1]:
+            if maindegreeMap[element1[0]]['c2p'] > maindegreeMap[element2[0]]['c2p']:
+                element = element1
+            elif maindegreeMap[element1[0]]['c2p'] < maindegreeMap[element2[0]]['c2p']:
+                element = element2
+            elif maindegreeMap[element1[0]]['p2c'] > maindegreeMap[element2[0]]['p2c']:
+                element = element1
+            elif maindegreeMap[element1[0]]['p2c'] < maindegreeMap[element2[0]]['p2c']:
+                element = element2
+            elif maindegreeMap[element1[0]]['s2s'] > maindegreeMap[element2[0]]['s2s']:
+                element = element1
+            elif maindegreeMap[element1[0]]['s2s'] > maindegreeMap[element2[0]]['s2s']:
+                element = element2
+            elif element1[0] < element2[0]:
+                element = element1
+            else:
+                element = element2
+            if len(sorted_r2r)>0:
+                element1 = element
+                element2 = sorted_r2r.pop(-1)
+            else:
+                break
+        m = element[0]
+
+#    for m in maindegreeMap.keys():
+        if m not in maindegreeMap.keys():
+            pass
+        elif maindegreeMap[m]['p2p'] > 0 and m in list(b.nodes()):
+            edges = list(b.edges(m))
+            removeProv = set()
+            removeCust = set()
+            removePeer = set()
+            removeProvEdge = set()
+            for i in edges:
+                if c[b.get_edge_data(i[0],i[1])['relationship']] == 'c2p':
+                    removeProv.add(i[1])
+                    removeProvEdge.add(i)
+                if c[b.get_edge_data(i[0],i[1])['relationship']] == 'p2p':
+                    removePeer.add(i)
+            prov = set(removeProv)
+            while len(prov) > 0 :
+                x=prov.pop()
+                edges = list(b.edges(x))
+                for i in edges:
+                    if c[b.get_edge_data(i[0],i[1])['relationship']] == 'c2p':
+                        removeProv.add(i[1])
+                        prov.add(i[1])
+                        removeProvEdge.add(i)
+                    if c[b.get_edge_data(i[0],i[1])['relationship']] == 'p2p':
+                        removePeer.add(i)
+                    
+                    
+            edges = [] 
+            for i in removeProvEdge:
+                if  c[b.get_edge_data(i[0],i[1])['relationship']] == 'c2p':
+                    b.remove_edge(i[0],i[1])
+                    #b.remove_edge(i[1],i[0])
+            for i in removePeer:
+                #if  c[b.get_edge_data(i[0],i[1])['relationship']] == 'p2p':
+                try:
+                    b.remove_edge(i[0],i[1])
+                    b.remove_edge(i[1],i[0])
+                except:
+                    print "err"
+                    pass
+            remove = removeCust.union(removePeer.union(removeProv))
+            for i in removeProv:
+                b.remove_node(i)
+                #newset.add(i)
+            maindegreeMap = dict(degreemap(b))
+            nodedegree = dict(degreemap(b))
+            r2r = dict()
+            for n in nodedegree.keys():
+                if nodedegree[n][key] > 0:
+                    r2r[n] = nodedegree[n][key]
+            x= set()
+            if m in list(b.nodes()):
+                x = set(b.neighbors(m))
+            cust =set()
+            nodedegree = dict(degreemap(b))
+            newset.add(m)
+            r2r_new = dict()
+            for cc in x:
+                if c[b.get_edge_data(m,cc)['relationship']] == 'p2c':
+                    if  nodedegree[cc]['p2p']>0:
+                        cust.add(cc)
+                        r2r_new[cc] = nodedegree[cc][key]
+            #b.remove_node(m)
+            if len(cust) >0:
+                newset.remove(m)
+                sorted_r2r = sorted(r2r_new.items() , key = operator.itemgetter(1))
+            else:
+                sorted_r2r = sorted(r2r.items() , key = operator.itemgetter(1))
+            maindegreeMap = dict(degreemap(b))
+            nodedegree = dict(degreemap(b))
+    print set(b.nodes())
+    print(list(b.edges()))
+#    newset = set(b.nodes())            
+    print("{} Monitors found after peer elimination, at {}".format( len(newset), time.time()))
+    return newset
+
+
+
+def elimination5(g, monitors , key , conflictpair = [], oldconflictpair = list()):
+    print("{} elimination stage".format(key))
+    #return monitors
+    newset = set()
+    if len(monitors) > 0:
+        print "subgraph created"
+        b= nx.DiGraph(g.subgraph(list(monitors)))
+    else:
+        b= nx.DiGraph(g)
+    edges = list(b.edges())
+    maindegreeMap = dict(degreemap(b)) 
+    nodedegree = dict(degreemap(b))
+    r2r = dict()
+    for n in nodedegree.keys():
+        if nodedegree[n][key] > 0:
+            r2r[n] = nodedegree[n][key]
+        else:
+            pass
+            #newset.add(n)
+    sorted_r2r = sorted(r2r.items(), key=operator.itemgetter(1))     
+    while len(sorted_r2r ) > 0 :
+        print "size of sorted r2r is:"
+        print newset
+        print(len(sorted_r2r))
+        element1 = sorted_r2r.pop(-1)
+        element = element1
+        element2 = (-1,-1)
+        if len(sorted_r2r) > 0:
+           element2=sorted_r2r.pop(-1)
+        while element2[1] == element1[1]:
+            if element2[0] in conflictpair:
+                print "conflict pair detected"
+                if (element2[0],element1[0]) == conflictpair:
+                    element=element1
+                else:
+                    element=element2
+                break
+            elif maindegreeMap[element1[0]]['c2p'] > maindegreeMap[element2[0]]['c2p']:
+                element = element1
+            elif maindegreeMap[element1[0]]['c2p'] < maindegreeMap[element2[0]]['c2p']:
+                element = element2
+            elif maindegreeMap[element1[0]]['p2c'] > maindegreeMap[element2[0]]['p2c']:
+                element = element1
+            elif maindegreeMap[element1[0]]['p2c'] < maindegreeMap[element2[0]]['p2c']:
+                element = element2
+            elif maindegreeMap[element1[0]]['s2s'] > maindegreeMap[element2[0]]['s2s']:
+                element = element1
+            elif maindegreeMap[element1[0]]['s2s'] > maindegreeMap[element2[0]]['s2s']:
+                element = element2
+            elif element1[0] < element2[0]:
+                element = element1
+            else:
+                element = element2
+            if len(sorted_r2r)>0:
+                element1 = element
+                element2 = sorted_r2r.pop(-1)
+            else:
+                break
+        m = element[0]
+
+#    for m in maindegreeMap.keys():
+        if m not in maindegreeMap.keys():
+            pass
+        elif maindegreeMap[m]['p2p'] > 0 and m in list(b.nodes()):
+            edges = list(b.edges(m))
+            removeProv = set()
+            removeCust = set()
+            removePeer = set()
+            removeProvEdge = set()
+            for i in edges:
+                if c[b.get_edge_data(i[0],i[1])['relationship']] == 'c2p':
+                    removeProv.add(i[1])
+                    removeProvEdge.add(i)
+                if c[b.get_edge_data(i[0],i[1])['relationship']] == 'p2p':
+                    removePeer.add(i)
+            prov = set(removeProv)
+            while len(prov) > 0 :
+                x=prov.pop()
+                edges = list(b.edges(x))
+                for i in edges:
+                    if c[b.get_edge_data(i[0],i[1])['relationship']] == 'c2p':
+                        removeProv.add(i[1])
+                        prov.add(i[1])
+                        removeProvEdge.add(i)
+                    if c[b.get_edge_data(i[0],i[1])['relationship']] == 'p2p':
+                        removePeer.add(i)
+                    
+                    
+            conflict = False
+            print(removeProv,m)
+            print "providers"
+            for i in removeProv:
+                neighbours  = set(g.neighbors(i))
+                for j in neighbours:
+                    if j in newset and c[g.get_edge_data(i,j)['relationship']]== 'p2p':
+                        conflictpair = [j,i]
+                        conflict=True
+            if conflict == True and conflictpair not in oldconflictpair:
+                print "conflict pair"
+                print conflictpair, newset, m
+                return set(), conflictpair
+            edges = [] 
+            for i in removeProvEdge:
+                if  c[b.get_edge_data(i[0],i[1])['relationship']] == 'c2p':
+                    b.remove_edge(i[0],i[1])
+                    #b.remove_edge(i[1],i[0])
+            for i in removePeer:
+                #if  c[b.get_edge_data(i[0],i[1])['relationship']] == 'p2p':
+                try:
+                    b.remove_edge(i[0],i[1])
+                    b.remove_edge(i[1],i[0])
+                except:
+                    print "err"
+                    pass
+            remove = removeCust.union(removePeer.union(removeProv))
+            for i in removeProv:
+                b.remove_node(i)
+                if i in newset:
+                    newset.remove(i)
+                #newset.add(i)
+            maindegreeMap = dict(degreemap(b))
+            nodedegree = dict(degreemap(b))
+            r2r = dict()
+            for n in nodedegree.keys():
+                if nodedegree[n][key] > 0:
+                    r2r[n] = nodedegree[n][key]
+            x= set()
+            if m in list(b.nodes()):
+                x = set(b.neighbors(m))
+            cust =set()
+            nodedegree = dict(degreemap(b))
+            newset.add(m)
+            r2r_new = dict()
+            for cc in x:
+                if c[b.get_edge_data(m,cc)['relationship']] == 'p2c':
+                    if  nodedegree[cc]['p2p']>0:
+                        cust.add(cc)
+                        r2r_new[cc] = nodedegree[cc][key]
+            #b.remove_node(m)
+            if len(cust) >0:
+                newset.remove(m)
+                sorted_r2r = sorted(r2r_new.items() , key = operator.itemgetter(1))
+            else:
+                sorted_r2r = sorted(r2r.items() , key = operator.itemgetter(1))
+            maindegreeMap = dict(degreemap(b))
+            nodedegree = dict(degreemap(b))
+    print set(b.nodes())
+    print(list(b.edges()))
+#    newset = set(b.nodes())            
+    print("{} Monitors found after peer elimination, at {}".format( len(newset), time.time()))
+    return newset, []
 
 
 
@@ -484,8 +992,9 @@ def monitorselection(f = None, timestamp = None, visibility = 1):
     out.close()
     return is_monset, d_monset , r_monset
 
-def newmonitorselection( g = None , graphFile = ''):
-    tier_1 = list(gettier1ASes(graphFile))            
+def newmonitorselection( g = None , graphFile = '', version= 0):
+    #tier_1 = list(gettier1ASes(graphFile))
+    tier_1 = set()            
     monitors = set()
     customers = set()
     for i in tier_1:
@@ -493,7 +1002,7 @@ def newmonitorselection( g = None , graphFile = ''):
         customers = customers.union(getcustomers(g , i.strip()))
         print("customers found {}".format(len(customers)))
         
-    while len(customers) > 0:
+    while len(customers) > 0 and True == False:
         next_cust = set()
         for i in customers:
             peers = getpeers(g , i)
@@ -514,13 +1023,81 @@ def newmonitorselection( g = None , graphFile = ''):
             next_cust = next_cust.union(getcustomers(g , i))
         customers = set()
         customers = customers.union(next_cust)
+    degreemapgraph = dict(degreemap(g))
+    monitors = set()
+    for i in degreemapgraph.keys():
+        if degreemapgraph[i]['p2p'] > 0:
+            monitors.add(i)
+        if degreemapgraph[i]['c2p'] == 0:
+            pass
+            #monitors.add(i)
+    #moncustcone = dict(dfsexplorer(g,monitors))
     if True == False:
         monitors = set(elimination(g ,monitors, 'p2p'))
-    else:
+    elif version == 2:
+        print "final version"
+        #time.sleep(10)
+        conflictpair=[]
+        oldconflictpair=[]
+        counter = 10000
+        while True == True:
+            monitors , conflictpair= elimination5(g=g ,monitors=set(), key= 'p2p', conflictpair = conflictpair, oldconflictpair=oldconflictpair)
+            if conflictpair not in oldconflictpair:
+                oldconflictpair.append(conflictpair)
+            counter-=1
+            if len(conflictpair)==0 or counter==0:
+                break
+        if counter == 0 and len(conflictpair)!=0:
+            print "counter expired"
+            monitors= elimination4(g=g ,monitors=set(), key= 'p2p')
+        print "here are he monitors"
+        print monitors
+    elif version == 1:
+        print "refined version"
+        print len(monitors)
+        #time.sleep(10)
+        monitors = set(elimination4(g ,monitors, 'p2p'))
+        print "here are he monitors"
+        print monitors
+    elif version == 0:
+        print "basic"
+        print len(monitors)
+        #stime.sleep(10)
         monitors = set(elimination2(g ,monitors, 'p2p'))
-    
+    else:
+        print "going for eliminations"
+        decisions = dict()
+        for i in range(0,len(monitors)+1):
+            decisions[i]=dict()
+            decisions[i]['left'] = []
+            decisions[i]['decided'] = []
+            decisions[i]['status']='U'
+        mm1, dsn = (longtermshorttermelimination(g ,monitors, 'p2p',decisions=decisions) )
+        print "returned from eliminations"
+        counter=0
+        while counter <=100:
+            mm2, dsn = longtermshorttermelimination(g ,monitors, 'p2p',decisions=dsn )
+            counter+=1
+            print len(mm2)
+            print mm2
+            if len(mm1) > len(mm2):
+                mm1=mm2
     return monitors
     
+def dfsexplorer(g = None , monitors = set()):
+    moncustcone  = dict()
+    for i in monitors:
+        cust = getcustomers(g,i)
+        moncustcone[i] = set()
+        while len(cust) > 0:
+            moncustcone[i] =  moncustcone[i].union(cust)
+            newcust = set()
+            for j  in cust:
+                newcust= newcust.union(getcustomers(g,j))
+            cust = newcust
+    print " returning monitor"
+    return moncustcone
+        
 
 def degreedistribution(g=None):
     d = dict()
@@ -544,3 +1121,80 @@ def gettier1ASes(graphFile = None):
     infile.close()
     return tier_1
     
+ 
+
+def greedylink3(monitor = None, links = None, timestamp = None , monsetlen = None):
+    visible_links = set()
+    vp =[]
+    monitor_len = dict()
+    copy_monitor = dict(monitor)
+    visible_prob = dict()
+    monkeyset = list(monitor.keys())
+    monkeyset.sort()
+    for i in monkeyset:
+        for j in monkeyset:
+            for k in monkeyset:
+                if i <j and j < k:
+                    monitor_len.update({i+"_"+j+"_"+k:len(monitor[i].union(monitor[j].union(monitor[k])))})
+                    visible_prob.update({i+"_"+j+"_"+k:len((monitor[i].union(monitor[j].union(monitor[k]))))/float(len(links))})
+                    #monitor_len.update({i+"_"+j:len(monitor[i].union(monitor[j]))})
+                    #visible_prob.update({i+"_"+j :len((monitor[i].union(monitor[j])))/float(len(links))})
+    print("Important: {}|{}".format(len(monkeyset),len(monitor_len)))
+    time.sleep(10)    
+    threshold = 0
+    vp_copy =set()
+    distribution = dict()
+    sorted_x = sorted(monitor_len.items(), key=operator.itemgetter(1))
+    while len(sorted_x ) > 0:
+        r = sorted_x.pop(-1)
+        if r[1] > threshold:
+            mons = r[0].split("_")
+            for i in mons:
+                vp.append(i)
+                visible_links = visible_links.union(copy_monitor[i])
+                if len(vp) == monsetlen:
+                    vp_copy = vp_copy.union(visible_links)
+                number = float(len(visible_links))*100.0/len(links)
+                distribution.update({len(vp): number})
+                copy_monitor.pop(i)
+                monkeyset.remove(i)
+                if len(visible_links) == len(links):
+                    break;
+        if len(visible_links) == len(links):
+            break;
+        for i in copy_monitor.keys():
+            copy_monitor[i] = copy_monitor[i].difference(visible_links)
+        monitor_len = dict()
+        monkeyset.sort()
+        for i in monkeyset:
+            for j in monkeyset:
+                for k in monkeyset:
+                    if i <j  and j < k:
+                        monitor_len.update({i+"_"+j+"_"+k:len(monitor[i].union(monitor[j].union(monitor[k])))})
+                        visible_prob.update({i+"_"+j+"_"+k:len((monitor[i].union(monitor[j].union(monitor[k]))))/float(len(links))})
+                        #monitor_len.update({i+"_"+j:len(monitor[i].union(monitor[j]))})
+                        #visible_prob.update({i+"_"+j :len((monitor[i].union(monitor[j])))/float(len(links))})
+        print("Important: {}|{}".format(len(monkeyset),len(monitor_len)))    
+        sorted_x = sorted(monitor_len.items(), key=operator.itemgetter(1))
+
+    line="visible links:" +str(len(visible_links))+"\ttotal_links: " +str(len(links))+"\n"
+    line+= "selected VP: "+ str(len(vp))+ "\ttotal VP: "+ str(len(monitor))+"\n"
+    line+= "Threshold :"+ str(threshold) +'\n'
+    #print(time.time())
+    while(True):
+        try:
+            x = vp.pop(0)
+            line += str(x) +"|"+ str(visible_prob[x]) +"\n"
+#            line += str(x) +"|"+ str(0) +"\n"
+        except KeyError as e:
+            break;        
+        except IndexError as e:
+            break;
+
+    out = open('/home/asemwal/raw_data/experiments/graphs/greedymonset_'+timestamp, 'w')
+    
+
+    out.write(line)
+    out.flush()
+    out.close()
+    return len(vp_copy), distribution

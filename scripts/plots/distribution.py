@@ -87,7 +87,7 @@ for i in range(1,250):
     a=0
     for j in d.keys():
         if l == False:
-            label.append('Graph of Size '+str(j))
+            label.append('Graph of size '+str(j))
         if str(i) in d[j].keys():    
             average[a].append(np.average(d[j][str(i)][0]))
             median[a].append(np.median(d[j][str(i)][0]))
@@ -113,26 +113,27 @@ color = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'k','g']
 #plt.ylim((0,90))
 #plt.xlim((0,0.9))
 y = range(1,100)
+plt.ylim(20,100)
 #fig, ax1 = plt.subplots()
 
 #ax1.set_xlabel('Normalized Invisibility Score', fontsize=8)
 #ax1.set_ylabel('Link Coverage', fontsize=8)
-plt.xlabel('Number of Monitors', fontsize=16)
-plt.ylabel('Link Coverage', fontsize=16)
+plt.xlabel('Number of monitors', fontsize=16)
+plt.ylabel('Link coverage', fontsize=16)
 #ax1.tick_params(axis='y' )
 #ax2 = ax1.twinx()
 #ax2.set_ylabel('Monitor Set Size', fontsize=8)
 #ax2.tick_params(axis='y' )
 for i in [5,0,4,3,8,2]:
-    y=list(range(1,len(average[i])+1))
-    plt.plot(y,average[i] ,color = color[i], label=label[i],lw=3)
-    plt.fill_between(y,sdev0[i],sdev1[i],color = color[i], alpha=0.25)
+    y=list(range(1,len(average1[i])+1))
+    plt.plot(y,average1[i] ,color = color[i], label=label[i],lw=3)
+    plt.fill_between(y,sdev01[i],sdev11[i],color = color[i], alpha=0.25)
  
 plt.legend(loc=4,fontsize=16)
 #ax2.legend(loc=2,fontsize=8)
 
 
-plt.savefig('greedydistribution.pdf', format='pdf', dpi=5000)
+plt.savefig('degreedistribution.pdf', format='pdf', dpi=5000)
 plt.show()
 """
 plt.plot(y,average,lw=2)

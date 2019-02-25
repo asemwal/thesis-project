@@ -20,14 +20,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -35,11 +35,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -47,12 +47,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -60,11 +60,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -72,11 +72,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -84,7 +84,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -93,7 +93,7 @@
 6&0.0 \\ \hline
 7&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -101,14 +101,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -116,11 +116,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -147,14 +147,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -162,11 +162,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -174,12 +174,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -187,11 +187,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -199,11 +199,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -211,7 +211,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -220,7 +220,7 @@
 6&0.0 \\ \hline
 7&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -228,14 +228,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -243,11 +243,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -274,14 +274,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -289,11 +289,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -301,12 +301,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -314,11 +314,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -326,11 +326,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -338,7 +338,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -347,7 +347,7 @@
 6&0.0 \\ \hline
 7&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -355,14 +355,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -370,11 +370,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -401,14 +401,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -416,11 +416,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -428,12 +428,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -441,11 +441,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -453,11 +453,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -465,7 +465,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -474,7 +474,7 @@
 6&0.0 \\ \hline
 7&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -482,14 +482,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -497,11 +497,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -528,14 +528,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -543,11 +543,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -555,12 +555,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -568,11 +568,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -580,11 +580,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -592,7 +592,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -602,7 +602,7 @@
 7&0.0 \\ \hline
 8&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -610,14 +610,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -625,11 +625,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -656,14 +656,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -671,11 +671,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -683,12 +683,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -696,11 +696,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -708,11 +708,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -720,7 +720,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -731,7 +731,7 @@
 8&0.0 \\ \hline
 9&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -739,14 +739,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -754,11 +754,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -785,14 +785,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -800,11 +800,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -812,12 +812,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -825,11 +825,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -837,11 +837,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -849,7 +849,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -862,7 +862,7 @@
 10&0.0 \\ \hline
 11&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -870,14 +870,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -885,11 +885,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -916,14 +916,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -931,11 +931,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -943,12 +943,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -956,11 +956,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -968,11 +968,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -980,7 +980,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -994,7 +994,7 @@
 11&0.0 \\ \hline
 12&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1002,14 +1002,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1017,11 +1017,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 
@@ -1048,14 +1048,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=5)$} \\ \hline
 1&0.9933 \\ \hline
 2&0.0067 \\ \hline
 3&0.0 \\ \hline
 4&0.0 \\ \hline
 5&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-3 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1063,11 +1063,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-4 ASes}
+\caption{Probability of having n-providers for a tier-4 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1075,12 +1075,12 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=2)$} \\ \hline
 1&0.8668 \\ \hline
 2&0.1173 \\ \hline
 3&0.0159 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-2 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1088,11 +1088,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=4)$} \\ \hline
 0&0.982 \\ \hline
 1&0.018 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-3 ASes}
+\caption{Probability of having n-providers for a tier-3 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1100,11 +1100,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=1)$} \\ \hline
 1&0.7311 \\ \hline
 2&0.2689 \\ \hline
 \end{tabular}
-\caption{Probability of having n provider-to-customer for tier-1 to tier-2 ASes}
+\caption{Probability of having n-providers for a tier-2 AS from tier-1 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1112,7 +1112,7 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=3)$} \\ \hline
 1&0.9502 \\ \hline
 2&0.0473 \\ \hline
 3&0.0024 \\ \hline
@@ -1129,7 +1129,7 @@
 14&0.0 \\ \hline
 15&0.0 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-3 ASes}
+\caption{Probability of having n-peers for tier-3 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1137,14 +1137,14 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 0&0.0117 \\ \hline
 1&0.0317 \\ \hline
 2&0.0861 \\ \hline
 3&0.2341 \\ \hline
 4&0.6364 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-2 ASes}
+\caption{Probability of having n-peers for tier-2 ASes}
 \end{table}
 
 \vspace{4pt} 
@@ -1152,11 +1152,11 @@
 \centering 
 \begin{tabular}{|c|c|} 
 \hline 
- \textbf{N}&\textbf{$P_{N}$} \\ \hline
+ \textbf{N}&\textbf{$P_{N}( k=-1)$} \\ \hline
 1&0.2689 \\ \hline
 2&0.7311 \\ \hline
 \end{tabular}
-\caption{Probability of having n peer-to-peer for tier-1 ASes}
+\caption{Probability of having n-peers for tier-1 ASes}
 \end{table}
 
 

@@ -8,158 +8,114 @@ Created on Wed Dec 19 22:31:13 2018
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-avgn = 1; nepisodes = 250
-data = range(0,1000,1)
-data = np.load('/home/asemwal/Documents/1k5r_10_250_400_10_1_25.npy')
-degree = []
-peering= []
-greedy = []
-random= []
-y = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
-monset = []
-
-file = open('/home/asemwal/raw_data/experiments/results/impact_visibility','r')
+gname='p2p'
+degree = dict()
+peering= dict()
+monset= dict()
+average = dict()
+median = dict()
+percentile25 = dict()
+percentile75 = dict()
+sdev0 = dict()
+sdev1 = dict()
+y = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+keys=[100,200,300,400,500,600]
+for i in keys:
+    degree[i] = dict()
+    peering[i] = dict()
+    average[i]=dict()
+    median[i]=dict()
+    percentile25[i]=dict()
+    percentile75[i]=dict()
+    sdev0[i]=dict()
+    sdev1[i]=dict()
+    for j in y:
+        degree[i][j]=[[],[],[]]
+        peering[i][j]=[[],[],[]]
+        average[i][j]=[]
+        median[i][j]=[]
+        percentile25[i][j]=[]
+        percentile75[i][j]=[ ]
+        sdev0[i][j] =[ ]
+        sdev1[i][j]=[ ]
+        
+file = open('/home/asemwal/raw_data/experiments/results/impact_visibility5'+gname,'r')
 l=str(file.readline()).strip()
-l=str(file.readline()).strip()
-i=0
-d = dict()
+p=2
+d=5
 while l != '':
     rec = l.split("|")
     print rec
-    k = rec[0].split('_')[0]
-    if k not in d.keys():
-        d.update({k:{}})
-    if rec[1] not in d[k].keys():
-        d[k].update({rec[1]:[[],[]]})
-        
-    d[k][rec[1]][0].append(float(rec[2]))
-    d[k][rec[1]][1].append(float(rec[3]))
-    
-    
+    i = int(rec[0].split('_')[0])
+    j=float(rec[1])
+    k=0
+    peering[i][j][k].append(float(rec[p+k]))
+    k+=1
+    peering[i][j][k].append(float(rec[p+k]))
+    k+=1
+    peering[i][j][k].append(float(rec[p+k]))
+    k=0
+    degree[i][j][k].append(float(rec[d+k]))
+    k+=1
+    degree[i][j][k].append(float(rec[d+k]))
+    k+=1
+    degree[i][j][k].append(float(rec[d+k]))
     l=str(file.readline()).strip()
 
-data = []
-a=0
-average = [ ]
-median = [ ]
-percentile25 = [ ]
-percentile75 = [ ]
-sdev0 = [ ]
-sdev1 = [ ]
 label = []
-for j in d.keys():
-    
-    average.append([])
-    median.append([])
-    percentile25.append([])
-    percentile75.append([])
-    sdev0.append([])
-    sdev1.append([])
+
 l = False
-for i in y:
-    a=0
-    for j in d.keys():
-        if l == False:
-            label.append('Graph of Size '+str(j))
-        average[a].append(np.average(d[j][str(i)][0]))
-        median[a].append(np.median(d[j][str(i)][0]))
-        percentile25[a].append(np.percentile(d[j][str(i)][0],[25.])[0])
-        percentile75[a].append(np.percentile(d[j][str(i)][0],[75.])[0])
-        sdev0[a].append(average[a][-1]- np.std(d[j][str(i)][0]))
-        sdev1[a].append(average[a][-1]+ np.std(d[j][str(i)][0]))
-        a+=1
-    l = True
+y.remove(1.0)
+for i in keys:
+    for j in y:
+        average[i][j].append(list((np.average(degree[i][j], axis=1))))
+        average[i][j].append(list((np.average(peering[i][j], axis=1))))
+        
+        median[i][j].append(list((np.average(degree[i][j], axis=1))))
+        median[i][j].append(list((np.average(peering[i][j], axis=1))))
+        
+        percentile25[i][j].append(list(np.percentile(degree[i][j], [25.],axis=1))[0])
+        percentile25[i][j].append(list(np.percentile(peering[i][j], [25.],axis=1))[0])
+
+        percentile75[i][j].append(list(np.percentile(degree[i][j], [75.],axis=1))[0])
+        percentile75[i][j].append(list(np.percentile(peering[i][j], [75.],axis=1))[0])
+
+        sdev0[i][j].append(list(np.average(degree[i][j],axis=1)-np.std(degree[i][j],axis=1)))
+        sdev0[i][j].append(list(np.average(peering[i][j],axis=1)-np.std(peering[i][j],axis=1)))
+    
+        sdev1[i][j].append(list(np.average(degree[i][j],axis=1)+np.std(degree[i][j],axis=1)))
+        sdev1[i][j].append(list(np.average(peering[i][j],axis=1)+np.std(peering[i][j],axis=1)))
+  
+label = ['Basic version', 'Refined version', 'Final version']
+
 #label = [ 'Peering-degree based','Greedy-link Based','Degree Based','Random','Monitor Set Size' ]
-color = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'k','g']
+color = ['r', 'b', 'g', 'c', 'm', 'y', 'k', 'k','g']
 #color = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
 #matplotlib.rcParams['axes.prop_cycle']
-plt.ylim((0,90))
-plt.xlim((0,0.9))
 #fig, ax1 = plt.subplots()
 
 #ax1.set_xlabel('Normalized Invisibility Score', fontsize=8)
 #ax1.set_ylabel('Link Coverage', fontsize=8)
-plt.xlabel('Normalized value for missing link', fontsize=16)
-plt.ylabel('Link Coverage', fontsize=16)
 #ax1.tick_params(axis='y' )
 #ax2 = ax1.twinx()
 #ax2.set_ylabel('Monitor Set Size', fontsize=8)
 #ax2.tick_params(axis='y' )
-for i in [7,0,4,3,8,2]:
-    plt.plot(y,average[i] ,color = color[i], label=label[i], lw=3)
-    plt.fill_between(y,sdev0[i],sdev1[i],color = color[i], alpha=0.25)
- 
-plt.legend(loc=0,fontsize=16)
-#ax2.legend(loc=2,fontsize=8)
-
-
-plt.savefig('visibilityimpact.pdf', format='pdf', dpi=5000)
-plt.show()
-"""
-plt.plot(y,average,lw=2)
-plt.plot(y,average1,lw=2)
-#plt.fill_between(y,percentile25,percentile75,alpha=0.25)
-plt.fill_between(y,sdev0,sdev1,alpha=0.25)
-plt.fill_between(y,sdev01,sdev11,alpha=0.25)
-
-
-d= np.array(degree)
-r= np.array(random)
-g= np.array(greedy)
-p= np.array(peering)
-yt = []
-for i in range(0,10):
-    yt.append(100)
-for i in range(0,10):
-    yt.append(200)
-
-y = np.array(yt)
-average=[]
-median=[]
-percentile25=[]
-percentile75=[]
-sdev0 =[]
-sdev1=[]
-average.append(np.average(d[0:10]))
-sdev0.append(average[-1]- np.std(d[0:10]))
-sdev1.append(average[-1]+ np.std(d[0:10]))
-median.append(np.average(d[0:10]))
-percentile25.append(np.percentile(d[0:10],[25.])[0])
-percentile75.append(np.percentile(d[0:10],[75.])[0])
-average.append(np.average(d[10:20]))
-sdev0.append(average[-1]- np.std(d[10:20]))
-sdev1.append(average[-1]+ np.std(d[10:20]))
-median.append(np.average(d[10:20]))
-percentile25.append(np.percentile(d[10:20],[25.])[0])
-percentile75.append(np.percentile(d[10:20],[75.])[0])
-
-d= np.array(peering)
-average1=[]
-median1=[]
-percentile251=[]
-percentile751=[]
-sdev01 =[]
-sdev11=[]
-average1.append(np.average(d[0:10]))
-sdev01.append(average1[-1]- np.std(d[0:10]))
-sdev11.append(average1[-1]+ np.std(d[0:10]))
-median1.append(np.average(d[0:10]))
-percentile251.append(np.percentile(d[0:10],[25.])[0])
-percentile751.append(np.percentile(d[0:10],[75.])[0])
-average1.append(np.average(d[10:20]))
-sdev01.append(average1[-1]- np.std(d[10:20]))
-sdev11.append(average1[-1]+ np.std(d[10:20]))
-median1.append(np.average(d[10:20]))
-percentile251.append(np.percentile(d[10:20],[25.])[0])
-percentile751.append(np.percentile(d[10:20],[75.])[0])
-y = [100.,150.]
-plt.plot(y,average,lw=2)
-plt.plot(y,average1,lw=2)
-#plt.fill_between(y,percentile25,percentile75,alpha=0.25)
-plt.fill_between(y,sdev0,sdev1,alpha=0.25)
-plt.fill_between(y,sdev01,sdev11,alpha=0.25)
-plt.legend(['degree based', 'peering-based' ])
-plt.xlabel('Graph Size', fontsize=14)
-plt.ylabel('Link Coverage', fontsize=14)
-plt.show()
-"""
+for i in keys:
+    for k in [0,1,2]:
+        x=[]
+        x1=[]
+        x2=[]
+        plt.ylim((50,95))
+        plt.xlim((0,0.9))
+        plt.xlabel('Removed link (normalized)', fontsize=16)
+        plt.ylabel('Link coverage', fontsize=16)
+        for j in y:
+            x.append(average[i][j][1][k])
+            x1.append(sdev0[i][j][1][k])
+            x2.append(sdev1[i][j][1][k])
+        #print x
+        plt.plot(y,x ,color = color[k], label=label[k], lw=3)
+        plt.fill_between(y,x1,x2,color = color[k], alpha=0.25)
+    plt.legend(loc=0,fontsize=14)
+    plt.savefig('visibilityimpact_'+str(i)+gname+'.pdf', format='pdf', dpi=5000)
+    plt.show()

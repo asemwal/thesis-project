@@ -74,31 +74,37 @@ def phase2(No = 0 , Nc = 0 , Lc = 0, X = 0):
         
         
 
-def AStop(No = 12555, Nc = 50218, alpha = 0.699, c = 1 , beta = 8000): 
+def AStop(No = 6276, Nc = 56499, alpha = -1.1053266485, c = 1 , beta = 6000): 
     global D ,g, Ngt0
     D = dict()
     L  = 0
-    p = [1.0] *  (2000)
     Lc = 123606
     Lo = 568054
-    for j in range(0,len(p)):
-        p[j]/= (len(p))           
-    L = 0
     counter=0
     while L < (2*(Lo+Lc)):
+        values = list(range(1,6277))
+        p = [1.0] *  len(values)
+        p/=np.sum(p)
         L=0
         D=dict()
         for i in range(1,No+1):
-            x = list(np.random.choice(list(range(2,len(p)+2)), 1, p=p, replace = False))
+            x = list(np.random.choice( values , 1, p=p, replace = False))
             #x =  rand.randint(2,No-1)
-            D[i] = int(beta*(x[0]**-alpha))
-            L += D[i]
+            #print x[0]
+            D[i] =  beta*(x[0]**alpha)
+            if D[i] < 1:
+                D[i] = 10
+            L += int(D[i])
+            if x[0] > 20:
+                values.remove(x[0])
+                p = [1.0]*len(values)
+                p/=np.sum(p)
         counter+=1
         print counter, L
     print L
     g = nx.DiGraph()
     phase1(Lo)
-    phase2(No,Nc,Lc,150)
+    phase2(No,Nc,Lc,50)
     printgraph(No=No, Nc=Nc,Lo=Lo,Lc=Lc, alpha=alpha, beta=beta, X=500)
     
 def printgraph(No = 0 , Nc= 0 , Lo = 0 , Lc=0, alpha = 0 , beta = 0,X =4):
@@ -193,9 +199,9 @@ def addlink():
     #print "edge---> " + str(link[0]) +":"+str(link[1])
         D[link2[0]]-=1
         D[link2[1]]-=1
-        if D[link2[0]] == 0:
+        if D[link2[0]] <= 0:
             Ngt0.remove(link2[0])
-        if D[link2[1]] == 0:
+        if D[link2[1]] <= 0:
             Ngt0.remove(link2[1])
     return  retcode   
     

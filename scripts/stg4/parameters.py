@@ -81,9 +81,13 @@ def addprovider(customer = None , provider = None, list_of_provider = [], k =1, 
             
     multi_provider /= np.sum(multi_provider)
     multi_provider = list(multi_provider)
-    printline = "Probability of having n "+ str(relationship) +" for "+str(tier)+" ASes"
+    printline = '' 
+    if len(tier.split(" ")) > 2:
+        printline = "Probability of having n-"+ str(relationship.split("-")[0]) +"s for a "+str(tier.split(" ")[2])+" AS from " + str(tier.split(" ")[0])+" ASes"
+    else:
+        printline = "Probability of having n-"+ str(relationship.split("-")[0]) +"s for "+str(tier)+" ASes"
     #print("Probability of having n {} for {} ASes\n".format( relationship,tier))
-    print("\\vspace{4pt} \n \\begin{table}[h!]\n\\centering \n\\begin{tabular}{|c|c|} \n\hline \n \\textbf{N}&\\textbf{$P_{N}$} \\\\ \\hline")    
+    print("\\vspace{4pt} \n \\begin{table}[h!]\n\\centering \n\\begin{tabular}{|c|c|} \n\hline \n \\textbf{N}&\\textbf{$P_{N}( k="+str(k)+")$} \\\\ \\hline")    
     for i in range(0, len(multi_provider)):
         print("{}&{} \\\\ \\hline".format(list_of_provider[i], round(multi_provider[i], 4)))
     

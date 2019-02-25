@@ -12,6 +12,7 @@ from os import listdir
 from os.path import isfile, join
 import monitorselection as mons
 import toygraph as tg
+import time
 
 
 def aslinkset(monset = None , routing_table = None):
@@ -67,7 +68,7 @@ def origionallinks(f):
 
 
         l = str(file.readline()).strip()
-    return org_links, g
+    return list(g.edges()), g
 
 def visibility(monset = None , routing_table = None):
     rt_monselect  = dict() 
@@ -110,23 +111,84 @@ def processfile(resultfile = None):
     routing_table = json.loads(j1)
 
     in1 = open('/home/asemwal/raw_data/experiments/graphs/monitors_'+ timestamp,'r')
+    org_links, g = origionallinks('/home/asemwal/raw_data/experiments/graphs/done/graph_'+timestamp)
     is_monset  = set()
+    is_monset1  = set()
+    is_monset2  = set()
     d_monset = set()
+    d_monset1 = set()
+    d_monset2 = set()
     r_monset = set()
+    r_monset1 = set()
+    r_monset2 = set()
     r30_monset = set()
+    r30_monset1 = set()
+    r30_monset2 = set()
     l = str(in1.readline()).strip()
     while l != '':
         x = l.split(":")
         y = x[1].split(",") 
         if x[0] == 'is_monset':
-            for i in y:
-                is_monset.add(i.split("_")[1])    
+            print "is_monset"
+            ismonset = mons.newmonitorselection(g, '/home/asemwal/raw_data/experiments/graphs/done/graph_'+str(timestamp), version =0)
+            ismonset1 = mons.newmonitorselection(g, '/home/asemwal/raw_data/experiments/graphs/done/graph_'+str(timestamp), version =1)
+            ismonset2 = mons.newmonitorselection(g, '/home/asemwal/raw_data/experiments/graphs/done/graph_'+str(timestamp), version =2)
+            for i in ismonset:
+                if i.find("_")>-1:
+                    is_monset.add(i.split("_")[1])   
+                else:
+                    is_monset.add(i)
+            for i in ismonset1:
+                if i.find("_")>-1:
+                    is_monset1.add(i.split("_")[1])   
+                else:
+                    is_monset1.add(i)
+            for i in ismonset2:
+                if i.find("_")>-1:
+                    is_monset2.add(i.split("_")[1])   
+                else:
+                    is_monset2.add(i)
         elif x[0] == 'd_monset':
-            for i in y:
-                d_monset.add(i.split("_")[1])   
+            print "dmonset"
+            dmonset = mons.degreebased(len(is_monset), dict(g.degree()))
+            dmonset1 = mons.degreebased(len(is_monset1), dict(g.degree()))
+            dmonset2 = mons.degreebased(len(is_monset2), dict(g.degree()))
+            for i in dmonset:
+                if i.find("_")>-1:
+                    d_monset.add(i.split("_")[1])   
+                else:
+                    d_monset.add(i)
+            for i in dmonset1:
+                if i.find("_")>-1:
+                    d_monset1.add(i.split("_")[1])   
+                else:
+                    d_monset1.add(i)
+            for i in dmonset2:
+                if i.find("_")>-1:
+                    d_monset2.add(i.split("_")[1])   
+                else:
+                    d_monset2.add(i)
         elif x[0] == 'r_monset':
-            for i in y:
-                r_monset.add(i.split("_")[1])   
+            rmonset = mons.randombased(len(is_monset), list(g.nodes()))
+            rmonset1 = mons.randombased(len(is_monset1), list(g.nodes()))
+            rmonset2 = mons.randombased(len(is_monset2), list(g.nodes()))
+            for i in rmonset:
+                if i.find("_")>-1:
+                    r_monset.add(i.split("_")[1])   
+                else:
+                    r_monset.add(i)
+            for i in rmonset1:
+                if i.find("_")>-1:
+                    r_monset1.add(i.split("_")[1])   
+                else:
+                    r_monset1.add(i)
+                    
+            for i in rmonset2:
+                if i.find("_")>-1:
+                    r_monset2.add(i.split("_")[1])   
+                else:
+                    r_monset2.add(i)
+
         elif x[0] == 'r30_monset':
             for i in y:
                 r30_monset.add(i.split("_")[1])   
@@ -135,49 +197,76 @@ def processfile(resultfile = None):
 
 
 
-    org_links, g = origionallinks('/home/asemwal/raw_data/experiments/graphs/done/graph_'+timestamp)
     #t_links = visibility(routing_table.keys(), routing_table)
     #d_links = visibility(d_monset , routing_table)
     is_links  = visibility(is_monset , routing_table)
+    is_links1  = visibility(is_monset1 , routing_table)
+    is_links2  = visibility(is_monset2 , routing_table)
     r_links  = visibility(r_monset , routing_table)
+    r_links1  = visibility(r_monset1 , routing_table)
+    r_links2  = visibility(r_monset2 , routing_table)
     d_links  = visibility(d_monset , routing_table)
+    d_links1  = visibility(d_monset1 , routing_table)
+    d_links2  = visibility(d_monset2 , routing_table)
     pathmonset, linkmonset, linkset = aslinkset(set(routing_table.keys()), routing_table)
     g_links, distribution = mons.greedylink(linkmonset, linkset, timestamp, len(d_monset))
+    g_links1, distribution1 = mons.greedylink(linkmonset, linkset, timestamp, len(d_monset1))
+    g_links2, distribution2 = mons.greedylink(linkmonset, linkset, timestamp, len(d_monset2))
+    #g_links3, distribution3 = mons.greedylink3(linkmonset, linkset, timestamp, len(d_monset))
+    #g_links, distribution = mons.greedylink3(linkmonset, linkset, timestamp, len(d_monset))
     dd_links, d_distribution = mons.degreelink(linkmonset, linkset, timestamp, len(d_monset), g)
+    dd_links1, d_distribution1 = mons.degreelink(linkmonset, linkset, timestamp, len(d_monset1), g)
+    dd_links2, d_distribution2 = mons.degreelink(linkmonset, linkset, timestamp, len(d_monset2), g)
     r30_monset = mons.randomlink( len(distribution.keys()) , g)
+    r30_monset1 = mons.randomlink( len(distribution.keys()) , g)
+    r30_monset2 = mons.randomlink( len(distribution.keys()) , g)
     r30_links  = visibility(r30_monset , routing_table)
+    r30_links1  = visibility(r30_monset1 , routing_table)
+    r30_links2  = visibility(r30_monset2 , routing_table)
     #return routing_table, len(org_links)
-    out = open('/home/asemwal/raw_data/experiments/results/visibility_results' , 'a')
+    out = open('/home/asemwal/raw_data/experiments/results/visibility_results5' , 'a')
     l = list()
     l.append(timestamp)
-    l.append(str(len(d_monset))+","+str(len(linkset)))
+    l.append(str(len(d_monset)))
+    l.append(str(len(is_monset1)))
+    l.append(str(len(is_monset2)))
     l.append(str(len(org_links)))
     #l.append(str(len(t_links)))
     l.append(str(round(len(is_links)*100.0/len(linkset),4)))        
+    l.append(str(round(len(is_links1)*100.0/len(linkset),4)))        
+    l.append(str(round(len(is_links2)*100.0/len(linkset),4)))        
     l.append(str(round(g_links *100.0/len(linkset),4)))
+    l.append(str(round(g_links1 *100.0/len(linkset),4)))
+    l.append(str(round(g_links2 *100.0/len(linkset),4)))
+    #l.append(str(round(g_links3 *100.0/len(linkset),4)))
     l.append(str(round(len(d_links)*100.0/len(linkset),4)))
+    l.append(str(round(len(d_links1)*100.0/len(linkset),4)))
+    l.append(str(round(len(d_links2)*100.0/len(linkset),4)))
     l.append(str(round(len(r_links)*100.0/len(linkset),4)))
-    l.append(str(round(len(r30_links)*100.0/len(linkset),4)))
-    l.append(str(len(is_links.difference(d_links))))
-    l.append(str(len(d_links.difference(is_links))))
-    l.append(str(len(is_links.difference(r_links))))
-    l.append(str(len(r_links.difference(is_links))))
-    l.append(str(len(is_links.difference(r30_links))))
-    l.append(str(len(r30_links.difference(is_links))))
-    l.append(str(len( (is_links.union(d_links)))))
-    l.append(str(len( (is_links.union(r_links)))))
-    l.append(str(len( (is_links.union(r30_links)))))
-    l.append(str(len( (is_links.union(r_links.union(d_links.union(r30_links)))))))
+    l.append(str(round(len(r_links1)*100.0/len(linkset),4)))
+    l.append(str(round(len(r_links2)*100.0/len(linkset),4)))
+    #l.append(str(round(len(r30_links)*100.0/len(linkset),4)))
+    #l.append(str(len(is_links.difference(d_links))))
+    #l.append(str(len(d_links.difference(is_links))))
+    #l.append(str(len(is_links.difference(r_links))))
+    #l.append(str(len(r_links.difference(is_links))))
+    #l.append(str(len(is_links.difference(r30_links))))
+    #l.append(str(len(r30_links.difference(is_links))))
+    #l.append(str(len( (is_links.union(d_links)))))
+    #l.append(str(len( (is_links.union(r_links)))))
+    #l.append(str(len( (is_links.union(r30_links)))))
+    #l.append(str(len( (is_links.union(r_links.union(d_links.union(r30_links)))))))
     out.write("|".join(l)+"\n")
     print("|".join(l))
     out.flush()
     out.close()
-    out = open('/home/asemwal/raw_data/experiments/results/distribution_'+timestamp , 'w')
+    #return routing_table, len(linkset)
+    out = open('/home/asemwal/raw_data/experiments/results/distribution5_'+timestamp , 'w')
     for i in distribution.keys():
-        out.write(str(i)+"|" + str(distribution[i])+ "|" +str(d_distribution[i]) +"\n")
+        out.write(str(i)+"|" + str(distribution[i])+ "|"+str(distribution[i])+ "|" +str(d_distribution[i]) +"\n")
     out.flush()
     out.close()
-    out = open('/home/asemwal/raw_data/experiments/results/path_monset'+timestamp , 'w')
+    out = open('/home/asemwal/raw_data/experiments/results/path_monset5_'+timestamp , 'w')
     for i in linkmonset.keys():
         code = ""
         if i in d_monset:
@@ -196,7 +285,7 @@ def processfile(resultfile = None):
 def randomdistribution(bgpdata =  None , timestamp = None, routing_table = None, lenlinks = None):
     graphDir = '/home/asemwal/raw_data/experiments/graphs/done/'    
     g = mons.generategraph(graphDir+'graph_'+timestamp )
-    outfile1 = open(graphDir+'../../results/random_monitors','a')
+    outfile1 = open(graphDir+'../../results/random_monitors5','a')
     i = 0 
     length = int(g.number_of_nodes()* 0.1)
     nodes = list(g.nodes())
@@ -222,7 +311,8 @@ def stage1():
     for f in onlyfiles:
         routing_table, lenlinks = processfile(f)
         timestamp = "_".join(f.split(".")[0].split("_")[-2:])
-        visibilitystats(mypath+f, timestamp,routing_table,  lenlinks)
+        visibilitystats2(mypath+f, timestamp,routing_table,  lenlinks,'p2p')
+        visibilitystats2(mypath+f, timestamp,routing_table,  lenlinks,'p2c')
         randomdistribution(mypath+f, timestamp,routing_table,  lenlinks)
         os.rename(mypath + f , mypath+'done/' + f)
         os.rename(mypath + 'insert_announcements_demo_'+timestamp+ '.routing_state' , mypath+'done/' + 'insert_announcements_demo_'+timestamp+ '.routing_state' )
@@ -235,53 +325,230 @@ def visibilitystats(bgpdata =  None , timestamp = None, routing_table = None, le
     i = 0
     result = []
     result_mon = []
-    outfile1 = open(graphDir+'../../results/impact_visibility','a')
-    outfile2 = open(graphDir+'../../results/impact_visibility_monsize','a')
-    outfile3 = open(graphDir+'../../results/impact_relations','a')
-    outfile4 = open(graphDir+'../../results/impact_relations_monsize','a')
-    while i < 0.9:
+    outfile1 = open(graphDir+'../../results/impact_visibility5','a')
+    outfile2 = open(graphDir+'../../results/impact_visibility_monsize5','a')
+    outfile3 = open(graphDir+'../../results/impact_relations5','a')
+    outfile4 = open(graphDir+'../../results/impact_relations_monsize5','a')
+    while i < 1.0:
         g = mons.generategraph(graphDir+'graph_'+timestamp , i)
-        monitor = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp))
+        monitor = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=0))
+        monitor1 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=1))
+        monitor2 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=2))
+        print(monitor)
         h_monitor = set()
+        h_monitor1 = set()
+        h_monitor2 = set()
         d_monitor = set()
+        d_monitor1 = set()
+        d_monitor2 = set()
         for m in monitor:
             h_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            h_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            h_monitor2.add(str(m.split('_')[1]))
         monitor = set(mons.degreebased(len(h_monitor), dict(g.degree())))
+        monitor1 = set(mons.degreebased(len(h_monitor), dict(g.degree())))
+        monitor2 = set(mons.degreebased(len(h_monitor), dict(g.degree())))
         for m in monitor:
             d_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            d_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            d_monitor2.add(str(m.split('_')[1]))
         h_links = visibility( h_monitor , routing_table)
+        h_links1 = visibility( h_monitor1 , routing_table)
+        h_links2 = visibility( h_monitor2 , routing_table)
         d_links = visibility( d_monitor , routing_table)
+        d_links1 = visibility( d_monitor1 , routing_table)
+        d_links2 = visibility( d_monitor2 , routing_table)
         result.append(timestamp)
         result.append(str(i)) 
         result.append(str(round(len(h_links)*100.0/lenlinks)))
+        result.append(str(round(len(h_links1)*100.0/lenlinks)))
+        result.append(str(round(len(h_links2)*100.0/lenlinks)))
         result.append(str(round(len(d_links)*100.0/lenlinks)))
+        result.append(str(round(len(d_links1)*100.0/lenlinks)))
+        result.append(str(round(len(d_links2)*100.0/lenlinks)))
         result_mon.append(timestamp)
         result_mon.append(str(i))
         result_mon.append(str(round(len(h_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor2)*100.0/g.number_of_nodes(),4)))
         result_mon.append(str(round(len(d_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor2)*100.0/g.number_of_nodes(),4)))
         outfile1.write("|".join(result)+'\n')
         outfile2.write("|".join(result_mon)+'\n')
         result = list()
         result_mon = list()
         g = mons.generategraph(graphDir+'graph_'+timestamp , i, True)
-        monitor = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp))
+        monitor = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=0))
+        monitor1 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp,version=1))
+        monitor2 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=2))
         h_monitor = set()
+        h_monitor1 = set()
+        h_monitor2 = set()
         d_monitor = set()
+        d_monitor1 = set()
+        d_monitor2 = set()
         for m in monitor:
             h_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            h_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            h_monitor2.add(str(m.split('_')[1]))
         monitor = set(mons.degreebased(len(h_monitor), dict(g.degree())))
+        monitor1 = set(mons.degreebased(len(h_monitor1), dict(g.degree())))
+        monitor2 = set(mons.degreebased(len(h_monitor2), dict(g.degree())))
         for m in monitor:
             d_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            d_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            d_monitor2.add(str(m.split('_')[1]))
         h_links = visibility( h_monitor , routing_table)
+        h_links1 = visibility( h_monitor1 , routing_table)
+        h_links2 = visibility( h_monitor2 , routing_table)
         d_links = visibility( d_monitor , routing_table)
+        d_links1 = visibility( d_monitor1 , routing_table)
+        d_links2 = visibility( d_monitor2 , routing_table)
         result.append(timestamp)
         result.append(str(i)) 
         result.append(str(round(len(h_links)*100.0/lenlinks)))
+        result.append(str(round(len(h_links1)*100.0/lenlinks)))
+        result.append(str(round(len(h_links2)*100.0/lenlinks)))
         result.append(str(round(len(d_links)*100.0/lenlinks)))
+        result.append(str(round(len(d_links1)*100.0/lenlinks)))
+        result.append(str(round(len(d_links2)*100.0/lenlinks)))
         result_mon.append(timestamp)
         result_mon.append(str(i))
         result_mon.append(str(round(len(h_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor2)*100.0/g.number_of_nodes(),4)))
         result_mon.append(str(round(len(d_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor2)*100.0/g.number_of_nodes(),4)))
+        outfile3.write("|".join(result)+'\n')
+        outfile4.write("|".join(result_mon)+'\n')
+        result = list()
+        result_mon = list()
+        i+= 0.1
+    
+    outfile1.close()
+    outfile2.close()
+    outfile3.close()
+    outfile4.close()
+    
+    
+def visibilitystats2(bgpdata =  None , timestamp = None, routing_table = None, lenlinks = None, key = 'p2c'):
+    graphDir = '/home/asemwal/raw_data/experiments/graphs/done/'    
+    i = 0
+    result = []
+    result_mon = []
+    outfile1 = open(graphDir+'../../results/impact_visibility5'+key,'a')
+    outfile2 = open(graphDir+'../../results/impact_visibility_monsize5'+key,'a')
+    outfile3 = open(graphDir+'../../results/impact_relations5'+key,'a')
+    outfile4 = open(graphDir+'../../results/impact_relations_monsize5'+key,'a')
+    while i < 1.0:
+        g = mons.generategraph(graphDir+'graph_'+timestamp , i, False,key)
+        monitor = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=0))
+        monitor1 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=1))
+        monitor2 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=2))
+        h_monitor = set()
+        h_monitor1 = set()
+        h_monitor2 = set()
+        d_monitor = set()
+        d_monitor1 = set()
+        d_monitor2 = set()
+        for m in monitor:
+            h_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            h_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            h_monitor2.add(str(m.split('_')[1]))
+        monitor = set(mons.degreebased(len(h_monitor), dict(g.degree())))
+        monitor1 = set(mons.degreebased(len(h_monitor), dict(g.degree())))
+        monitor2 = set(mons.degreebased(len(h_monitor), dict(g.degree())))
+        for m in monitor:
+            d_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            d_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            d_monitor2.add(str(m.split('_')[1]))
+        h_links = visibility( h_monitor , routing_table)
+        h_links1 = visibility( h_monitor1 , routing_table)
+        h_links2 = visibility( h_monitor2 , routing_table)
+        d_links = visibility( d_monitor , routing_table)
+        d_links1 = visibility( d_monitor1 , routing_table)
+        d_links2 = visibility( d_monitor2 , routing_table)
+        result.append(timestamp)
+        result.append(str(i)) 
+        result.append(str(round(len(h_links)*100.0/lenlinks)))
+        result.append(str(round(len(h_links1)*100.0/lenlinks)))
+        result.append(str(round(len(h_links2)*100.0/lenlinks)))
+        result.append(str(round(len(d_links)*100.0/lenlinks)))
+        result.append(str(round(len(d_links1)*100.0/lenlinks)))
+        result.append(str(round(len(d_links2)*100.0/lenlinks)))
+        result_mon.append(timestamp)
+        result_mon.append(str(i))
+        result_mon.append(str(round(len(h_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor2)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor2)*100.0/g.number_of_nodes(),4)))
+        outfile1.write("|".join(result)+'\n')
+        outfile2.write("|".join(result_mon)+'\n')
+        result = list()
+        result_mon = list()
+        g = mons.generategraph(graphDir+'graph_'+timestamp , i, True, key)
+        monitor = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=0))
+        monitor1 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp,version=1))
+        monitor2 = set(mons.newmonitorselection( g, graphFile= graphDir+'graph_'+timestamp, version=2))
+        h_monitor = set()
+        h_monitor1 = set()
+        h_monitor2 = set()
+        d_monitor = set()
+        d_monitor1 = set()
+        d_monitor2 = set()
+        for m in monitor:
+            h_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            h_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            h_monitor2.add(str(m.split('_')[1]))
+        monitor = set(mons.degreebased(len(h_monitor), dict(g.degree())))
+        monitor1 = set(mons.degreebased(len(h_monitor1), dict(g.degree())))
+        monitor2 = set(mons.degreebased(len(h_monitor2), dict(g.degree())))
+        for m in monitor:
+            d_monitor.add(str(m.split('_')[1]))
+        for m in monitor1:
+            d_monitor1.add(str(m.split('_')[1]))
+        for m in monitor2:
+            d_monitor2.add(str(m.split('_')[1]))
+        h_links = visibility( h_monitor , routing_table)
+        h_links1 = visibility( h_monitor1 , routing_table)
+        h_links2 = visibility( h_monitor2 , routing_table)
+        d_links = visibility( d_monitor , routing_table)
+        d_links1 = visibility( d_monitor1 , routing_table)
+        d_links2 = visibility( d_monitor2 , routing_table)
+        result.append(timestamp)
+        result.append(str(i)) 
+        result.append(str(round(len(h_links)*100.0/lenlinks)))
+        result.append(str(round(len(h_links1)*100.0/lenlinks)))
+        result.append(str(round(len(h_links2)*100.0/lenlinks)))
+        result.append(str(round(len(d_links)*100.0/lenlinks)))
+        result.append(str(round(len(d_links1)*100.0/lenlinks)))
+        result.append(str(round(len(d_links2)*100.0/lenlinks)))
+        result_mon.append(timestamp)
+        result_mon.append(str(i))
+        result_mon.append(str(round(len(h_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(h_monitor2)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor1)*100.0/g.number_of_nodes(),4)))
+        result_mon.append(str(round(len(d_monitor2)*100.0/g.number_of_nodes(),4)))
         outfile3.write("|".join(result)+'\n')
         outfile4.write("|".join(result_mon)+'\n')
         result = list()

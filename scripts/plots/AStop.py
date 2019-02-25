@@ -73,19 +73,19 @@ def phase2(No = 0 , Nc = 0 , Lc = 0, X = 0):
         
         
 
-def AStop(No = 125 , Nc = 502 , alpha = -1.8686217868, c = 60 , beta = 60): 
+def AStop(No = 6276 , Nc = 56499 , alpha = -1.8686217868, c = 6000 , beta = 6000): 
     global D ,g, Ngt0
     D = dict()
     L  = 0
     for i in range(0,No):
         x =  rand.randint(2,No-1)
-        D[i] = int( 0.001*(x**-alpha))
+        D[i] = int( c*(x**-alpha))
         L += D[i]
     print L
     Lc = int(L*0.33*0.005)
     Lo = int(L*0.67*0.005)
-    Lc = 123
-    Lo = 568
+    Lc = 123606
+    Lo = 568054
     g = nx.DiGraph()
     phase1(Lo)
     phase2(No,Nc,Lc,6)

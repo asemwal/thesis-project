@@ -124,11 +124,16 @@ def visibility(monset = None , routing_table = None):
     rt_monselect  = dict() 
     pfx_monselect = set()
     path_monselect = set()
+    newmonset = set()
     for i in monset:
-        rt_monselect[i] = routing_table[i]
-        
+        if i.find("T") >-1:
+            newmonset.add(i.split("_")[1])
+            rt_monselect[i.split("_")[1]] = routing_table[i.split("_")[1]]
+        else:
+            newmonset.add(i)
+            rt_monselect[i] = routing_table[i]
 
-    for m in monset:
+    for m in newmonset:
         for i in rt_monselect[m]:
             if i.find("/") > -1:
                 pfx_monselect.add(i)
@@ -171,13 +176,18 @@ def processfile(resultfile = None):
     while l != '':
         x = l.split(":")
         y = x[1].split(",") 
+        g = mons.generategraph3('/home/asemwal/raw_data/experiments/graphs/done/graph_'+str(timestamp))
         if x[0] == 'is_monset':
+            ismonset = mons.newmonitorselection(g, '/home/asemwal/raw_data/experiments/graphs/done/graph_'+str(timestamp))
+            print ismonset
             for i in y:
                 is_monset.add(i)    
         elif x[0] == 'd_monset':
+            dmonset = mons.degreebased(len(ismonset), dict(g.degree()))
             for i in y:
                 d_monset.add(i)
         elif x[0] == 'r_monset':
+            rmonset = mons.randombased(len(ismonset), list(g.nodes()))
             for i in y:
                 r_monset.add(i)
         l = str(in1.readline()).strip()
@@ -187,28 +197,31 @@ def processfile(resultfile = None):
 
     org_links = origionallinks('/home/asemwal/raw_data/experiments/graphs/done/graph_'+timestamp)
     #t_links = visibility(routing_table.keys(), routing_table)
-    d_links = visibility(d_monset , routing_table)
-    is_links  = visibility(is_monset , routing_table)
-    r_links  = visibility(r_monset , routing_table)
+    d_links = visibility(dmonset , routing_table)
+    is_links  = visibility(ismonset , routing_table)
+    r_links  = visibility(rmonset , routing_table)
     linkmonset, linkset = aslinkset(set(routing_table.keys()), routing_table)
-    g_links = mons.greedylink(linkmonset, linkset, timestamp, len(d_monset))
-    out = open('/home/asemwal/raw_data/experiments/results/visibility_results' , 'a')
+    print linkmonset.keys()
+    g_links, var_gr = mons.greedylink(linkmonset, linkset, timestamp, len(ismonset))
+    print var_gr
+    #d_links, var_d = mons.degreelink(linkmonset, linkset, timestamp, len(ismonset))
+    out = open('/home/asemwal/raw_data/experiments/results/visibility_results_latest_10jan' , 'a')
     l = list()
     l.append(timestamp)
-    l.append(str(len(d_monset)))
+    l.append(str(len(ismonset)))
     l.append(str(len(org_links)))
     #l.append(str(len(t_links)))
     l.append(str(len(is_links)))        
     l.append(str(g_links))
     l.append(str(len(d_links)))            
     l.append(str(len(r_links)))
-    l.append(str(len(is_links.difference(d_links))))
-    l.append(str(len(d_links.difference(is_links))))
-    l.append(str(len(is_links.difference(r_links))))
-    l.append(str(len(r_links.difference(is_links))))
-    l.append(str(len( (is_links.union(d_links)))))
-    l.append(str(len( (is_links.union(r_links)))))
-    l.append(str(len( (is_links.union(r_links.union(d_links))))))
+    #l.append(str(len(is_links.difference(d_links))))
+    #l.append(str(len(d_links.difference(is_links))))
+    #l.append(str(len(is_links.difference(r_links))))
+    #l.append(str(len(r_links.difference(is_links))))
+    #l.append(str(len( (is_links.union(d_links)))))
+    #l.append(str(len( (is_links.union(r_links)))))
+    #l.append(str(len( (is_links.union(r_links.union(d_links))))))
     out.write("|".join(l)+"\n")
     print("|".join(l))
     out.flush()

@@ -263,4 +263,4 @@ def stage1():
     for f in onlyfiles:
         plotccdf(mypath+f)
 
-stage1()
+#stage1()

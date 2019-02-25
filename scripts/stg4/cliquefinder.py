@@ -96,7 +96,7 @@ for i in e:
         x.remove_edge(i[0],i[1])
         
 
-file.write(str(len(nodes))+"|"+",".join(nodes))
+file.write("ASes with no providers|"+str(len(nodes))+"|"+",".join(nodes))
 file.write('\n')
 e= list(x.edges())
 len(e)

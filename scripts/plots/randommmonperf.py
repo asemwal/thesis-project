@@ -61,7 +61,7 @@ y.sort()
 for r in y:
         j = int(r)
         if l == False:
-            label.append('Random-based Monitor Selection Performance')
+            label.append('Random based')
         if True == True:    
             average.append(np.average(d[str(j)]))
             median.append(np.median(d[str(j)]))
@@ -80,13 +80,13 @@ color = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'k','g']
 #plt.xlim((0,0.9))
 fig, ax1 = plt.subplots()
 
-ax1.set_xlabel('Graph Size', fontsize=16)
-ax1.set_ylabel('Link Coverage', fontsize=16)
+ax1.set_xlabel('Graph size', fontsize=16)
+ax1.set_ylabel('Link coverage', fontsize=16)
 #plt.xlabel('Graph Size', fontsize=8)
 #plt.ylabel('Link Coverage', fontsize=8)
 ax1.tick_params(axis='y' )
 ax2 = ax1.twinx()
-ax2.set_ylabel('Monitor Set Size', fontsize=16)
+ax2.set_ylabel('Monitor set size', fontsize=16)
 ax2.tick_params(axis='y' )
 ax2.set_ylim(0,20)
 monset = []
@@ -95,12 +95,12 @@ for i in y:
 
 for i in [0]:
 #    y=  d.keys() 
-    ax1.plot( y,average ,color = color[i], label=label[i])
-    ax2.plot( y,monset ,  'r-', label='Percentage of Monitors')
+    ax1.plot( y,average ,color = color[i], label=label[i], lw=3)
+    ax2.plot( y,monset ,  'r-', label='Percentage of Monitors',lw=3)
     ax1.fill_between(y,sdev0,sdev1,color = color[i], alpha=0.25)
 
-ax1.legend(loc=4,fontsize=16)
-ax2.legend(loc=0,fontsize=16)
+ax1.legend(loc=4,fontsize=14)
+ax2.legend(loc=0,fontsize=14)
 
 fig.tight_layout()  
 
